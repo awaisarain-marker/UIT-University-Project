@@ -39,7 +39,7 @@
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 84% 4.9%;
     --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted-foreground: 0 0% 45%;
     --accent: 210 40% 96%;
     --accent-foreground: 222.2 84% 4.9%;
     --destructive: 0 84.2% 60.2%;
@@ -179,12 +179,13 @@ h6.heading-large {
 p, span, li, a {
   font-family: var(--font-inter), sans-serif;
   font-size: 16px;
-  line-height: 26px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
 }
 
 .small-text {
   font-size: 14px;
-  line-height: 22px;
+  line-height: 20px;
   color: #555;
 }
 
@@ -206,21 +207,8 @@ a, .link {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-hide-scrollbar::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
-}
-
-/* Prevent scroll chaining while interacting with timeline */
-.timeline-scroll {
-  overscroll-behavior-x: contain;
-  overscroll-behavior-y: contain;
-}
-
-.timeline-draggable {
-  cursor: grab;
-}
-.timeline-draggable:active {
-  cursor: grabbing;
 }
 .ma-bg-gradient{
   background-color:#0750A3;

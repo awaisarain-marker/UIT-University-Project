@@ -129,16 +129,16 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary-foreground/80">
+              <Button variant="ghost" size="icon" className="ma-iconboxes-top text-primary-foreground hover:text-primary-foreground/80">
                 <Facebook className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary-foreground/80">
+              <Button variant="ghost" size="icon" className="ma-iconboxes-top text-primary-foreground hover:text-primary-foreground/80">
                 <Twitter className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary-foreground/80">
+              <Button variant="ghost" size="icon" className="ma-iconboxes-top text-primary-foreground hover:text-primary-foreground/80">
                 <Instagram className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary-foreground/80">
+              <Button variant="ghost" size="icon" className="ma-iconboxes-top text-primary-foreground hover:text-primary-foreground/80">
                 <Linkedin className="w-4 h-4" />
               </Button>
             </div>
@@ -222,19 +222,12 @@ export default function Home() {
       {/* Introduction Section */}
       <section className="py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-medium mb-4 heading-large">An Introduction To Our University</h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              UIT University is committed to providing world-class education and fostering innovation in technology and management.
-              We prepare students to become leaders in their chosen fields.
-            </p>
-          </div>
 
           <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
             {/* Left: Overlapping images like reference */}
             <div className="relative flex-1 w-full max-w-xl">
               {/* Back image */}
-              <div className="rounded-2xl overflow-hidden shadow-xl">
+              <div className="rounded-2xl overflow-hidden w-[50%]">
                 <img
                   src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
                   alt="University Building"
@@ -242,14 +235,14 @@ export default function Home() {
                 />
               </div>
               {/* Front image card */}
-              <div className="absolute -bottom-10 left-1/2 -translate-x-1/4 w-[70%] rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-white">
+              <div className="absolute -bottom-10 left-1/2 -translate-x-1/4 w-[70%] rounded-2xl border-4 border-gray bg-white">
                 <img
                   src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
                   alt="Students"
-                  className="w-full h-[260px] md:h-[300px] object-cover"
+                  className="w-full h-[260px] md:h-[300px] object-cover rounded-2xl"
                 />
                 {/* Badge */}
-                <div className="absolute -bottom-6 -left-6 bg-white shadow-lg rounded-xl px-5 py-4 flex items-center gap-3">
+                <div className="absolute -bottom-6 -left-6 bg-white rounded-xl px-5 py-4 flex items-center gap-3">
                   <div className="text-3xl font-bold text-primary leading-none">27</div>
                   <div className="text-sm text-gray-600 leading-tight">Years of Experience</div>
                 </div>
@@ -258,10 +251,9 @@ export default function Home() {
 
             {/* Right: Copy */}
             <div className="flex-1">
-              <h3 className="text-2xl font-bold mb-4">Excellence in Education</h3>
+              <h2 className="text-4xl font-medium mb-4 heading-large">About UIT University</h2>
               <p className="text-muted-foreground mb-6">
-                Our university provides a comprehensive learning environment with state-of-the-art facilities,
-                experienced faculty, and innovative programs designed to meet the demands of the modern world.
+                The UIT University (UITU) was established vide The UIT University Act, 2017 [Sindh Act No. XXXIV of 2018] of Government of Sindh and published vide Notification in The Sindh Government Gazette on May 28, 2018. The University after due charter inspections by HEC, granted NOC whereby UITU has been initially allowed to start undergraduate programs in four departments namely, Electrical Engineering, Management Sciences, Computer Science and Social Sciences. The UIT University is managed by Usman Memorial Foundation (UMF).
               </p>
               <Button>
                 More About Us <ArrowRight className="w-4 h-4 ml-2" />
@@ -269,38 +261,12 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-8">
-            <Card className="flex-1 bg-primary text-primary-foreground">
-              <CardContent className="p-8 text-center">
-                <div className="text-4xl font-bold mb-2">10K</div>
-                <div className="text-lg">Students</div>
-              </CardContent>
-            </Card>
-            <Card className="flex-1 bg-primary text-primary-foreground">
-              <CardContent className="p-8 text-center">
-                <div className="text-4xl font-bold mb-2">300</div>
-                <div className="text-lg">Courses</div>
-              </CardContent>
-            </Card>
-            <Card className="flex-1 bg-primary text-primary-foreground">
-              <CardContent className="p-8 text-center">
-                <div className="text-4xl font-bold mb-2">48K</div>
-                <div className="text-lg">Awards</div>
-              </CardContent>
-            </Card>
-            <Card className="flex-1 bg-primary text-primary-foreground">
-              <CardContent className="p-8 text-center">
-                <div className="text-4xl font-bold mb-2">2K</div>
-                <div className="text-lg">Instructors</div>
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </section>
 
       {/* Reasons to Choose Section */}
-      <section className="py-20 min-h-screen flex items-center">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full"> 
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">The Reasons to Choose UIT University</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
