@@ -1,9 +1,105 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Play, Star, ArrowRight, GraduationCap, Building, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const bannerImages = [
+    "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % bannerImages.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [bannerImages.length]);
+
+  const TestimonialsCarousel = () => {
+    const [api, setApi] = useState<any>();
+
+    useEffect(() => {
+      if (!api) return;
+
+      const interval = setInterval(() => {
+        api.scrollNext();
+      }, 4000);
+
+      return () => clearInterval(interval);
+    }, [api]);
+
+    return (
+      <Carousel
+        setApi={setApi}
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="w-full"
+      >
+        <CarouselContent className="-ml-2 md:-ml-4">
+          {[
+            {
+              quote: "UIT University has provided me with an exceptional learning environment. The faculty is outstanding, and the facilities are world-class. I've gained not just knowledge but also the confidence to pursue my dreams.",
+              name: "Sarah Ahmed",
+              program: "BS Computer Science, Class of 2023",
+              rating: 5
+            },
+            {
+              quote: "The practical approach to learning and industry connections at UIT University helped me secure my dream job even before graduation. The professors are incredibly supportive and knowledgeable.",
+              name: "Ahmed Hassan",
+              program: "BS Software Engineering, Class of 2023",
+              rating: 5
+            },
+            {
+              quote: "UIT University's AI program is cutting-edge. The research opportunities and modern labs provided me with hands-on experience that's invaluable in today's tech industry.",
+              name: "Fatima Khan",
+              program: "BS Artificial Intelligence, Class of 2024",
+              rating: 5
+            },
+            {
+              quote: "The business administration program at UIT University equipped me with both theoretical knowledge and practical skills. The entrepreneurship support helped me start my own company.",
+              name: "Ali Raza",
+              program: "BBA Business Administration, Class of 2022",
+              rating: 5
+            }
+          ].map((testimonial, index) => (
+            <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+              <Card className="bg-background p-8 text-center h-full">
+                <CardContent className="p-0">
+                  <div className="text-4xl text-primary mb-4">"</div>
+                  <blockquote className="text-lg text-muted-foreground mb-6 italic">
+                    "{testimonial.quote}"
+                  </blockquote>
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="flex space-x-1">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="text-lg font-semibold text-foreground mb-1">{testimonial.name}</div>
+                  <div className="text-sm text-muted-foreground">{testimonial.program}</div>
+                </CardContent>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="text-primary-foreground bg-primary hover:bg-primary/90" />
+        <CarouselNext className="text-primary-foreground bg-primary hover:bg-primary/90" />
+      </Carousel>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Top Bar */}
@@ -76,13 +172,21 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative h-screen">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/80"></div>
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
-        }}></div>
-        
+      {/* Hero Section with Slideshow */}
+      <section className="relative h-screen overflow-hidden">
+        {/* Slideshow Background */}
+        {bannerImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
+            style={{ backgroundImage: `url('${image}')` }}
+          />
+        ))}
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/40"></div>
+
         <div className="relative z-10 h-full flex items-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col lg:flex-row items-center gap-12 ma-bg-gradient ma-65-width">
@@ -98,8 +202,6 @@ export default function Home() {
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </div>
-              
-
             </div>
           </div>
         </div>
@@ -111,31 +213,31 @@ export default function Home() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-medium text-primary mb-4 heading-large">An Introduction To Our University</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              UIT University is committed to providing world-class education and fostering innovation in technology and management. 
+              UIT University is committed to providing world-class education and fostering innovation in technology and management.
               We prepare students to become leaders in their chosen fields.
             </p>
           </div>
-          
+
           <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
             <div className="flex flex-col sm:flex-row gap-4 flex-1">
               <div className="bg-background rounded-lg shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                     alt="University Building" className="w-full h-48 object-cover" />
+                <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                  alt="University Building" className="w-full h-48 object-cover" />
               </div>
               <div className="bg-background rounded-lg shadow-lg overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                     alt="Students" className="w-full h-48 object-cover" />
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                  alt="Students" className="w-full h-48 object-cover" />
               </div>
             </div>
             <div className="flex-1">
               <h3 className="text-2xl font-bold text-foreground mb-4">Excellence in Education</h3>
               <p className="text-muted-foreground mb-6">
-                Our university provides a comprehensive learning environment with state-of-the-art facilities, 
+                Our university provides a comprehensive learning environment with state-of-the-art facilities,
                 experienced faculty, and innovative programs designed to meet the demands of the modern world.
               </p>
             </div>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-8">
             <Card className="flex-1 bg-primary text-primary-foreground">
               <CardContent className="p-8 text-center">
@@ -174,7 +276,7 @@ export default function Home() {
               Discover what makes us the preferred choice for students seeking quality education and career success.
             </p>
           </div>
-          
+
           <div className="flex flex-col md:flex-row gap-8">
             <Card className="flex-1 text-center">
               <CardContent className="p-8">
@@ -183,7 +285,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-4">Best Faculty</h3>
                 <p className="text-muted-foreground mb-6">
-                  Our distinguished faculty members are experts in their fields, bringing real-world experience 
+                  Our distinguished faculty members are experts in their fields, bringing real-world experience
                   and cutting-edge knowledge to the classroom.
                 </p>
                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mx-auto">
@@ -191,7 +293,7 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card className="flex-1 text-center">
               <CardContent className="p-8">
                 <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -199,7 +301,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-4">Modern Facilities</h3>
                 <p className="text-muted-foreground mb-6">
-                  State-of-the-art laboratories, libraries, and learning spaces equipped with the latest 
+                  State-of-the-art laboratories, libraries, and learning spaces equipped with the latest
                   technology to enhance your educational experience.
                 </p>
                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mx-auto">
@@ -207,7 +309,7 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
-            
+
             <Card className="flex-1 text-center">
               <CardContent className="p-8">
                 <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -215,7 +317,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-4">Industry Connections</h3>
                 <p className="text-muted-foreground mb-6">
-                  Strong partnerships with leading companies and organizations provide internship 
+                  Strong partnerships with leading companies and organizations provide internship
                   opportunities and direct pathways to employment.
                 </p>
                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mx-auto">
@@ -236,84 +338,96 @@ export default function Home() {
               Explore our comprehensive range of programs designed to prepare you for success in your chosen field.
             </p>
           </div>
-          
+
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             <Button variant="secondary" className="bg-background text-primary hover:bg-background/90">All Courses</Button>
             <Button variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">Undergraduate</Button>
             <Button variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">Graduate</Button>
             <Button variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">Short Course</Button>
           </div>
-          
-          <div className="flex flex-col md:flex-row lg:flex-row xl:flex-row gap-8 flex-wrap">
-            {[
-              {
-                title: "BS Computer Science",
-                duration: "4 Years",
-                level: "Undergraduate",
-                description: "Comprehensive computer science program covering programming, algorithms, and software development.",
-                price: "$150,000",
-                image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-              },
-              {
-                title: "BS Software Engineering",
-                duration: "4 Years",
-                level: "Undergraduate",
-                description: "Focus on software development lifecycle and modern engineering practices.",
-                price: "$150,000",
-                image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-              },
-              {
-                title: "BS Artificial Intelligence",
-                duration: "4 Years",
-                level: "Undergraduate",
-                description: "Cutting-edge AI program covering machine learning and intelligent systems.",
-                price: "$160,000",
-                image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-              },
-              {
-                title: "BE Electrical Engineering",
-                duration: "4 Years",
-                level: "Undergraduate",
-                description: "Comprehensive electrical engineering with focus on power systems.",
-                price: "$140,000",
-                image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-              },
-              {
-                title: "BBA Business Administration",
-                duration: "4 Years",
-                level: "Undergraduate",
-                description: "Business administration covering management and entrepreneurship.",
-                price: "$120,000",
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-              },
-              {
-                title: "MS Computer Science",
-                duration: "2 Years",
-                level: "Graduate",
-                description: "Advanced computer science program with research opportunities.",
-                price: "$200,000",
-                image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-              }
-            ].map((course, index) => (
-              <Card key={index} className="flex-1 min-w-[300px] max-w-[400px] bg-background">
-                <div className="overflow-hidden">
-                  <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
-                </div>
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">{course.level}</span>
-                    <span className="text-sm text-muted-foreground">{course.duration}</span>
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-2">{course.title}</h3>
-                  <p className="text-muted-foreground mb-4 text-sm">{course.description}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-primary">{course.price}</span>
-                    <Button size="sm">Enroll Now</Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {[
+                {
+                  title: "BS Computer Science",
+                  duration: "4 Years",
+                  level: "Undergraduate",
+                  description: "Comprehensive computer science program covering programming, algorithms, and software development.",
+                  price: "$150,000",
+                  image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                  title: "BS Software Engineering",
+                  duration: "4 Years",
+                  level: "Undergraduate",
+                  description: "Focus on software development lifecycle and modern engineering practices.",
+                  price: "$150,000",
+                  image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                  title: "BS Artificial Intelligence",
+                  duration: "4 Years",
+                  level: "Undergraduate",
+                  description: "Cutting-edge AI program covering machine learning and intelligent systems.",
+                  price: "$160,000",
+                  image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                  title: "BE Electrical Engineering",
+                  duration: "4 Years",
+                  level: "Undergraduate",
+                  description: "Comprehensive electrical engineering with focus on power systems.",
+                  price: "$140,000",
+                  image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                  title: "BBA Business Administration",
+                  duration: "4 Years",
+                  level: "Undergraduate",
+                  description: "Business administration covering management and entrepreneurship.",
+                  price: "$120,000",
+                  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                },
+                {
+                  title: "MS Computer Science",
+                  duration: "2 Years",
+                  level: "Graduate",
+                  description: "Advanced computer science program with research opportunities.",
+                  price: "$200,000",
+                  image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                }
+              ].map((course, index) => (
+                <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+                  <Card className="bg-background h-full">
+                    <div className="overflow-hidden">
+                      <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
+                    </div>
+                    <CardContent className="p-6">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">{course.level}</span>
+                        <span className="text-sm text-muted-foreground">{course.duration}</span>
+                      </div>
+                      <h3 className="text-xl font-semibold text-foreground mb-2">{course.title}</h3>
+                      <p className="text-muted-foreground mb-4 text-sm">{course.description}</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-2xl font-bold text-primary">{course.price}</span>
+                        <Button size="sm">Enroll Now</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="text-primary-foreground bg-primary hover:bg-primary/90" />
+            <CarouselNext className="text-primary-foreground bg-primary hover:bg-primary/90" />
+          </Carousel>
         </div>
       </section>
 
@@ -328,7 +442,7 @@ export default function Home() {
               </p>
               <Button>View All Events</Button>
             </div>
-            
+
             <div className="flex-1 space-y-6">
               {[
                 {
@@ -369,7 +483,7 @@ export default function Home() {
               Explore our diverse range of academic departments offering specialized programs and research opportunities.
             </p>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row flex-wrap gap-8 justify-center">
             {[
               { name: "Economics", icon: "📊", description: "Economic Analysis" },
@@ -399,7 +513,7 @@ export default function Home() {
           backgroundImage: "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
         }}></div>
         <div className="absolute inset-0 bg-primary/60"></div>
-        
+
         <div className="relative z-10 text-center text-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-white/20 backdrop-blur-sm rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
@@ -409,7 +523,7 @@ export default function Home() {
             <p className="text-lg mb-8">Experience our campus life and facilities through this virtual tour</p>
           </div>
         </div>
-        
+
         <div className="absolute bottom-0 left-0 right-0 bg-primary text-primary-foreground py-4">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div className="flex items-center space-x-4">
@@ -429,7 +543,7 @@ export default function Home() {
               Our faculty members are industry experts and academic leaders committed to your success.
             </p>
           </div>
-          
+
           <div className="flex flex-col md:flex-row gap-8">
             {[
               { name: "Dr. Sarah Wilson", position: "Professor of Computer Science", image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
@@ -461,23 +575,8 @@ export default function Home() {
               Hear what our students have to say about their experience at UIT University.
             </p>
           </div>
-          
-          <Card className="bg-background p-12 text-center">
-            <div className="text-6xl text-primary mb-6">"</div>
-            <blockquote className="text-xl text-muted-foreground mb-8 italic">
-              "UIT University has provided me with an exceptional learning environment. The faculty is outstanding, 
-              and the facilities are world-class. I've gained not just knowledge but also the confidence to pursue my dreams."
-            </blockquote>
-            <div className="flex items-center justify-center mb-4">
-              <div className="flex space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                ))}
-              </div>
-            </div>
-            <div className="text-lg font-semibold text-foreground mb-2">Sarah Ahmed</div>
-            <div className="text-muted-foreground">BS Computer Science, Class of 2023</div>
-          </Card>
+
+          <TestimonialsCarousel />
         </div>
       </section>
 
@@ -490,7 +589,7 @@ export default function Home() {
               Choose the plan that best fits your educational goals and budget.
             </p>
           </div>
-          
+
           <div className="flex flex-col md:flex-row gap-8">
             {[
               {
@@ -549,7 +648,7 @@ export default function Home() {
           backgroundImage: "url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
         }}></div>
         <div className="absolute inset-0 bg-primary/80"></div>
-        
+
         <div className="relative z-10">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <Card className="bg-background">
@@ -614,7 +713,7 @@ export default function Home() {
             <h2 className="text-4xl font-bold text-primary">Latest Insights & Updates</h2>
             <Button>View All</Button>
           </div>
-          
+
           <div className="flex flex-col md:flex-row gap-8">
             {[
               {
@@ -665,11 +764,11 @@ export default function Home() {
               </div>
               <h3 className="text-2xl font-bold mb-4">Let's Get Moving Today</h3>
               <p className="text-muted-foreground mb-6">
-                Join thousands of students who have chosen UIT University for their education. 
+                Join thousands of students who have chosen UIT University for their education.
                 Start your journey towards academic excellence and professional success.
               </p>
             </div>
-            
+
             <div className="flex-1">
               <h4 className="text-lg font-semibold mb-4">Contact</h4>
               <div className="space-y-2 text-muted-foreground">
@@ -680,7 +779,7 @@ export default function Home() {
                 <p>✉️ info@uitu.edu.pk</p>
               </div>
             </div>
-            
+
             <div className="flex-1">
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <div className="space-y-2">
@@ -692,7 +791,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          
+
           <div className="border-t border-border mt-12 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="flex items-center mb-4 md:mb-0">
