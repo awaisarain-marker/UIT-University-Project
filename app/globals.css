@@ -98,20 +98,24 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-outfit), sans-serif;
-  font-weight: 500;
   margin: 0;
   color: #150D0D;
 }
 
-/* Keep headings white when wrapped in white/foreground containers */
+.ma-courses-heading-dark{
+  color: #150D0D !important;
+}
+
+
 .text-white h1, .text-white h2, .text-white h3, .text-white h4, .text-white h5, .text-white h6 {
   color: #fff;
 }
+
 .text-primary-foreground h1, .text-primary-foreground h2, .text-primary-foreground h3, .text-primary-foreground h4, .text-primary-foreground h5, .text-primary-foreground h6 {
   color: hsl(var(--primary-foreground));
 }
 
-/* Add consistent spacing between headings and following descriptions */
+
 h1 + p,
 h2 + p,
 h3 + p,
@@ -131,6 +135,13 @@ h1.heading-large {
 }
 
 h2.heading-large {
+  font-size: 60px;
+  line-height: 64px;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+}
+
+span.ma-hightlighted-text{
   font-size: 60px;
   line-height: 64px;
   letter-spacing: -0.02em;
@@ -161,6 +172,14 @@ h5.heading-large {
   text-transform: capitalize;
 }
 
+h5.ma-iconbox-head{
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 34px;
+  letter-spacing: -0.02em;
+  text-transform: capitalize;
+}
+
 h6.heading-large {
   font-size: 22px;
   font-weight: 600;
@@ -185,7 +204,7 @@ p, span, li, a {
 
 .small-text {
   font-size: 14px;
-  line-height: 20px;
+  line-height: 22px;
   color: #555;
 }
 
@@ -218,4 +237,14 @@ a, .link {
 
 .ma-65-width{
   width: 65%;
+}
+
+.ma-hightlighted-text{
+  color: #0750A3;
+  font-weight: 600;
+}
+
+.overflow-hidden.ma-roundborder{
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }

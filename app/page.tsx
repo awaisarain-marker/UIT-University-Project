@@ -9,6 +9,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Play, Star, ArrowRight, GraduationCap, Building, Users, Calendar, Clock, MapPin, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [eventOrientation, setEventOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
@@ -227,11 +228,11 @@ export default function Home() {
             {/* Left: Overlapping images like reference */}
             <div className="relative flex-1 w-full max-w-xl">
               {/* Back image */}
-              <div className="rounded-2xl overflow-hidden w-[50%]">
+              <div className="rounded-2xl overflow-hidden w-[55%]">
                 <img
                   src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
                   alt="University Building"
-                  className="w-full h-[380px] md:h-[430px] object-cover"
+                  className="w-full h-[55%] md:h-[430px] object-cover"
                 />
               </div>
               {/* Front image card */}
@@ -239,7 +240,7 @@ export default function Home() {
                 <img
                   src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
                   alt="Students"
-                  className="w-full h-[260px] md:h-[300px] object-cover rounded-2xl"
+                  className="w-full h-[380px] md:h-[430px] object-cover rounded-2xl"
                 />
                 {/* Badge */}
                 <div className="absolute -bottom-6 -left-6 bg-white rounded-xl px-5 py-4 flex items-center gap-3">
@@ -268,58 +269,46 @@ export default function Home() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">The Reasons to Choose UIT University</h2>
+            <h2 className="heading-large font-semibold mb-4">Why <span className="ma-hightlighted-text">UIT</span> University</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Discover what makes us the preferred choice for students seeking quality education and career success.
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex flex-col md:flex-row gap-6">
             <Card className="flex-1 text-center">
-              <CardContent className="p-8">
+              <CardContent className="p-7">
                 <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <GraduationCap className="w-10 h-10 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Best Faculty</h3>
-                <p className="text-muted-foreground mb-6">
-                  Our distinguished faculty members are experts in their fields, bringing real-world experience
-                  and cutting-edge knowledge to the classroom.
+                <h5 className="ma-iconbox-head mb-4">Qualified & Experienced Faculty</h5>
+                <p className="text-muted-foreground mb-6 small-text">
+                  The UITU is proud of its faculty, who are well qualified and experienced in their relevant fields. They play a significant role in students' lives as teachers, mentors, counsellors and advisors. The UITU's faculty have authored many books and research papers with well-reputed publishers.
                 </p>
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mx-auto">
-                  <Play className="w-4 h-4 text-primary-foreground" />
-                </div>
               </CardContent>
             </Card>
 
             <Card className="flex-1 text-center">
-              <CardContent className="p-8">
+              <CardContent className="p-7">
                 <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Building className="w-10 h-10 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Modern Facilities</h3>
-                <p className="text-muted-foreground mb-6">
-                  State-of-the-art laboratories, libraries, and learning spaces equipped with the latest
-                  technology to enhance your educational experience.
+                <h5 className="ma-iconbox-head mb-4">State-of-the-art Facilities</h5>
+                <p className="text-muted-foreground mb-6 small-text">
+                  State-of-the-art Facilities The UITU campus comprises multimedia classrooms, well-equipped labs, several labs, a relaxing cafeteria, a resource-rich library, a state-of-the-art auditorium and conference rooms. To improve the overall students’ learning experience, all instructional areas are air-conditioned and completely furnished with the latest audio-visual and video conferencing tools.
                 </p>
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mx-auto">
-                  <Play className="w-4 h-4 text-primary-foreground" />
-                </div>
               </CardContent>
             </Card>
 
             <Card className="flex-1 text-center">
-              <CardContent className="p-8">
+              <CardContent className="p-7">
                 <div className="bg-primary/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Users className="w-10 h-10 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Industry Connections</h3>
-                <p className="text-muted-foreground mb-6">
-                  Strong partnerships with leading companies and organizations provide internship
-                  opportunities and direct pathways to employment.
+                <h5 className="ma-iconbox-head mb-4">Ideal Location</h5>
+                <p className="text-muted-foreground mb-6 small-text">
+                  The UITU Campus is ideally located at the heart of the city and is easily accessible by all modes of transportation from all parts of Karachi.
                 </p>
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center mx-auto">
-                  <Play className="w-4 h-4 text-primary-foreground" />
-                </div>
               </CardContent>
             </Card>
           </div>
@@ -330,17 +319,39 @@ export default function Home() {
       <section className="py-20 bg-primary text-primary-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Academic Courses</h2>
+            <h2 className="heading-large font-semibold mb-4">Academic Courses</h2>
             <p className="text-xl max-w-3xl mx-auto">
               Explore our comprehensive range of programs designed to prepare you for success in your chosen field.
             </p>
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 mb-12">
-            <Button variant="secondary" className="bg-background text-primary hover:bg-background/90">All Courses</Button>
-            <Button variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">Undergraduate</Button>
-            <Button variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">Graduate</Button>
-            <Button variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10">Short Course</Button>
+            {/* Active tab */}
+            <Button
+              variant="outline"
+              className="bg-white text-primary border-white hover:bg-white hover:text-primary hover:border-white focus-visible:ring-white transition-colors"
+            >
+              All Courses
+            </Button>
+            {/* Inactive tabs */}
+            <Button
+              variant="outline"
+              className="bg-transparent text-white border-white hover:bg-white hover:text-primary hover:border-white focus-visible:ring-white transition-colors"
+            >
+              Undergraduate
+            </Button>
+            <Button
+              variant="outline"
+              className="bg-transparent text-white border-white hover:bg-white hover:text-primary hover:border-white focus-visible:ring-white transition-colors"
+            >
+              Graduate
+            </Button>
+            <Button
+              variant="outline"
+              className="bg-transparent text-white border-white hover:bg-white hover:text-primary hover:border-white focus-visible:ring-white transition-colors"
+            >
+              Short Course
+            </Button>
           </div>
 
           <Carousel
@@ -403,7 +414,7 @@ export default function Home() {
               ].map((course, index) => (
                 <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
                   <Card className="bg-background h-full">
-                    <div className="overflow-hidden">
+                    <div className="overflow-hidden ma-roundborder">
                       <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
                     </div>
                     <CardContent className="p-6">
@@ -411,7 +422,7 @@ export default function Home() {
                         <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">{course.level}</span>
                         <span className="text-sm text-muted-foreground">{course.duration}</span>
                       </div>
-                      <h3 className="text-xl font-semibold mb-2">{course.title}</h3>
+                      <h3 className="text-xl ma-courses-heading-dark font-semibold mb-2">{course.title}</h3>
                       <p className="text-muted-foreground mb-4 text-sm">{course.description}</p>
                       <div className="flex justify-between items-center">
                         <span className="text-2xl font-bold text-primary">{course.price}</span>
@@ -438,16 +449,13 @@ export default function Home() {
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary"><GraduationCap className="w-4 h-4" /></span>
                 <span className="font-medium">Events</span>
               </div>
-              <h2 className="text-4xl font-bold mb-4 leading-tight">
-                Recent &<br />Upcoming <span className="underline decoration-[6px] underline-offset-8 text-primary">Events</span>
+              <h2 className="heading-large font-semibold mb-4 leading-tight">
+                What's Happening at <span className="ma-hightlighted-text">UIT</span>
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-xl">
                 Stay tuned for exciting upcoming events designed to inspire, engage, and connect our community.
               </p>
               {/* Curve */}
-              <svg viewBox="0 0 300 120" className="w-56 h-24 text-primary mb-8" fill="none">
-                <path d="M5 115 C60 20, 180 20, 295 75" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
-              </svg>
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
                 See More Events <ArrowUpRight className="w-4 h-4 ml-2" />
               </Button>
@@ -518,7 +526,7 @@ export default function Home() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Timeline</h2>
+            <h2 className="heading-large font-semibold mb-4">Our <span className="ma-hightlighted-text">Timeline</span></h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               A brief history of UIT University from foundation to becoming an independent chartered university.
             </p>
@@ -582,7 +590,7 @@ export default function Home() {
       <section className="py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Learn from Experienced Instructors</h2>
+            <h2 className="heading-large font-semibold mb-4">Meet Our <span className="ma-hightlighted-text">Faculty</span></h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Our faculty members are industry experts and academic leaders committed to your success.
             </p>
@@ -614,7 +622,7 @@ export default function Home() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Feedback From Students</h2>
+            <h2 className="heading-large font-semibold mb-4">Feedback From <span className="ma-hightlighted-text"></span>Students</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Hear what our students have to say about their experience at UIT University.
             </p>
@@ -630,7 +638,7 @@ export default function Home() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-12">
-            <h2 className="text-4xl font-bold">Latest Insights & Updates</h2>
+            <h2 className="heading-large font-semibold">Latest <span className="ma-hightlighted-text">Insights</span></h2>
             <Button>View All</Button>
           </div>
 
