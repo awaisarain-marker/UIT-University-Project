@@ -114,8 +114,13 @@ const mockCourseData: CourseDetails = {
     _createdAt: '2024-01-15'
 }
 
-export default function CourseDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = use(params)
+export default async function CourseDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params
+    
+    return <CourseDetailsContent slug={slug} />
+}
+
+function CourseDetailsContent({ slug }: { slug: string }) {
     const { course, loading, error } = useCourseDetails(slug)
     const [activeTab, setActiveTab] = useState('overview')
     const [isWishlisted, setIsWishlisted] = useState(false)

@@ -1,22 +1,39 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav className={`bg-white sticky top-0 z-50 transition-shadow duration-300 ${
+      isScrolled ? 'shadow-lg' : ''
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="flex items-center">
-              <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">U</span>
+              <div className="flex items-center">
+                <div className="h-10 w-10 bg-primary rounded-lg flex items-center justify-center mr-3">
+                  <span className="text-primary-foreground font-bold text-xl">U</span>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xl font-bold text-foreground leading-tight">UIT</span>
+                  <span className="text-sm text-muted-foreground leading-tight">UNIVERSITY</span>
+                </div>
               </div>
-              <span className="ml-2 text-xl font-bold text-gray-900">UIT University</span>
             </Link>
           </div>
 
