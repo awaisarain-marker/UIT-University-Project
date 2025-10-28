@@ -226,7 +226,7 @@ export default function Home() {
 
           <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
             {/* Left: Overlapping images like reference */}
-            <div className="relative flex-1 w-full max-w-xl">
+            <div className="relative flex-1 w-full">
               {/* Back image */}
               <div className="rounded-2xl overflow-hidden w-[55%]">
                 <img
@@ -251,10 +251,14 @@ export default function Home() {
             </div>
 
             {/* Right: Copy */}
-            <div className="flex-1">
-              <h2 className="text-4xl font-medium mb-4 heading-large">About UIT University</h2>
-              <p className="text-muted-foreground mb-6">
-                The UIT University (UITU) was established vide The UIT University Act, 2017 [Sindh Act No. XXXIV of 2018] of Government of Sindh and published vide Notification in The Sindh Government Gazette on May 28, 2018. The University after due charter inspections by HEC, granted NOC whereby UITU has been initially allowed to start undergraduate programs in four departments namely, Electrical Engineering, Management Sciences, Computer Science and Social Sciences. The UIT University is managed by Usman Memorial Foundation (UMF).
+            <div className="flex-1 w-full">
+              <div className="flex items-center gap-2 text-sm mb-3">
+                <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary"><GraduationCap className="w-4 h-4" /></span>
+                <span className="font-medium">About UIT University</span>
+              </div>
+              <h2 className="text-4xl font-medium mb-4 heading-large font-semibold">An Introduction to Our <span className="ma-hightlighted-text font-semibold">University</span></h2>
+              <p className="ma-hightlight-text-border text-muted-foreground mb-6">
+              The UIT University (UITU) was established vide The UIT University Act, 2017 [Sindh Act No. XXXIV of 2018] of Government of Sindh and published vide Notification in The Sindh Government Gazette on May 28, 2018. The University after due charter inspections by HEC, granted NOC whereby UITU has been initially allowed to start undergraduate programs in four departments namely, Electrical Engineering, Management Sciences, Computer Science and Social Sciences. The UIT University is managed by Usman Memorial Foundation (UMF).
               </p>
               <Button>
                 More About Us <ArrowRight className="w-4 h-4 ml-2" />
@@ -559,32 +563,57 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Video Tour Section */}
-      <section className="relative py-20">
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')"
-        }}></div>
-        <div className="absolute inset-0 bg-primary/60"></div>
+{/* Video Tour Section */}
+<section className="relative h-[95vh] flex items-center justify-center overflow-hidden">
+  {/* Background Image */}
+  <div
+    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-in-out scale-100 hover:scale-105"
+    style={{
+      backgroundImage:
+        "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')",
+    }}
+  ></div>
 
-        <div className="relative z-10 text-center text-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-white/20 backdrop-blur-sm rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
-              <Play className="w-8 h-8" />
-            </div>
-            <h2 className="text-3xl font-bold mb-4">Video Tour In Campus</h2>
-            <p className="text-lg mb-8">Experience our campus life and facilities through this virtual tour</p>
-          </div>
-        </div>
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-primary/60"></div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-primary text-primary-foreground py-4">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <span>📞 +92-21-111-978-275</span>
-              <span>✉️ info@uitu.edu.pk</span>
-            </div>
-          </div>
-        </div>
-      </section>
+  {/* Content */}
+  <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8">
+    <div className="group bg-white/20 backdrop-blur-sm rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-all duration-300 ease-in-out hover:scale-110 hover:bg-white/30 cursor-pointer">
+      <Play className="w-8 h-8 transition-transform duration-300 group-hover:scale-125" />
+    </div>
+    <h2 className="text-4xl font-bold mb-4">Video Tour In Campus</h2>
+    <p className="text-lg mb-8">
+      Experience our campus life and facilities through this virtual tour
+    </p>
+  </div>
+
+{/* Contact Box */}
+<div className="absolute bottom-5 left-[420px] right-[450px] bg-primary text-primary-foreground py-5 px-10 rounded-[10px] shadow-lg">
+  <div className="max-w-5xl mx-auto w-full flex items-center justify-center gap-16">
+    
+    {/* Left Section */}
+    <div className="flex flex-col items-center justify-center text-center space-y-1">
+      <span className="font-semibold text-sm leading-tight">Get In Touch:</span>
+      <span className="text-xs leading-tight">info@example.com</span>
+    </div>
+
+    {/* Center Circular "or" */}
+    <div className="bg-white text-blue-600 rounded-full w-11 h-11 flex items-center justify-center shadow-md border border-primary mx-2">
+      <span className="font-extrabold text-base tracking-wide">or</span>
+    </div>
+
+    {/* Right Section */}
+    <div className="flex flex-col items-center justify-center text-center space-y-1">
+      <span className="font-semibold text-sm leading-tight">Get In Touch:</span>
+      <span className="text-xs leading-tight">+88 123-456-789</span>
+    </div>
+
+  </div>
+</div>
+
+</section>
+
 
       {/* Instructors Section */}
       <section className="py-20 bg-muted/50">

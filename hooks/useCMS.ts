@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { getCourses, getTestimonials, getBlogPosts, getEvents, getHeroContent, getFaculty } from '@/lib/sanity'
-import type { Course, Testimonial, BlogPost, Event, HeroContent, Faculty } from '@/types/cms'
+import { getCourses, getTestimonials, getBlogPosts, getEvents, getHeroContent, getFaculty, getCourseBySlug } from '@/lib/sanity'
+import type { Course, Testimonial, BlogPost, Event, HeroContent, Faculty, CourseDetails } from '@/types/cms'
 
 // Custom hook for fetching courses
 export function useCourses() {
@@ -156,4 +156,32 @@ export function useFaculty() {
   }, [])
 
   return { faculty, loading, error }
+}
+
+// Custom hook for fetching course details by slug
+export function useCourseDetails(slug: string) {
+  const [course, setCourse] = useState<CourseDetails | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    async function fetchCourseDetails() {
+      try {
+        setLoading(true)
+        const data = await getCourseBySlug(slug)
+        setCourse(data)
+      } catch (err) {
+        setError('Failed to fetch course details')
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (slug) {
+      fetchCourseDetails()
+    }
+  }, [slug])
+
+  return { course, loading, error }
 }

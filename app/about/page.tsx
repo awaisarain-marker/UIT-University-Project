@@ -8,7 +8,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-primary to-primary/80 text-primary-foreground py-20">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -30,18 +30,18 @@ export default function AboutPage() {
               <h2 className="text-4xl font-bold text-foreground mb-8">Who We Are</h2>
               <div className="space-y-6 text-lg text-muted-foreground">
                 <p>
-                  The UIT University (UITU) stands as a beacon of educational excellence, established under The UIT University Act, 2017 
-                  [Sindh Act No. XXXIV of 2018] by the Government of Sindh. Our charter was officially published in The Sindh Government 
+                  The UIT University (UITU) stands as a beacon of educational excellence, established under The UIT University Act, 2017
+                  [Sindh Act No. XXXIV of 2018] by the Government of Sindh. Our charter was officially published in The Sindh Government
                   Gazette on May 28, 2018, marking the beginning of our journey as an independent institution of higher learning.
                 </p>
                 <p>
-                  Following comprehensive charter inspections by the Higher Education Commission (HEC), UITU received its No Objection 
-                  Certificate (NOC), initially authorizing us to offer undergraduate programs across four distinguished departments: 
+                  Following comprehensive charter inspections by the Higher Education Commission (HEC), UITU received its No Objection
+                  Certificate (NOC), initially authorizing us to offer undergraduate programs across four distinguished departments:
                   Electrical Engineering, Management Sciences, Computer Science, and Social Sciences.
                 </p>
                 <p>
-                  Our institution is proudly managed by the Usman Memorial Foundation (UMF), a philanthropic organization established 
-                  in 1973 in memory of Late Mohammad Usman. The foundation's unwavering commitment to providing quality education 
+                  Our institution is proudly managed by the Usman Memorial Foundation (UMF), a philanthropic organization established
+                  in 1973 in memory of Late Mohammad Usman. The foundation's unwavering commitment to providing quality education
                   to the community drives our mission to create accessible, world-class educational opportunities.
                 </p>
                 <div className="flex flex-wrap gap-3 mt-8">
@@ -79,7 +79,7 @@ export default function AboutPage() {
               Our university is guided by distinguished boards and councils that ensure academic excellence and strategic direction.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
@@ -94,7 +94,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -108,7 +108,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -122,7 +122,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -149,7 +149,7 @@ export default function AboutPage() {
               Five decades of educational excellence, innovation, and commitment to transforming lives through learning.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
@@ -162,7 +162,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -174,7 +174,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -186,7 +186,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-orange-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -211,7 +211,7 @@ export default function AboutPage() {
               Our guiding principles that shape every aspect of our educational journey and institutional growth.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
               <CardContent className="p-10">
@@ -223,14 +223,14 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-3xl font-bold text-foreground mb-6">Our Vision</h3>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  To emerge as a globally recognized center of excellence in higher education, fostering innovation, 
-                  creativity, and critical thinking. We aspire to nurture future leaders who will drive technological 
-                  advancement, social progress, and economic development while maintaining the highest standards of 
+                  To emerge as a globally recognized center of excellence in higher education, fostering innovation,
+                  creativity, and critical thinking. We aspire to nurture future leaders who will drive technological
+                  advancement, social progress, and economic development while maintaining the highest standards of
                   ethical conduct and social responsibility.
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
               <CardContent className="p-10">
                 <div className="bg-green-100 w-20 h-20 rounded-2xl flex items-center justify-center mb-8">
@@ -240,9 +240,9 @@ export default function AboutPage() {
                 </div>
                 <h3 className="text-3xl font-bold text-foreground mb-6">Our Mission</h3>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  To provide transformative education that meets international standards, promote cutting-edge research 
-                  and innovation, and contribute meaningfully to Pakistan's socio-economic development. We are committed 
-                  to producing skilled professionals, ethical leaders, and responsible global citizens who can address 
+                  To provide transformative education that meets international standards, promote cutting-edge research
+                  and innovation, and contribute meaningfully to Pakistan's socio-economic development. We are committed
+                  to producing skilled professionals, ethical leaders, and responsible global citizens who can address
                   contemporary challenges with confidence and competence.
                 </p>
               </CardContent>
@@ -269,7 +269,7 @@ export default function AboutPage() {
                 <p className="text-sm text-muted-foreground mt-2">Ph.D., [University Name]</p>
               </div>
             </div>
-            
+
             <div className="lg:col-span-2">
               <h2 className="text-4xl font-bold text-foreground mb-8">Vice Chancellor's Message</h2>
               <div className="space-y-6 text-lg text-muted-foreground">
@@ -277,19 +277,19 @@ export default function AboutPage() {
                   "Education is the most powerful weapon which you can use to change the world."
                 </p>
                 <p>
-                  Welcome to UIT University, where we believe in transforming lives through quality education and innovative research. 
-                  As we continue our journey of academic excellence, I am proud to lead an institution that has consistently 
+                  Welcome to UIT University, where we believe in transforming lives through quality education and innovative research.
+                  As we continue our journey of academic excellence, I am proud to lead an institution that has consistently
                   demonstrated its commitment to nurturing young minds and preparing them for the challenges of tomorrow.
                 </p>
                 <p>
-                  Our university stands as a testament to the vision of the Usman Memorial Foundation, which has been dedicated 
-                  to educational excellence for over five decades. We have evolved from a small institute to a comprehensive 
+                  Our university stands as a testament to the vision of the Usman Memorial Foundation, which has been dedicated
+                  to educational excellence for over five decades. We have evolved from a small institute to a comprehensive
                   university, always maintaining our core values of integrity, innovation, and inclusivity.
                 </p>
                 <p>
-                  At UITU, we don't just impart knowledge; we cultivate critical thinking, foster creativity, and encourage 
-                  our students to become lifelong learners. Our distinguished faculty, state-of-the-art facilities, and 
-                  industry partnerships ensure that our graduates are well-prepared to excel in their chosen fields and 
+                  At UITU, we don't just impart knowledge; we cultivate critical thinking, foster creativity, and encourage
+                  our students to become lifelong learners. Our distinguished faculty, state-of-the-art facilities, and
+                  industry partnerships ensure that our graduates are well-prepared to excel in their chosen fields and
                   contribute meaningfully to society.
                 </p>
                 <p>
@@ -314,7 +314,7 @@ export default function AboutPage() {
               Our commitment to quality education is validated by prestigious accreditations and recognitions from national and international bodies.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
@@ -329,7 +329,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -343,7 +343,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="text-center hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -370,7 +370,7 @@ export default function AboutPage() {
               Our organizational structure ensures effective governance, academic excellence, and operational efficiency at all levels.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-2xl font-bold text-foreground mb-6">Organizational Excellence</h3>
@@ -386,7 +386,7 @@ export default function AboutPage() {
                     <p className="text-muted-foreground">Strategic decision-making and institutional direction under experienced leadership.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-4">
                   <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -398,7 +398,7 @@ export default function AboutPage() {
                     <p className="text-muted-foreground">Dedicated academic leadership ensuring quality education and research excellence.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-4">
                   <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -412,7 +412,7 @@ export default function AboutPage() {
                 </div>
               </div>
             </div>
-            
+
             <div>
               {/* Image placeholder - Use organizational chart or management team photo */}
               <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8 text-center">
@@ -440,7 +440,7 @@ export default function AboutPage() {
               State-of-the-art facilities and vibrant campus life create an environment conducive to learning, growth, and personal development.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
@@ -455,7 +455,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
@@ -469,7 +469,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
@@ -483,7 +483,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
@@ -498,7 +498,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
@@ -512,7 +512,7 @@ export default function AboutPage() {
                 </p>
               </CardContent>
             </Card>
-            
+
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="p-8">
                 <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mb-6">
@@ -538,28 +538,28 @@ export default function AboutPage() {
           <p className="text-xl md:text-2xl mb-8 max-w-4xl mx-auto leading-relaxed">
             Become part of the UIT University family and embark on a transformative educational journey that will shape your future and contribute to society's progress.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
-            <Link 
-              href="/courses" 
+            <Link
+              href="/courses"
               className="bg-white text-primary hover:bg-gray-100 px-10 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               Explore Programs
             </Link>
-            <Link 
-              href="/apply" 
+            <Link
+              href="/apply"
               className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary px-10 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               Apply Now
             </Link>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary px-10 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
               Contact Us
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="text-3xl font-bold mb-2">50+</div>

@@ -90,6 +90,45 @@ export const queries = {
     image,
     email,
     _createdAt
+  }`,
+
+  // Get single course by slug
+  courseBySlug: `*[_type == "courseDetails" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    description,
+    longDescription,
+    image,
+    instructor->{
+      name,
+      title,
+      image,
+      bio,
+      experience
+    },
+    duration,
+    level,
+    price,
+    originalPrice,
+    category,
+    rating,
+    studentsEnrolled,
+    totalLessons,
+    totalHours,
+    language,
+    certificate,
+    prerequisites,
+    learningOutcomes,
+    curriculum,
+    features,
+    requirements,
+    tags,
+    startDate,
+    endDate,
+    schedule,
+    location,
+    _createdAt
   }`
 }
 
@@ -145,5 +184,14 @@ export async function getFaculty() {
   } catch (error) {
     console.error('Error fetching faculty:', error)
     return []
+  }
+}
+
+export async function getCourseBySlug(slug: string) {
+  try {
+    return await client.fetch(queries.courseBySlug, { slug })
+  } catch (error) {
+    console.error('Error fetching course by slug:', error)
+    return null
   }
 }

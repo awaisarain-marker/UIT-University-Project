@@ -19,6 +19,52 @@ export interface Course {
   _createdAt: string
 }
 
+export interface CourseDetails {
+  _id: string
+  title: string
+  slug: { current: string }
+  description: string
+  longDescription: string
+  image: { asset: { url: string } }
+  instructor: {
+    name: string
+    title: string
+    image: { asset: { url: string } }
+    bio: string
+    experience: string
+  }
+  duration: string
+  level: 'Beginner' | 'Intermediate' | 'Advanced'
+  price: string
+  originalPrice?: string
+  category: string
+  rating: number
+  studentsEnrolled: number
+  totalLessons: number
+  totalHours: string
+  language: string
+  certificate: boolean
+  prerequisites: string[]
+  learningOutcomes: string[]
+  curriculum: {
+    module: string
+    lessons: {
+      title: string
+      duration: string
+      type: 'video' | 'text' | 'quiz'
+      preview?: boolean
+    }[]
+  }[]
+  features: string[]
+  requirements: string[]
+  tags: string[]
+  startDate: string
+  endDate: string
+  schedule: string
+  location: string
+  _createdAt: string
+}
+
 export interface Testimonial {
   _id: string
   quote: string
