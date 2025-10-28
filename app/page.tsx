@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import Footer from './components/Footer';
+
 import AceternityTimeline from '@/components/ui/aceternity-timeline';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import FacultySection from '@/components/sections/FacultySection';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { Phone, Mail, Facebook, Twitter, Instagram, Linkedin, Play, Star, ArrowRight, GraduationCap, Building, Users, Calendar, Clock, MapPin, ArrowUpRight } from 'lucide-react';
+import { Play, Star, ArrowRight, GraduationCap, Building, Users, Calendar, Clock, MapPin, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 
@@ -115,75 +116,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Top Bar */}
-      <div className="bg-primary text-primary-foreground py-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4 text-sm">
-              <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4" />
-                <span>+92-21-111-978-275</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4" />
-                <span>info@uitu.edu.pk</span>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="icon" className="ma-iconboxes-top text-primary-foreground hover:text-primary-foreground/80">
-                <Facebook className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="ma-iconboxes-top text-primary-foreground hover:text-primary-foreground/80">
-                <Twitter className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="ma-iconboxes-top text-primary-foreground hover:text-primary-foreground/80">
-                <Instagram className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" className="ma-iconboxes-top text-primary-foreground hover:text-primary-foreground/80">
-                <Linkedin className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Navigation */}
-      <nav className="bg-background shadow-lg sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="flex items-center">
-                <div className="h-10 w-10 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-xl">U</span>
-                </div>
-                <span className="ml-3 text-2xl font-bold text-foreground">UIT University</span>
-              </div>
-            </div>
 
-            <div className="hidden md:flex items-center space-x-4">
-              <Link href="/" className="text-primary hover:text-primary/80 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Home
-              </Link>
-              <Link href="/about" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                About
-              </Link>
-              <Link href="/courses" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Courses
-              </Link>
-              <Link href="/events" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Events
-              </Link>
-              <Link href="/blog" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Blog
-              </Link>
-              <Link href="/contact" className="text-muted-foreground hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                Contact
-              </Link>
-              <Button size="sm">Login</Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+
 
       {/* Hero Section with Slideshow */}
       <section className="relative h-screen overflow-hidden">
@@ -258,7 +193,7 @@ export default function Home() {
               </div>
               <h2 className="text-4xl font-medium mb-4 heading-large font-semibold">An Introduction to Our <span className="ma-hightlighted-text font-semibold">University</span></h2>
               <p className="ma-hightlight-text-border text-muted-foreground mb-6">
-              The UIT University (UITU) was established vide The UIT University Act, 2017 [Sindh Act No. XXXIV of 2018] of Government of Sindh and published vide Notification in The Sindh Government Gazette on May 28, 2018. The University after due charter inspections by HEC, granted NOC whereby UITU has been initially allowed to start undergraduate programs in four departments namely, Electrical Engineering, Management Sciences, Computer Science and Social Sciences. The UIT University is managed by Usman Memorial Foundation (UMF).
+                The UIT University (UITU) was established vide The UIT University Act, 2017 [Sindh Act No. XXXIV of 2018] of Government of Sindh and published vide Notification in The Sindh Government Gazette on May 28, 2018. The University after due charter inspections by HEC, granted NOC whereby UITU has been initially allowed to start undergraduate programs in four departments namely, Electrical Engineering, Management Sciences, Computer Science and Social Sciences. The UIT University is managed by Usman Memorial Foundation (UMF).
               </p>
               <Button>
                 More About Us <ArrowRight className="w-4 h-4 ml-2" />
@@ -446,7 +381,7 @@ export default function Home() {
       {/* Events Section */}
       <section className="py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-12 items-start">
+          <div className="flex flex-col lg:flex-row gap-12 items-start">
             {/* Left: Section copy like reference */}
             <div className="w-full lg:w-2/5">
               <div className="flex items-center gap-2 text-sm mb-3">
@@ -563,89 +498,60 @@ export default function Home() {
         </div>
       </section>
 
-{/* Video Tour Section */}
-<section className="relative h-[95vh] flex items-center justify-center overflow-hidden">
-  {/* Background Image */}
-  <div
-    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-in-out scale-100 hover:scale-105"
-    style={{
-      backgroundImage:
-        "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')",
-    }}
-  ></div>
+      {/* Video Tour Section */}
+      <section className="relative h-[95vh] flex items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-in-out scale-100 hover:scale-105"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')",
+          }}
+        ></div>
 
-  {/* Dark Overlay */}
-  <div className="absolute inset-0 bg-primary/60"></div>
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-primary/60"></div>
 
-  {/* Content */}
-  <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8">
-    <div className="group bg-white/20 backdrop-blur-sm rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-all duration-300 ease-in-out hover:scale-110 hover:bg-white/30 cursor-pointer">
-      <Play className="w-8 h-8 transition-transform duration-300 group-hover:scale-125" />
-    </div>
-    <h2 className="text-4xl font-bold mb-4">Video Tour In Campus</h2>
-    <p className="text-lg mb-8">
-      Experience our campus life and facilities through this virtual tour
-    </p>
-  </div>
-
-{/* Contact Box */}
-<div className="absolute bottom-5 left-[420px] right-[450px] bg-primary text-primary-foreground py-5 px-10 rounded-[10px] shadow-lg">
-  <div className="max-w-5xl mx-auto w-full flex items-center justify-center gap-16">
-    
-    {/* Left Section */}
-    <div className="flex flex-col items-center justify-center text-center space-y-1">
-      <span className="font-semibold text-sm leading-tight">Get In Touch:</span>
-      <span className="text-xs leading-tight">info@example.com</span>
-    </div>
-
-    {/* Center Circular "or" */}
-    <div className="bg-white text-blue-600 rounded-full w-11 h-11 flex items-center justify-center shadow-md border border-primary mx-2">
-      <span className="font-extrabold text-base tracking-wide">or</span>
-    </div>
-
-    {/* Right Section */}
-    <div className="flex flex-col items-center justify-center text-center space-y-1">
-      <span className="font-semibold text-sm leading-tight">Get In Touch:</span>
-      <span className="text-xs leading-tight">+88 123-456-789</span>
-    </div>
-
-  </div>
-</div>
-
-</section>
-
-
-      {/* Instructors Section */}
-      <section className="py-20 bg-muted/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="heading-large font-semibold mb-4">Meet Our <span className="ma-hightlighted-text">Faculty</span></h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Our faculty members are industry experts and academic leaders committed to your success.
-            </p>
+        {/* Content */}
+        <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8">
+          <div className="group bg-white/20 backdrop-blur-sm rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 transition-all duration-300 ease-in-out hover:scale-110 hover:bg-white/30 cursor-pointer">
+            <Play className="w-8 h-8 transition-transform duration-300 group-hover:scale-125" />
           </div>
+          <h2 className="text-4xl font-bold mb-4">Video Tour In Campus</h2>
+          <p className="text-lg mb-8">
+            Experience our campus life and facilities through this virtual tour
+          </p>
+        </div>
 
-          <div className="flex flex-col md:flex-row gap-8">
-            {[
-              { name: "Dr. Sarah Wilson", position: "Professor of Computer Science", image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-              { name: "Dr. Michael Chen", position: "Professor of Engineering", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-              { name: "Dr. Emily Johnson", position: "Professor of Business", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" },
-              { name: "Dr. David Brown", position: "Professor of Data Science", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" }
-            ].map((instructor, index) => (
-              <Card key={index} className="flex-1 bg-background text-center">
-                <div className="overflow-hidden">
-                  <img src={instructor.image} alt={instructor.name} className="w-full h-64 object-cover" />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{instructor.name}</h3>
-                  <p className="text-muted-foreground mb-4">{instructor.position}</p>
-                  <Button size="sm">View Profile</Button>
-                </CardContent>
-              </Card>
-            ))}
+        {/* Contact Box */}
+        <div className="absolute bottom-5 left-[420px] right-[450px] bg-primary text-primary-foreground py-5 px-10 rounded-[10px] shadow-lg">
+          <div className="max-w-5xl mx-auto w-full flex items-center justify-center gap-16">
+
+            {/* Left Section */}
+            <div className="flex flex-col items-center justify-center text-center space-y-1">
+              <span className="font-semibold text-sm leading-tight">Get In Touch:</span>
+              <span className="text-xs leading-tight">info@example.com</span>
+            </div>
+
+            {/* Center Circular "or" */}
+            <div className="bg-white text-blue-600 rounded-full w-11 h-11 flex items-center justify-center shadow-md border border-primary mx-2">
+              <span className="font-extrabold text-base tracking-wide">or</span>
+            </div>
+
+            {/* Right Section */}
+            <div className="flex flex-col items-center justify-center text-center space-y-1">
+              <span className="font-semibold text-sm leading-tight">Get In Touch:</span>
+              <span className="text-xs leading-tight">+88 123-456-789</span>
+            </div>
+
           </div>
         </div>
+
       </section>
+
+
+      {/* Faculty Section */}
+      <FacultySection />
 
       {/* Student Feedback Section */}
       <section className="py-20">
@@ -708,8 +614,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <Footer />
+
     </div>
   );
 }

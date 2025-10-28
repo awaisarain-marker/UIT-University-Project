@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
 
 export default function AdmissionsPage() {
   const [formData, setFormData] = useState({
@@ -33,7 +31,6 @@ export default function AdmissionsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
@@ -380,8 +377,6 @@ export default function AdmissionsPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

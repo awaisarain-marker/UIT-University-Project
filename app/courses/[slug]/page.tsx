@@ -2,8 +2,6 @@
 
 import { useState, use } from 'react'
 import Link from 'next/link'
-import Navigation from '../../components/Navigation'
-import Footer from '../../components/Footer'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -114,10 +112,8 @@ const mockCourseData: CourseDetails = {
     _createdAt: '2024-01-15'
 }
 
-export default async function CourseDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = await params
-
-    return <CourseDetailsContent slug={slug} />
+export default function CourseDetailsPage({ params }: { params: { slug: string } }) {
+    return <CourseDetailsContent slug={params.slug} />
 }
 
 function CourseDetailsContent({ slug }: { slug: string }) {
@@ -131,14 +127,12 @@ function CourseDetailsContent({ slug }: { slug: string }) {
     if (loading) {
         return (
             <div className="min-h-screen bg-background">
-                <Navigation />
                 <div className="flex items-center justify-center h-96">
                     <div className="text-center">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
                         <p className="text-muted-foreground">Loading course details...</p>
                     </div>
                 </div>
-                <Footer />
             </div>
         )
     }
@@ -146,21 +140,18 @@ function CourseDetailsContent({ slug }: { slug: string }) {
     if (error && !courseData) {
         return (
             <div className="min-h-screen bg-background">
-                <Navigation />
                 <div className="flex items-center justify-center h-96">
                     <div className="text-center">
                         <p className="text-red-500 mb-4">Error loading course details</p>
                         <p className="text-muted-foreground">Please try again later</p>
                     </div>
                 </div>
-                <Footer />
             </div>
         )
     }
 
     return (
         <div className="min-h-screen bg-background">
-            <Navigation />
 
             {/* Breadcrumb */}
             <div className="bg-muted/30 py-4">
@@ -513,8 +504,6 @@ function CourseDetailsContent({ slug }: { slug: string }) {
                     </div>
                 </div>
             </section>
-
-            <Footer />
         </div>
     )
 }

@@ -132,15 +132,27 @@ export interface HeroContent {
 export interface Faculty {
   _id: string
   name: string
-  position: string
-  department: string
-  bio: string
-  image: {
+  title?: string
+  position?: string
+  department?: string
+  bio?: any[] // Rich text content
+  image?: {
     asset: {
       _id: string
       url: string
     }
   }
-  email: string
+  email?: string
+  phone?: string
+  office?: string
+  education?: Array<{
+    degree: string
+    institution: string
+    year: number
+  }>
+  experience?: number
+  specializations?: string[]
+  publications?: string[]
+  featured?: boolean
   _createdAt: string
 }

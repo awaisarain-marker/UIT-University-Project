@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Navigation from '../components/Navigation';
-import Footer from '../components/Footer';
 
 interface Course {
   id: string;
@@ -145,7 +143,6 @@ export default function CoursesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navigation />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
@@ -303,8 +300,6 @@ export default function CoursesPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }
