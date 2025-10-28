@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit, Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -26,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${outfit.variable} ${inter.variable} antialiased`}
+        className={`${outfit.variable} ${inter.variable} ${GeistSans.variable} antialiased`}
         suppressHydrationWarning
       >
         {children}

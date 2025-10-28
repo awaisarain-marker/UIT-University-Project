@@ -36,8 +36,8 @@ export default function CMSStatus() {
           return
         }
 
-        // Try to fetch a simple query to test connection
-        await client.fetch('*[_type == "course"][0]')
+        // Try a simple query to test connection
+        await client.fetch('{"test": true}')
         
         setStatus({
           connected: true,
