@@ -49,6 +49,9 @@ export default function Navigation() {
               <Link href="/courses" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Courses
               </Link>
+              <Link href="/merl" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                MERL
+              </Link>
               <Link href="/faculty" className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">
                 Faculty
               </Link>
@@ -90,6 +93,9 @@ export default function Navigation() {
             </Link>
             <Link href="/courses" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
               Courses
+            </Link>
+            <Link href="/merl" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
+              MERL
             </Link>
             <Link href="/faculty" className="text-gray-700 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">
               Faculty
