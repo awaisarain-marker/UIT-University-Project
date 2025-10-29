@@ -2,17 +2,25 @@ import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 
 // Sanity client configuration
-export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'your-project-id',
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
+
+// Only create client if project ID is properly configured
+export const client = projectId && projectId !== 'your-project-id' ? createClient({
+  projectId,
+  dataset,
   useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
   apiVersion: '2024-01-01',
-})
+}) : null
 
 // Image URL builder
-const builder = imageUrlBuilder(client)
+const builder = client ? imageUrlBuilder(client) : null
 
 export function urlFor(source: any) {
+  if (!builder) {
+    console.warn('Sanity client not configured. Cannot build image URL.')
+    return { url: () => '/placeholder-image.jpg' }
+  }
   return builder.image(source)
 }
 
@@ -134,6 +142,10 @@ export const queries = {
 
 // Fetch functions
 export async function getCourses() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return []
+  }
   try {
     return await client.fetch(queries.courses)
   } catch (error) {
@@ -143,6 +155,10 @@ export async function getCourses() {
 }
 
 export async function getTestimonials() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return []
+  }
   try {
     return await client.fetch(queries.testimonials)
   } catch (error) {
@@ -152,6 +168,10 @@ export async function getTestimonials() {
 }
 
 export async function getBlogPosts() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return []
+  }
   try {
     return await client.fetch(queries.blogPosts)
   } catch (error) {
@@ -161,6 +181,10 @@ export async function getBlogPosts() {
 }
 
 export async function getEvents() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return []
+  }
   try {
     return await client.fetch(queries.events)
   } catch (error) {
@@ -170,6 +194,10 @@ export async function getEvents() {
 }
 
 export async function getHeroContent() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return null
+  }
   try {
     return await client.fetch(queries.heroContent)
   } catch (error) {
@@ -179,6 +207,10 @@ export async function getHeroContent() {
 }
 
 export async function getFaculty() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return []
+  }
   try {
     return await client.fetch(queries.faculty)
   } catch (error) {
@@ -188,6 +220,10 @@ export async function getFaculty() {
 }
 
 export async function getCourseBySlug(slug: string) {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return null
+  }
   try {
     return await client.fetch(queries.courseBySlug, { slug })
   } catch (error) {
