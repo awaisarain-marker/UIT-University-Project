@@ -112,8 +112,9 @@ const mockCourseData: CourseDetails = {
     _createdAt: '2024-01-15'
 }
 
-export default function CourseDetailsPage({ params }: { params: { slug: string } }) {
-    return <CourseDetailsContent slug={params.slug} />
+export default function CourseDetailsPage({ params }: { params: Promise<{ slug: string }> }) {
+    const resolvedParams = use(params)
+    return <CourseDetailsContent slug={resolvedParams.slug} />
 }
 
 function CourseDetailsContent({ slug }: { slug: string }) {
