@@ -1,9 +1,8 @@
-import Navigation from '../components/Navigation'
-import Footer from '../components/Footer'
+
 import PageBanner from '@/components/ui/page-banner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Facebook, Twitter, Instagram, Linkedin, Play, Star, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge'
 import {
     Users,
@@ -23,7 +22,6 @@ import {
 export default function MERLPage() {
     return (
         <div className="min-h-screen bg-background">
-            <Navigation />
 
             {/* Page Banner */}
             <PageBanner
@@ -85,7 +83,7 @@ export default function MERLPage() {
                                 MERL-UITU stands at the forefront of chip design education, fostering a dynamic environment where innovation converges with academic excellence. Recognizing the transformative power of chip technology, we have partnered with UIT to empower the next generation of engineers.
                             </p>
                             <p className="text-lg leading-relaxed text-gray-700">
-                                Following the groundbreaking memorandum of understanding signed in December 2018, MERL-UITU has become a pioneer in open-source chip design education across Pakistan. This initiative extends to undergraduate students, providing them with a pathway to success in this ever-evolving field.
+                                Following the ssssgroundbreaking memorandum of understanding signed in December 2018, MERL-UITU has become a pioneer in open-source chip design education across Pakistan. This initiative extends to undergraduate students, providing them with a pathway to success in this ever-evolving field.
                             </p>
                             <p className="text-lg leading-relaxed text-gray-700">
                                 Our globally recognized curriculum, meticulously crafted by renowned academic leaders, leverages best-in-class resources. This ensures students acquire the most cutting-edge chip design techniques, equipping them with the skills to become future leaders in the industry.
@@ -609,8 +607,6 @@ export default function MERLPage() {
                     </div>
                 </div>
             </section>
-
-            <Footer />
         </div>
     )
 }

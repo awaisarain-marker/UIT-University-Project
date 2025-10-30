@@ -7,13 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "studio": "sanity dev"
+    "studio": "sanity dev",
+    "setup:supabase": "node scripts/setup-supabase.js"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "@sanity/client": "^7.12.0",
     "@sanity/image-url": "^1.2.0",
     "@sanity/vision": "^4.12.0",
+    "@supabase/supabase-js": "^2.77.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
