@@ -196,7 +196,7 @@ export default function Home() {
                 The UIT University (UITU) was established vide The UIT University Act, 2017 [Sindh Act No. XXXIV of 2018] of Government of Sindh and published vide Notification in The Sindh Government Gazette on May 28, 2018. The University after due charter inspections by HEC, granted NOC whereby UITU has been initially allowed to start undergraduate programs in four departments namely, Electrical Engineering, Management Sciences, Computer Science and Social Sciences. The UIT University is managed by Usman Memorial Foundation (UMF).
               </p>
               <Button>
-                More About Us <ArrowRight className="w-4 h-4 ml-2" />
+                More About Us <ArrowUpRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
@@ -557,7 +557,7 @@ export default function Home() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="heading-large font-semibold mb-4">Feedback From <span className="ma-hightlighted-text"></span>Students</h2>
+            <h2 className="heading-large font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Hear what our students have to say about their experience at UIT University.
             </p>
@@ -574,7 +574,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-12">
             <h2 className="heading-large font-semibold">Latest <span className="ma-hightlighted-text">Insights</span></h2>
-            <Button>View All</Button>
+            <Button>View All <ArrowUpRight className="w-4 h-4 ml-2" /></Button>
           </div>
 
           <div className="flex flex-col md:flex-row gap-8">

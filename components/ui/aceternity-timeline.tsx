@@ -85,9 +85,9 @@ export default function AceternityTimeline({ items }: AceternityTimelineProps) {
   }
 
   return (
-    <div className="relative h-full" onWheel={onWheel} onMouseEnter={() => (hoverRef.current = true)} onMouseLeave={() => (hoverRef.current = false)}>
+    <div className="relative h-full pt-4 md:pt-6" onWheel={onWheel} onMouseEnter={() => (hoverRef.current = true)} onMouseLeave={() => (hoverRef.current = false)}>
       {/* Gradient track */}
-      <div className="pointer-events-none absolute left-0 right-0 top-9 md:top-12 h-[3px] bg-gradient-to-r from-primary via-primary/50 to-primary/20" />
+      <div className="pointer-events-none absolute left-0 right-0 top-6 md:top-8 h-[3px] bg-gradient-to-r from-primary via-primary/50 to-primary/20" />
 
       <ol
         ref={listRef}
@@ -95,12 +95,12 @@ export default function AceternityTimeline({ items }: AceternityTimelineProps) {
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
-        className="relative flex gap-6 md:gap-10 overflow-x-auto pb-6 md:pb-8 scroll-smooth snap-x snap-mandatory hide-scrollbar timeline-scroll h-full items-center timeline-draggable"
+        className="overflow-visible relative flex gap-6 md:gap-10 overflow-x-auto pb-6 md:pb-8 scroll-smooth snap-x snap-mandatory hide-scrollbar timeline-scroll h-full timeline-draggable"
       >
         {items.map((item, idx) => (
           <li key={idx} className="relative snap-start min-w-[300px] md:min-w-[420px]">
             {/* Dot */}
-            <div className="absolute -top-3 md:-top-4 left-8 md:left-12">
+            <div className="absolute top-1 md:top-2 left-8 md:left-12">
               <div className="h-3 w-3 md:h-4 md:w-4 rounded-full bg-primary ring-4 ring-primary/30 shadow-[0_0_0_6px_rgba(7,80,163,0.08)]" />
             </div>
 
@@ -108,7 +108,7 @@ export default function AceternityTimeline({ items }: AceternityTimelineProps) {
             <div className="bg-background border rounded-xl shadow transition-transform duration-300 hover:-translate-y-1">
               <div className="p-5 md:p-6">
                 <div className="text-primary text-2xl font-semibold mb-2">{item.year}</div>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="small-text text-muted-foreground text-sm leading-relaxed">
                   {item.content}
                 </p>
               </div>

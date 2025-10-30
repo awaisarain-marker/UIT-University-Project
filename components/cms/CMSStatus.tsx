@@ -37,6 +37,9 @@ export default function CMSStatus() {
         }
 
         // Try a simple query to test connection
+        if (!client) {
+          throw new Error('Sanity client not initialized')
+        }
         await client.fetch('{"test": true}')
         
         setStatus({
