@@ -11,6 +11,19 @@ import Link from 'next/link'
 export default function FacultyFromCMS() {
   const { faculty, loading, error } = useFaculty()
 
+  // Helper function to safely build image URLs
+  const buildImageUrl = (image: any, width?: number, height?: number) => {
+    const builder = urlFor(image);
+    // Check if the builder has the width method (full Sanity client)
+    if (typeof (builder as any).width === 'function') {
+      return width && height
+        ? (builder as any).width(width).height(height).url()
+        : builder.url();
+    }
+    // Fallback for when Sanity is not configured
+    return builder.url();
+  }
+
   if (loading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -59,10 +72,10 @@ export default function FacultyFromCMS() {
         <Card key={member._id} className="bg-background text-center group hover:shadow-lg transition-shadow">
           <div className="overflow-hidden">
             {member.image ? (
-              <img 
-                src={urlFor(member.image).width(400).height(300).url()} 
-                alt={member.name} 
-                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" 
+              <img
+                src={buildImageUrl(member.image, 400, 300)}
+                alt={member.name}
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
               />
             ) : (
               <div className="w-full h-64 bg-muted flex items-center justify-center">
@@ -70,14 +83,14 @@ export default function FacultyFromCMS() {
               </div>
             )}
           </div>
-          
+
           <CardContent className="p-6">
             <h3 className="text-xl font-semibold mb-2 text-foreground">{member.name}</h3>
-            
+
             {member.title && (
               <p className="text-primary font-medium mb-1">{member.title}</p>
             )}
-            
+
             {member.department && (
               <p className="text-muted-foreground mb-4 text-sm">{member.department}</p>
             )}
@@ -90,7 +103,7 @@ export default function FacultyFromCMS() {
                   <span className="truncate">{member.email}</span>
                 </div>
               )}
-              
+
               {member.office && (
                 <div className="flex items-center justify-center space-x-2">
                   <MapPin className="w-3 h-3" />
@@ -104,7 +117,7 @@ export default function FacultyFromCMS() {
               <div className="mb-4">
                 <div className="flex flex-wrap gap-1 justify-center">
                   {member.specializations.slice(0, 2).map((spec, index) => (
-                    <span 
+                    <span
                       key={index}
                       className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full"
                     >

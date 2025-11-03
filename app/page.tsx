@@ -462,8 +462,8 @@ export default function Home() {
       </section>
 
       {/* Timeline Section (replaces Popular Departments) */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 overflow-visible">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">
           <div className="text-center mb-16">
             <h2 className="heading-large font-semibold mb-4">Our <span className="ma-hightlighted-text">Timeline</span></h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">

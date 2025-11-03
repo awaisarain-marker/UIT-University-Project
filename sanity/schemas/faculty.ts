@@ -2,8 +2,9 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'faculty',
-  title: 'Faculty',
+  title: '👨‍🏫 Faculty Members',
   type: 'document',
+  icon: () => '👨‍🏫',
   fields: [
     defineField({
       name: 'name',

@@ -273,4 +273,68 @@ a,
 .overflow-hidden.ma-roundborder {
   border-top-left-radius: 7px;
   border-top-right-radius: 7px;
+}/* Timel
+ine specific styles */
+.timeline-container {
+  overflow: visible !important;
+}
+
+.timeline-item {
+  position: relative;
+  z-index: 10;
+}
+
+.timeline-item:hover {
+  z-index: 100 !important;
+}
+
+.timeline-card {
+  position: relative;
+  z-index: 20;
+}
+
+.timeline-card:hover {
+  z-index: 100 !important;
+}/* Timel
+ine specific styles */
+.timeline-container {
+  overflow: visible !important;
+  min-height: 400px;
+}
+
+.timeline-item {
+  position: relative;
+  z-index: 10;
+}
+
+.timeline-item:hover {
+  z-index: 100 !important;
+}
+
+.timeline-card {
+  position: relative;
+  z-index: 20;
+}
+
+.timeline-card:hover {
+  z-index: 100 !important;
+}
+
+/* Arrow styles for timeline connectors */
+.timeline-arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 16px solid white;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.timeline-arrow-down {
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 16px solid white;
+  filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.1));
 }

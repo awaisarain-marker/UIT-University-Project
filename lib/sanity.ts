@@ -137,6 +137,67 @@ export const queries = {
     schedule,
     location,
     _createdAt
+  }`,
+
+  // Get timeline items
+  timeline: `*[_type == "timeline" && isActive == true] | order(order asc) {
+    _id,
+    year,
+    title,
+    description,
+    shortDescription,
+    image,
+    order,
+    _createdAt
+  }`,
+
+  // Get all pages
+  pages: `*[_type == "page" && isPublished == true] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    excerpt,
+    featuredImage,
+    seoTitle,
+    seoDescription,
+    publishedAt,
+    _createdAt
+  }`,
+
+  // Get single page by slug
+  pageBySlug: `*[_type == "page" && slug.current == $slug && isPublished == true][0] {
+    _id,
+    title,
+    slug,
+    content,
+    excerpt,
+    featuredImage,
+    seoTitle,
+    seoDescription,
+    publishedAt,
+    _createdAt
+  }`,
+
+  // Get menu items
+  menu: `*[_type == "menu" && isActive == true] | order(order asc) {
+    _id,
+    title,
+    slug,
+    page->{
+      slug
+    },
+    order,
+    isExternal,
+    openInNewTab,
+    hasDropdown,
+    dropdownItems[]{
+      title,
+      slug,
+      page->{
+        slug
+      }
+    },
+    _createdAt
   }`
 }
 
@@ -229,5 +290,57 @@ export async function getCourseBySlug(slug: string) {
   } catch (error) {
     console.error('Error fetching course by slug:', error)
     return null
+  }
+}
+
+export async function getTimeline() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return []
+  }
+  try {
+    return await client.fetch(queries.timeline)
+  } catch (error) {
+    console.error('Error fetching timeline:', error)
+    return []
+  }
+}
+
+export async function getPages() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return []
+  }
+  try {
+    return await client.fetch(queries.pages)
+  } catch (error) {
+    console.error('Error fetching pages:', error)
+    return []
+  }
+}
+
+export async function getPageBySlug(slug: string) {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return null
+  }
+  try {
+    return await client.fetch(queries.pageBySlug, { slug })
+  } catch (error) {
+    console.error('Error fetching page by slug:', error)
+    return null
+  }
+}
+
+export async function getMenu() {
+  if (!client) {
+    console.warn('Sanity client not configured. Using fallback data.')
+    return []
+  }
+  try {
+    return await client.fetch(queries.menu)
+  } catch (error) {
+    console.error('Error fetching menu:', error)
+    return []
   }
 }

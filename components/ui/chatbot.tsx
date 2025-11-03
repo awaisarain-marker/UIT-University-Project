@@ -164,7 +164,7 @@ export default function Chatbot() {
 
             {/* Chat Window */}
             {isOpen && (
-                <div className="fixed bottom-24 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] h-[640px] bg-white rounded-xl shadow-2xl border border-border flex flex-col overflow-hidden">
+                <div className="fixed bottom-24 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] h-[440px] bg-white rounded-xl shadow-2xl border border-border flex flex-col overflow-hidden">
                     {/* Header */}
                     <div className="p-4 border-b border-border bg-gradient-to-r from-primary/5 to-primary/10">
                         <div className="flex items-center gap-3">
