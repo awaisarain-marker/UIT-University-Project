@@ -94,7 +94,7 @@ export default function MERLPage() {
                         </div>
                     </div>
 
-                    <div className="flex bg-white shadow-lg rounded-2xl p-10 border-t-4 border-blue-600 mb-6 gap-8">
+                    <div className="bg-white shadow-lg rounded-2xl p-10 border-t-4 border-blue-600 mb-6 flex flex-col gap-[20px] md:flex-row md:gap-[45px]">
                         <div className="flex flex-col justify-center w-full">
                         <h2 className="text-4xl font-outfit font-semibold text-gray-900 mb-4">
                             Background
@@ -105,7 +105,7 @@ export default function MERLPage() {
                         </div>
 
                         <div className="w-full">
-                         <img  className="object-cover w-full h-64 rounded-2xl" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="" />
+                         <img  className="object-cover w-full h-[220px] md:h-[300px] rounded-2xl" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="" />
                         </div>
                     </div>
 

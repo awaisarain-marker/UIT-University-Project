@@ -1,15 +1,19 @@
-import { Metadata } from 'next';
-import { AdminDashboardLayout } from '@/components/admin/AdminDashboardLayout';
-
-export const metadata: Metadata = {
-  title: 'Admin Dashboard',
-  description: 'Administrative interface for managing the application',
-};
+import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './admin.css'
 
 export default function AdminLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  return <AdminDashboardLayout>{children}</AdminDashboardLayout>;
+  return (
+    <html lang="en">
+      <body>
+        <div className="admin-wrapper">
+          {children}
+        </div>
+      </body>
+    </html>
+  )
 }
