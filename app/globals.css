@@ -227,6 +227,12 @@ a {
   color: #555;
 }
 
+.ma-small-text{
+  font-size: 15px;
+  line-height: 22px;
+}
+
+
 /* Button base styles */
 button,
 .btn {
@@ -337,4 +343,23 @@ ine specific styles */
   border-right: 12px solid transparent;
   border-top: 16px solid white;
   filter: drop-shadow(0 -2px 4px rgba(0,0,0,0.1));
+}
+/* Cus
+tom scrollbar for dropdown menus */
+.dropdown-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dropdown-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }

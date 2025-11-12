@@ -5,6 +5,23 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, ChevronDown, Phone, Mail, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
+type SubMenuItem = {
+    name: string;
+    href: string;
+};
+
+type DropdownItem = {
+    name: string;
+    href: string;
+    submenu?: SubMenuItem[];
+};
+
+type NavigationItem = {
+    name: string;
+    href: string;
+    dropdown?: DropdownItem[];
+};
+
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -19,7 +36,7 @@ export default function Header() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const navigationItems = [
+    const navigationItems: NavigationItem[] = [
         { name: 'Home', href: '/' },
         {
             name: 'About',
@@ -48,14 +65,47 @@ export default function Header() {
             name: 'Admissions',
             href: '/admissions',
             dropdown: [
-                { name: 'How to Apply', href: '/admissions' },
-                { name: 'Requirements', href: '/admissions#requirements' },
-                { name: 'Scholarships', href: '/admissions#scholarships' },
-                { name: 'International Students', href: '/admissions#international' }
+                { 
+                    name: 'Undergraduate Programs', 
+                    href: '/admissions/undergraduate',
+                    submenu: [
+                        { name: 'BS Computer Science', href: '/admissions/undergraduate/bs-computer-science' },
+                        { name: 'BS Software Engineering', href: '/admissions/undergraduate/bs-software-engineering' },
+                        { name: 'BS Artificial Intelligence', href: '/admissions/undergraduate/bs-artificial-intelligence' },
+                        { name: 'BS Data Science', href: '/admissions/undergraduate/bs-data-science' }
+                    ]
+                },
+                { 
+                    name: 'Graduate Programs', 
+                    href: '/admissions/graduate',
+                    submenu: [
+                        { name: 'MS Electrical Engineering', href: '/admissions/graduate/ms-electrical-engineering' },
+                        { name: 'MS Communication and Network Engineering', href: '/admissions/graduate/ms-communication-network-engineering' },
+                        { name: 'MS Computer Science', href: '/admissions/graduate/ms-computer-science' }
+                    ]
+                },
+                { name: 'Information', href: '/admissions/information' },
+                { name: 'FAQs', href: '/admissions/faqs' },
+                { name: 'How to Apply', href: '/admissions/how-to-apply' },
+                { name: 'Sample Test Paper', href: '/admissions/sample-test-paper' },
+                { name: 'Photographs Specification', href: '/admissions/photographs-specification' },
+                { name: 'Fee Structure', href: '/admissions/fee-structure' },
+                { name: 'Fee Refund Policy', href: '/admissions/fee-refund-policy' },
+                { name: 'Scholarship Policy', href: '/admissions/scholarship-policy' },
+                { name: 'Admission Test Results', href: '/admissions/admission-test-results' },
+                { name: 'Outreach Programs', href: '/admissions/outreach-programs' }
+            ]
+        },
+        {
+            name: 'More',
+            href: '#',
+            dropdown: [
+                { name: 'QEC', href: '/qec' },
+                { name: 'ORIC', href: '/oric' }
             ]
         },
         { name: 'Contact', href: '/contact' },
-    { name: 'Chat Assistant', href: '/chat' }
+        { name: 'Chat Assistant', href: '/chat' }
     ];
 
     const toggleDropdown = (itemName: string) => {
@@ -128,30 +178,45 @@ export default function Header() {
                                 <div key={item.name} className="relative group">
                                     {item.dropdown ? (
                                         <div className="relative">
-                                            <button
-                                                onClick={() => toggleDropdown(item.name)}
-                                                className="flex items-center text-foreground hover:text-primary px-3 py-2 rounded-lg text-sm font-medium transition-colors group"
+                                            <Link
+                                                href={item.href}
+                                                className="flex items-center text-foreground hover:text-primary px-3 py-2 rounded-lg text-sm font-medium transition-colors"
                                             >
                                                 {item.name}
-                                                <ChevronDown className={`ml-1 h-4 w-4 transition-transform ${activeDropdown === item.name ? 'rotate-180' : ''
-                                                    }`} />
-                                            </button>
+                                                <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" />
+                                            </Link>
 
-                                            {/* Dropdown Menu */}
-                                            {activeDropdown === item.name && (
-                                                <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-lg shadow-lg border border-border py-2 z-50">
-                                                    {item.dropdown.map((dropdownItem) => (
+                                            {/* Dropdown Menu - Shows on Hover */}
+                                            <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-md shadow-xl border border-gray-200 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
+                                                {item.dropdown.map((dropdownItem) => (
+                                                    <div key={dropdownItem.name} className="relative group/submenu">
                                                         <Link
-                                                            key={dropdownItem.name}
                                                             href={dropdownItem.href}
-                                                            className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-muted/50 transition-colors"
-                                                            onClick={() => setActiveDropdown(null)}
+                                                            className="flex items-center justify-between px-4 py-2 text-[14px] text-gray-700 hover:text-primary hover:bg-blue-50 transition-colors"
                                                         >
-                                                            {dropdownItem.name}
+                                                            <span>{dropdownItem.name}</span>
+                                                            {dropdownItem.submenu && (
+                                                                <ChevronDown className="h-3.5 w-3.5 -rotate-90 text-gray-400" />
+                                                            )}
                                                         </Link>
-                                                    ))}
-                                                </div>
-                                            )}
+                                                        
+                                                        {/* Submenu - Shows on right side */}
+                                                        {dropdownItem.submenu && (
+                                                            <div className="absolute left-full top-0 ml-0.5 w-52 bg-white rounded-md shadow-xl border border-gray-200 py-1 opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all duration-150 z-50">
+                                                                {dropdownItem.submenu.map((subItem) => (
+                                                                    <Link
+                                                                        key={subItem.name}
+                                                                        href={subItem.href}
+                                                                        className="block px-4 py-2 text-[14px] text-gray-700 hover:text-primary hover:bg-blue-50 transition-colors"
+                                                                    >
+                                                                        {subItem.name}
+                                                                    </Link>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     ) : (
                                         <Link
@@ -167,9 +232,6 @@ export default function Header() {
 
                         {/* CTA Buttons */}
                         <div className="hidden lg:flex items-center space-x-3">
-                            <Button variant="outline" size="sm" asChild>
-                                <Link href="/cms-demo">CMS Demo</Link>
-                            </Button>
                             <Button size="sm" asChild>
                                 <Link href="/apply">Apply Now</Link>
                             </Button>
@@ -212,19 +274,39 @@ export default function Header() {
                                         </button>
 
                                         {activeDropdown === item.name && (
-                                            <div className="ml-4 mt-1 space-y-1">
+                                            <div className="ml-4 mt-1 space-y-1 bg-gray-50 rounded-lg p-2">
                                                 {item.dropdown.map((dropdownItem) => (
-                                                    <Link
-                                                        key={dropdownItem.name}
-                                                        href={dropdownItem.href}
-                                                        className="block text-muted-foreground hover:text-primary px-3 py-2 rounded-lg text-sm transition-colors"
-                                                        onClick={() => {
-                                                            setIsMenuOpen(false);
-                                                            setActiveDropdown(null);
-                                                        }}
-                                                    >
-                                                        {dropdownItem.name}
-                                                    </Link>
+                                                    <div key={dropdownItem.name}>
+                                                        <Link
+                                                            href={dropdownItem.href}
+                                                            className="block px-3 py-2 text-[14px] font-medium text-gray-700 hover:text-primary rounded-md transition-colors"
+                                                            onClick={() => {
+                                                                if (!dropdownItem.submenu) {
+                                                                    setIsMenuOpen(false);
+                                                                    setActiveDropdown(null);
+                                                                }
+                                                            }}
+                                                        >
+                                                            {dropdownItem.name}
+                                                        </Link>
+                                                        {dropdownItem.submenu && (
+                                                            <div className="ml-4 mt-1 space-y-1">
+                                                                {dropdownItem.submenu.map((subItem) => (
+                                                                    <Link
+                                                                        key={subItem.name}
+                                                                        href={subItem.href}
+                                                                        className="block px-3 py-2 text-[14px] text-gray-600 hover:text-primary rounded-md transition-colors"
+                                                                        onClick={() => {
+                                                                            setIsMenuOpen(false);
+                                                                            setActiveDropdown(null);
+                                                                        }}
+                                                                    >
+                                                                        • {subItem.name}
+                                                                    </Link>
+                                                                ))}
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 ))}
                                             </div>
                                         )}
@@ -243,11 +325,6 @@ export default function Header() {
 
                         {/* Mobile CTA Buttons */}
                         <div className="pt-4 space-y-2">
-                            <Button variant="outline" className="w-full" asChild>
-                                <Link href="/cms-demo" onClick={() => setIsMenuOpen(false)}>
-                                    CMS Demo
-                                </Link>
-                            </Button>
                             <Button className="w-full" asChild>
                                 <Link href="/apply" onClick={() => setIsMenuOpen(false)}>
                                     Apply Now
