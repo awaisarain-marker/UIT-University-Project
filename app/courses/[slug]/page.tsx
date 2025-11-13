@@ -5,8 +5,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { useCourseDetails } from '@/hooks/useCMS'
-import type { CourseDetails } from '@/types/cms'
 import {
     Clock,
     Users,
@@ -27,7 +25,52 @@ import {
     TrendingUp
 } from 'lucide-react'
 
-// Mock data - replace with CMS fetch
+interface CourseDetails {
+    _id: string;
+    title: string;
+    slug: { current: string };
+    description: string;
+    longDescription: string;
+    image: { asset: { url: string } };
+    instructor: {
+        name: string;
+        title: string;
+        image: { asset: { url: string } };
+        bio: string;
+        experience: string;
+    };
+    duration: string;
+    level: string;
+    price: string;
+    originalPrice?: string;
+    category: string;
+    rating: number;
+    studentsEnrolled: number;
+    totalLessons: number;
+    totalHours: string;
+    language: string;
+    certificate: boolean;
+    prerequisites: string[];
+    learningOutcomes: string[];
+    curriculum: Array<{
+        module: string;
+        lessons: Array<{
+            title: string;
+            duration: string;
+            type: string;
+            preview?: boolean;
+        }>;
+    }>;
+    features: string[];
+    requirements: string[];
+    tags: string[];
+    startDate: string;
+    endDate: string;
+    schedule: string;
+    location: string;
+    _createdAt: string;
+}
+
 const mockCourseData: CourseDetails = {
     _id: '1',
     title: 'Complete Web Development Bootcamp',
@@ -118,38 +161,11 @@ export default function CourseDetailsPage({ params }: { params: Promise<{ slug: 
 }
 
 function CourseDetailsContent({ slug }: { slug: string }) {
-    const { course, loading, error } = useCourseDetails(slug)
     const [activeTab, setActiveTab] = useState('overview')
     const [isWishlisted, setIsWishlisted] = useState(false)
 
-    // Fallback to mock data if CMS is not configured
-    const courseData = course || mockCourseData
-
-    if (loading) {
-        return (
-            <div className="min-h-screen bg-background">
-                <div className="flex items-center justify-center h-96">
-                    <div className="text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-                        <p className="text-muted-foreground">Loading course details...</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
-    if (error && !courseData) {
-        return (
-            <div className="min-h-screen bg-background">
-                <div className="flex items-center justify-center h-96">
-                    <div className="text-center">
-                        <p className="text-red-500 mb-4">Error loading course details</p>
-                        <p className="text-muted-foreground">Please try again later</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+    // Use mock data
+    const courseData = mockCourseData
 
     return (
         <div className="min-h-screen bg-background">

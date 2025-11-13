@@ -1,5 +1,5 @@
 import PageBanner from '@/components/ui/page-banner'
-import FacultyFromCMS from '@/components/cms/FacultyFromCMS'
+import FacultySection from '@/components/sections/FacultySection'
 
 export default function FacultyPage() {
   return (
@@ -16,21 +16,7 @@ export default function FacultyPage() {
       />
 
       {/* Faculty Grid */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Distinguished Faculty Members
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Our faculty brings together decades of industry experience, cutting-edge research, 
-              and a passion for teaching to provide you with world-class education.
-            </p>
-          </div>
-
-          <FacultyFromCMS />
-        </div>
-      </section>
+      <FacultySection />
 
       {/* Faculty Stats */}
       <section className="py-16 bg-muted/50">
