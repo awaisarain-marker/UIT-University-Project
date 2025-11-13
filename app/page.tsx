@@ -88,21 +88,20 @@ export default function Home() {
             }
           ].map((testimonial, index) => (
             <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <Card className="bg-background p-8 text-center h-full">
-                <CardContent className="p-0">
-                  <div className="text-4xl text-primary mb-4">"</div>
-                  <blockquote className="text-lg text-muted-foreground mb-6 italic">
-                    "{testimonial.quote}"
+              <Card className="bg-white shadow-lg rounded-3xl p-8 h-full border-0">
+                <CardContent className="p-0 flex flex-col h-full">
+                  <blockquote className="text-lg text-gray-700 mb-8 flex-grow leading-relaxed">
+                    {testimonial.quote}
                   </blockquote>
-                  <div className="flex items-center justify-center mb-4">
-                    <div className="flex space-x-1">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                      ))}
+                  <div className="flex items-center gap-4 mt-auto">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-white font-semibold text-xl flex-shrink-0">
+                      {testimonial.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                    <div className="text-left">
+                      <div className="text-lg font-semibold text-gray-900">{testimonial.name}</div>
+                      <div className="text-sm text-gray-500">{testimonial.program}</div>
                     </div>
                   </div>
-                  <div className="text-lg font-semibold text-foreground mb-1">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground">{testimonial.program}</div>
                 </CardContent>
               </Card>
             </CarouselItem>

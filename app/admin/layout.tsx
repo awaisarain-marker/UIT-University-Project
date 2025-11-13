@@ -1,19 +1,31 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './admin.css'
+import { redirect } from 'next/navigation'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
+import AdminSidebar from '@/components/admin/sidebar'
 
-export default function AdminLayout({
+import AdminHeader from '@/components/admin/header'
+
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const supabase = await createServerSupabaseClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) {
+    redirect('/login')
+  }
+
   return (
-    <html lang="en">
-      <body>
-        <div className="admin-wrapper">
+    <div className="flex h-screen overflow-hidden bg-gray-50">
+      <AdminSidebar />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <AdminHeader />
+        <main className="flex-1 overflow-y-auto">
           {children}
-        </div>
-      </body>
-    </html>
+        </main>
+      </div>
+    </div>
   )
 }
