@@ -1,53 +1,40 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Shield, Eye, Edit, Lock } from 'lucide-react'
+import { Shield, Eye, Edit } from 'lucide-react'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { createServerSupabaseClient } from '@/lib/supabase-server'
 
-export default function RolesPage() {
-  const roles = [
-    {
-      name: 'Admin',
-      icon: Shield,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      permissions: [
-        'Full access to all features',
-        'User management (create, edit, delete users)',
-        'Role assignment',
-        'System settings',
-        'All content management',
-        'View all analytics and reports',
-      ]
-    },
-    {
-      name: 'Editor',
-      icon: Edit,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      permissions: [
-        'Create, edit, and delete content',
-        'Manage courses, faculty, events, blog posts',
-        'Manage categories',
-        'View analytics',
-        'Cannot manage users',
-        'Cannot access system settings',
-      ]
-    },
-    {
-      name: 'Viewer',
-      icon: Eye,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-      permissions: [
-        'Read-only access',
-        'View dashboard',
-        'View all content',
-        'View analytics',
-        'Cannot create or edit content',
-        'Cannot manage users',
-      ]
-    },
-  ]
+const iconMap: Record<string, any> = {
+  admin: Shield,
+  editor: Edit,
+  viewer: Eye,
+}
+
+const colorMap: Record<string, { text: string; bg: string }> = {
+  admin: { text: 'text-red-600', bg: 'bg-red-50' },
+  editor: { text: 'text-blue-600', bg: 'bg-blue-50' },
+  viewer: { text: 'text-green-600', bg: 'bg-green-50' },
+}
+
+export default async function RolesPage() {
+  const supabase = await createServerSupabaseClient()
+  
+  const { data: rolesData } = await supabase
+    .from('user_roles')
+    .select('*')
+    .eq('is_active', true)
+    .order('name')
+
+  const roles = rolesData?.map(role => ({
+    name: role.display_name,
+    icon: iconMap[role.name] || Shield,
+    color: colorMap[role.name]?.text || 'text-gray-600',
+    bgColor: colorMap[role.name]?.bg || 'bg-gray-50',
+    permissions: Array.isArray(role.permissions) 
+      ? role.permissions 
+      : (role.description ? [role.description] : []),
+    description: role.description
+  })) || []
 
   return (
     <div className="p-8">
@@ -74,7 +61,7 @@ export default function RolesPage() {
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {role.permissions.map((permission, index) => (
+                  {role.permissions.map((permission: string, index: number) => (
                     <li key={index} className="flex items-start gap-2 text-sm">
                       <span className="text-green-600 mt-0.5">✓</span>
                       <span className="text-gray-700">{permission}</span>

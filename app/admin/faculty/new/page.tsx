@@ -9,6 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase-client'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import ImageUpload from '@/components/admin/ImageUpload'
+import { toast } from '@/components/ui/toast'
 
 export default function NewFacultyPage() {
   const router = useRouter()
@@ -34,12 +36,13 @@ export default function NewFacultyPage() {
     }])
 
     if (error) {
-      alert('Error creating faculty member: ' + error.message)
+      toast.error('Error creating faculty member: ' + error.message)
+      setLoading(false)
     } else {
+      toast.success('Faculty member created successfully!')
       router.push('/admin/faculty')
       router.refresh()
     }
-    setLoading(false)
   }
 
   return (
@@ -130,17 +133,14 @@ export default function NewFacultyPage() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="image_url">Image URL</Label>
-                <Input
-                  id="image_url"
-                  type="url"
-                  placeholder="https://..."
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                />
-              </div>
             </div>
+
+            <ImageUpload
+              label="Faculty Photo"
+              value={formData.image_url}
+              onChange={(url) => setFormData({ ...formData, image_url: url })}
+              folder="faculty"
+            />
 
             <div className="flex gap-3">
               <Button type="submit" disabled={loading}>

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'
 import { Home, BookOpen, Users, FileText, Calendar, Settings, LogOut, ChevronDown, ChevronRight, Database, UserCog } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: Home },
@@ -64,6 +64,24 @@ export default function AdminSidebar() {
   const router = useRouter()
   const supabase = createClient()
   const [openMenus, setOpenMenus] = useState<string[]>([])
+  const [user, setUser] = useState<{ email: string; name: string; initials: string } | null>(null)
+
+  useEffect(() => {
+    loadUser()
+  }, [])
+
+  const loadUser = async () => {
+    const { data: { user: authUser } } = await supabase.auth.getUser()
+    if (authUser) {
+      const name = authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'User'
+      const initials = name.split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
+      setUser({
+        email: authUser.email || '',
+        name,
+        initials
+      })
+    }
+  }
 
   const toggleMenu = (name: string) => {
     setOpenMenus(prev => 
@@ -189,11 +207,13 @@ export default function AdminSidebar() {
         
         <div className="flex items-center gap-3 px-3 py-2">
           <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-            <span className="text-xs font-semibold text-gray-600">AD</span>
+            <span className="text-xs font-semibold text-gray-600">
+              {user?.initials || 'U'}
+            </span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">Admin User</p>
-            <p className="text-xs text-gray-500 truncate">admin@uit.edu</p>
+            <p className="text-sm font-medium text-gray-900 truncate">{user?.name || 'Loading...'}</p>
+            <p className="text-xs text-gray-500 truncate">{user?.email || ''}</p>
           </div>
         </div>
 

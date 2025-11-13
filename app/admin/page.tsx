@@ -2,30 +2,51 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { createServerSupabaseClient } from '@/lib/supabase-server'
 import { BookOpen, Users, FileText, TrendingUp, TrendingDown, Calendar, UserCog } from 'lucide-react'
 
+// Helper function to calculate percentage change
+function calculateChange(current: number, previous: number): { change: string; trend: 'up' | 'down' } {
+  if (previous === 0) {
+    return { change: current > 0 ? '+100%' : '0%', trend: current > 0 ? 'up' : 'down' }
+  }
+  const percentChange = ((current - previous) / previous) * 100
+  const sign = percentChange >= 0 ? '+' : ''
+  return {
+    change: `${sign}${percentChange.toFixed(1)}%`,
+    trend: percentChange >= 0 ? 'up' : 'down'
+  }
+}
+
 export default async function AdminDashboard() {
   const supabase = await createServerSupabaseClient()
   
-  // Fetch dashboard stats
+  // Fetch current counts
   const { data: courses } = await supabase.from('courses').select('*', { count: 'exact' })
   const { data: instructors } = await supabase.from('instructors').select('*', { count: 'exact' })
   const { data: events } = await supabase.from('events').select('*', { count: 'exact' })
   const { data: blogPosts } = await supabase.from('blog_posts').select('*', { count: 'exact' })
   
-  // Get user count (this requires admin privileges)
-  let userCount = 0
-  try {
-    const { data: { users } } = await supabase.auth.admin.listUsers()
-    userCount = users?.length || 0
-  } catch (error) {
-    // If not admin, skip user count
-  }
+  // Get stats from 30 days ago for comparison
+  const thirtyDaysAgo = new Date()
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  const { data: previousStats } = await supabase
+    .from('dashboard_stats')
+    .select('*')
+    .lte('stat_date', thirtyDaysAgo.toISOString().split('T')[0])
+    .order('stat_date', { ascending: false })
+    .limit(1)
+    .single()
+
+  // Calculate changes
+  const coursesChange = calculateChange(courses?.length || 0, previousStats?.courses_count || 0)
+  const instructorsChange = calculateChange(instructors?.length || 0, previousStats?.instructors_count || 0)
+  const eventsChange = calculateChange(events?.length || 0, previousStats?.events_count || 0)
+  const blogPostsChange = calculateChange(blogPosts?.length || 0, previousStats?.blog_posts_count || 0)
 
   const stats = [
     {
       title: 'Total Courses',
       value: courses?.length || 0,
-      change: '+12%',
-      trend: 'up',
+      change: coursesChange.change,
+      trend: coursesChange.trend,
       icon: BookOpen,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
@@ -33,8 +54,8 @@ export default async function AdminDashboard() {
     {
       title: 'Faculty Members',
       value: instructors?.length || 0,
-      change: '+3%',
-      trend: 'up',
+      change: instructorsChange.change,
+      trend: instructorsChange.trend,
       icon: Users,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
@@ -42,8 +63,8 @@ export default async function AdminDashboard() {
     {
       title: 'Events',
       value: events?.length || 0,
-      change: '+8%',
-      trend: 'up',
+      change: eventsChange.change,
+      trend: eventsChange.trend,
       icon: Calendar,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
@@ -51,8 +72,8 @@ export default async function AdminDashboard() {
     {
       title: 'Blog Posts',
       value: blogPosts?.length || 0,
-      change: '+15%',
-      trend: 'up',
+      change: blogPostsChange.change,
+      trend: blogPostsChange.trend,
       icon: FileText,
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',

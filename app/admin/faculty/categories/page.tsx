@@ -8,9 +8,16 @@ import { Plus, Trash2, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase-client'
 
+interface Category {
+  id: string
+  name: string
+  description?: string
+}
+
 export default function FacultyCategoriesPage() {
-  const [categories, setCategories] = useState<string[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [newCategory, setNewCategory] = useState('')
+  const [loading, setLoading] = useState(false)
   const supabase = createClient()
 
   useEffect(() => {
@@ -19,25 +26,47 @@ export default function FacultyCategoriesPage() {
 
   const loadCategories = async () => {
     const { data } = await supabase
-      .from('instructors')
-      .select('specialization')
+      .from('categories')
+      .select('*')
+      .eq('type', 'faculty')
+      .order('name')
     
     if (data) {
-      const uniqueCategories = [...new Set(data.map(item => item.specialization).filter(Boolean))]
-      setCategories(uniqueCategories as string[])
+      setCategories(data)
     }
   }
 
-  const handleAddCategory = () => {
-    if (newCategory.trim() && !categories.includes(newCategory.trim())) {
-      setCategories([...categories, newCategory.trim()])
-      setNewCategory('')
+  const handleAddCategory = async () => {
+    if (newCategory.trim() && !categories.find(c => c.name === newCategory.trim())) {
+      setLoading(true)
+      const { error } = await supabase
+        .from('categories')
+        .insert([{ name: newCategory.trim(), type: 'faculty' }])
+      
+      if (error) {
+        alert('Error adding category: ' + error.message)
+      } else {
+        setNewCategory('')
+        loadCategories()
+      }
+      setLoading(false)
     }
   }
 
-  const handleDeleteCategory = (category: string) => {
-    if (confirm(`Delete specialization "${category}"?`)) {
-      setCategories(categories.filter(c => c !== category))
+  const handleDeleteCategory = async (category: Category) => {
+    if (confirm(`Delete specialization "${category.name}"?`)) {
+      setLoading(true)
+      const { error } = await supabase
+        .from('categories')
+        .delete()
+        .eq('id', category.id)
+      
+      if (error) {
+        alert('Error deleting category: ' + error.message)
+      } else {
+        loadCategories()
+      }
+      setLoading(false)
     }
   }
 
@@ -61,9 +90,9 @@ export default function FacultyCategoriesPage() {
                 onChange={(e) => setNewCategory(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
               />
-              <Button onClick={handleAddCategory}>
+              <Button onClick={handleAddCategory} disabled={loading}>
                 <Plus className="w-4 h-4 mr-2" />
-                Add
+                {loading ? 'Adding...' : 'Add'}
               </Button>
             </div>
           </CardContent>
@@ -79,13 +108,14 @@ export default function FacultyCategoriesPage() {
                 <p className="text-sm text-gray-500 text-center py-4">No specializations yet.</p>
               ) : (
                 categories.map((category) => (
-                  <div key={category} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
-                    <span className="font-medium text-gray-900">{category}</span>
+                  <div key={category.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+                    <span className="font-medium text-gray-900">{category.name}</span>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDeleteCategory(category)}
                       className="text-red-600 hover:text-red-700"
+                      disabled={loading}
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>

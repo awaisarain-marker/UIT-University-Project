@@ -1,33 +1,72 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Plus, Trash2, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase-client'
+
+interface Category {
+  id: string
+  name: string
+  description?: string
+}
 
 export default function EventCategoriesPage() {
-  const [categories, setCategories] = useState<string[]>([
-    'Conference',
-    'Workshop',
-    'Seminar',
-    'Sports',
-    'Cultural',
-    'Academic',
-  ])
+  const [categories, setCategories] = useState<Category[]>([])
   const [newCategory, setNewCategory] = useState('')
+  const [loading, setLoading] = useState(false)
+  const supabase = createClient()
 
-  const handleAddCategory = () => {
-    if (newCategory.trim() && !categories.includes(newCategory.trim())) {
-      setCategories([...categories, newCategory.trim()])
-      setNewCategory('')
+  useEffect(() => {
+    loadCategories()
+  }, [])
+
+  const loadCategories = async () => {
+    const { data } = await supabase
+      .from('categories')
+      .select('*')
+      .eq('type', 'event')
+      .order('name')
+    
+    if (data) {
+      setCategories(data)
     }
   }
 
-  const handleDeleteCategory = (category: string) => {
-    if (confirm(`Delete category "${category}"?`)) {
-      setCategories(categories.filter(c => c !== category))
+  const handleAddCategory = async () => {
+    if (newCategory.trim() && !categories.find(c => c.name === newCategory.trim())) {
+      setLoading(true)
+      const { error } = await supabase
+        .from('categories')
+        .insert([{ name: newCategory.trim(), type: 'event' }])
+      
+      if (error) {
+        alert('Error adding category: ' + error.message)
+      } else {
+        setNewCategory('')
+        loadCategories()
+      }
+      setLoading(false)
+    }
+  }
+
+  const handleDeleteCategory = async (category: Category) => {
+    if (confirm(`Delete category "${category.name}"?`)) {
+      setLoading(true)
+      const { error } = await supabase
+        .from('categories')
+        .delete()
+        .eq('id', category.id)
+      
+      if (error) {
+        alert('Error deleting category: ' + error.message)
+      } else {
+        loadCategories()
+      }
+      setLoading(false)
     }
   }
 
@@ -51,9 +90,9 @@ export default function EventCategoriesPage() {
                 onChange={(e) => setNewCategory(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
               />
-              <Button onClick={handleAddCategory}>
+              <Button onClick={handleAddCategory} disabled={loading}>
                 <Plus className="w-4 h-4 mr-2" />
-                Add
+                {loading ? 'Adding...' : 'Add'}
               </Button>
             </div>
           </CardContent>
@@ -65,19 +104,24 @@ export default function EventCategoriesPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-2 max-h-96 overflow-y-auto">
-              {categories.map((category) => (
-                <div key={category} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
-                  <span className="font-medium text-gray-900">{category}</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDeleteCategory(category)}
-                    className="text-red-600 hover:text-red-700"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </Button>
-                </div>
-              ))}
+              {categories.length === 0 ? (
+                <p className="text-sm text-gray-500 text-center py-4">No categories yet. Add your first category!</p>
+              ) : (
+                categories.map((category) => (
+                  <div key={category.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+                    <span className="font-medium text-gray-900">{category.name}</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleDeleteCategory(category)}
+                      className="text-red-600 hover:text-red-700"
+                      disabled={loading}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                ))
+              )}
             </div>
           </CardContent>
         </Card>
