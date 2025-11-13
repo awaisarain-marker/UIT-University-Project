@@ -1,25 +1,22 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { getCourses, urlFor } from '@/lib/sanity';
 
-interface SanityCourse {
+interface Course {
   _id: string;
   title: string;
   description: string;
   duration: string;
   level: string;
   price: string;
-  image?: any;
   slug: {
     current: string;
   };
   category?: string;
 }
 
-// Fallback courses for when Sanity is not configured
-const fallbackCourses = [
+const courses: Course[] = [
   {
     _id: '1',
     title: 'BS Computer Science',
@@ -53,32 +50,9 @@ const fallbackCourses = [
 ];
 
 export default function CoursesPage() {
-  const [courses, setCourses] = useState<SanityCourse[]>([]);
-  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [sortBy, setSortBy] = useState('title');
-
-  useEffect(() => {
-    async function fetchCourses() {
-      try {
-        const sanityCourses = await getCourses();
-        if (sanityCourses && sanityCourses.length > 0) {
-          setCourses(sanityCourses);
-        } else {
-          // Use fallback courses if Sanity is not configured or has no data
-          setCourses(fallbackCourses);
-        }
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-        setCourses(fallbackCourses);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchCourses();
-  }, []);
 
   // Get unique categories and levels from courses
   const categories = ['All', ...Array.from(new Set(courses.map(course => course.category || 'Other').filter(Boolean)))];
@@ -124,17 +98,6 @@ export default function CoursesPage() {
     };
     return categoryMap[category] || category;
   };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading courses...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -217,22 +180,12 @@ export default function CoursesPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {sortedCourses.map((course) => (
                 <div key={course._id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                  {course.image ? (
-                    <div className="h-48 overflow-hidden">
-                      <img
-                        src={typeof urlFor(course.image).url === 'function' ? urlFor(course.image).url() : '/placeholder-image.jpg'}
-                        alt={course.title}
-                        className="w-full h-full object-cover"
-                      />
+                  <div className="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                    <div className="text-white text-center">
+                      <div className="text-4xl font-bold mb-2">{course.title.charAt(0)}</div>
+                      <div className="text-sm opacity-90">{formatCategory(course.category || '')}</div>
                     </div>
-                  ) : (
-                    <div className="h-48 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                      <div className="text-white text-center">
-                        <div className="text-4xl font-bold mb-2">{course.title.charAt(0)}</div>
-                        <div className="text-sm opacity-90">{formatCategory(course.category || '')}</div>
-                      </div>
-                    </div>
-                  )}
+                  </div>
 
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-2">

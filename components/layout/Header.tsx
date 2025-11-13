@@ -85,7 +85,7 @@ export default function Header() {
                     ]
                 },
                 { name: 'Information', href: '/admissions/information' },
-                { name: 'FAQs', href: '/admissions/faqs' },
+                { name: 'FAQs', href: '/admissions/faq' },
                 { name: 'How to Apply', href: '/admissions/how-to-apply' },
                 { name: 'Sample Test Paper', href: '/admissions/sample-test-paper' },
                 { name: 'Photographs Specification', href: '/admissions/photographs-specification' },

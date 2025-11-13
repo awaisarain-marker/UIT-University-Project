@@ -1,12 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import FacultyFromCMS from '@/components/cms/FacultyFromCMS'
 
 export default function FacultySection() {
-  const [useCMS, setUseCMS] = useState(true)
 
   // Static faculty data for fallback
   const staticFaculty = [
@@ -42,76 +39,29 @@ export default function FacultySection() {
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
             Our faculty members are industry experts and academic leaders committed to your success.
           </p>
-
-          {/* CMS Toggle */}
-          <div className="flex flex-col items-center justify-center gap-4 mb-8">
-            <p className="text-sm text-muted-foreground">
-              Toggle between static demo data and live CMS content
-            </p>
-            <div className="flex items-center gap-4">
-              <span className={`text-sm ${!useCMS ? 'font-semibold text-primary' : 'text-muted-foreground'}`}>
-                Static Demo
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setUseCMS(!useCMS)}
-                className="relative"
-                title={useCMS ? 'Switch to Static Demo' : 'Switch to CMS Data'}
-              >
-                <div className={`w-12 h-6 rounded-full transition-colors ${useCMS ? 'bg-primary' : 'bg-muted'}`}>
-                  <div className={`w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-200 ${useCMS ? 'translate-x-6' : 'translate-x-0.5'} mt-0.5`} />
-                </div>
-              </Button>
-              <span className={`text-sm ${useCMS ? 'font-semibold text-primary' : 'text-muted-foreground'}`}>
-                Live CMS
-              </span>
-            </div>
-          </div>
-
-          {/* Status Indicator */}
-          {useCMS ? (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-8 max-w-lg mx-auto">
-              <p className="text-green-800 text-sm">
-                🎉 <strong>Live CMS Mode!</strong> Faculty data is being fetched from your Sanity CMS. 
-                Add faculty members in your <a href="http://localhost:3333" target="_blank" className="underline font-medium">Sanity Studio</a> to see them here.
-              </p>
-            </div>
-          ) : (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 max-w-lg mx-auto">
-              <p className="text-blue-800 text-sm">
-                📝 <strong>Demo Mode!</strong> Showing sample faculty data. 
-                Toggle to "Live CMS" to see real faculty from your content management system.
-              </p>
-            </div>
-          )}
         </div>
 
         {/* Faculty Content */}
-        {useCMS ? (
-          <FacultyFromCMS />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {staticFaculty.map((instructor, index) => (
-              <Card key={index} className="bg-background text-center group hover:shadow-lg transition-shadow">
-                <div className="overflow-hidden">
-                  <img 
-                    src={instructor.image} 
-                    alt={instructor.name} 
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" 
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold mb-2">{instructor.name}</h3>
-                  <p className="text-muted-foreground mb-4">{instructor.position}</p>
-                  <Button size="sm" variant="outline" className="w-full">
-                    View Profile
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {staticFaculty.map((instructor, index) => (
+            <Card key={index} className="bg-background text-center group hover:shadow-lg transition-shadow">
+              <div className="overflow-hidden">
+                <img 
+                  src={instructor.image} 
+                  alt={instructor.name} 
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300" 
+                />
+              </div>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold mb-2">{instructor.name}</h3>
+                <p className="text-muted-foreground mb-4">{instructor.position}</p>
+                <Button size="sm" variant="outline" className="w-full">
+                  View Profile
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </section>
   )

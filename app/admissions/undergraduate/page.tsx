@@ -2,6 +2,7 @@ import React from 'react';
 import PageBanner from '@/components/ui/page-banner';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
+import AdmissionsSidebar from '@/components/admissions/AdmissionsSidebar';
 
 export default function UndergraduateProgramsPage() {
   const programs = [
@@ -30,10 +31,14 @@ export default function UndergraduateProgramsPage() {
         ]}
         backgroundImage="/images/bg-1-1.jpg"
       />
-      <section className="py-20">
+      <section className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Undergraduate Programs</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex flex-col lg:flex-row gap-8">
+            <AdmissionsSidebar />
+            
+            <main className="flex-1">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8">Undergraduate Programs</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
             {programs.map((program, index) => (
               <Link key={index} href={program.href}>
                 <Card className="hover:shadow-lg transition-shadow h-full">
@@ -43,6 +48,8 @@ export default function UndergraduateProgramsPage() {
                 </Card>
               </Link>
             ))}
+              </div>
+            </main>
           </div>
         </div>
       </section>
