@@ -41,11 +41,19 @@ export default async function FacultyPage() {
               <tr key={member.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                      <span className="text-sm font-semibold text-gray-600">
-                        {member.full_name.split(' ').map((n: string) => n[0]).join('')}
-                      </span>
-                    </div>
+                    {member.image_url ? (
+                      <img 
+                        src={member.image_url} 
+                        alt={member.full_name}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-semibold text-gray-600">
+                          {member.full_name.split(' ').map((n: string) => n[0]).join('')}
+                        </span>
+                      </div>
+                    )}
                     <div className="font-medium text-gray-900">{member.full_name}</div>
                   </div>
                 </td>
