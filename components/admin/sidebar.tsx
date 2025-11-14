@@ -6,8 +6,13 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'
-import { Home, BookOpen, Users, FileText, Calendar, Settings, LogOut, ChevronDown, ChevronRight, Database, UserCog } from 'lucide-react'
+import { Home, BookOpen, Users, FileText, Calendar, Settings, LogOut, ChevronDown, ChevronRight, Database, UserCog, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
+
+interface AdminSidebarProps {
+  isOpen?: boolean
+  onClose?: () => void
+}
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: Home },
@@ -28,6 +33,8 @@ const navigation = [
       { name: 'View All', href: '/admin/courses' },
       { name: 'Add New', href: '/admin/courses/new' },
       { name: 'Categories', href: '/admin/courses/categories' },
+      { name: 'Short Courses', href: '/admin/courses/short-courses', divider: true },
+      { name: 'Short Course Categories', href: '/admin/courses/short-courses/categories' },
     ]
   },
   { 
@@ -59,7 +66,7 @@ const navigation = [
   },
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ isOpen = true, onClose }: AdminSidebarProps = {}) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
@@ -98,19 +105,42 @@ export default function AdminSidebar() {
   }
 
   return (
-    <div className="w-64 border-r bg-white flex flex-col h-full">
-      {/* Logo Section */}
-      <div className="p-6 border-b flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <Home className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h2 className="text-lg font-bold text-gray-900">UIT Admin</h2>
-            <p className="text-xs text-gray-500">University Panel</p>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && onClose && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div className={cn(
+        "fixed lg:static inset-y-0 left-0 z-50 w-64 border-r bg-white flex flex-col h-full transition-transform duration-300 ease-in-out",
+        !isOpen && onClose && "-translate-x-full lg:translate-x-0"
+      )}>
+        {/* Logo Section */}
+        <div className="p-6 border-b flex-shrink-0">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <Home className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">UIT Admin</h2>
+                <p className="text-xs text-gray-500">University Panel</p>
+              </div>
+            </div>
+            {onClose && (
+              <button
+                onClick={onClose}
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
-      </div>
 
       {/* Search Bar */}
       <div className="px-4 py-3 flex-shrink-0">
@@ -171,21 +201,26 @@ export default function AdminSidebar() {
               
               {isOpen && item.submenu && (
                 <div className="ml-8 mt-1 space-y-1">
-                  {item.submenu.map((subitem) => {
+                  {item.submenu.map((subitem, index) => {
                     const isActive = pathname === subitem.href
+                    const showDivider = (subitem as any).divider && index > 0
                     return (
-                      <Link
-                        key={subitem.href}
-                        href={subitem.href}
-                        className={cn(
-                          'block px-3 py-2 text-sm rounded-lg transition-all',
-                          isActive
-                            ? 'bg-gray-100 text-gray-900 font-medium'
-                            : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      <div key={subitem.href}>
+                        {showDivider && (
+                          <div className="my-2 border-t border-gray-200"></div>
                         )}
-                      >
-                        {subitem.name}
-                      </Link>
+                        <Link
+                          href={subitem.href}
+                          className={cn(
+                            'block px-3 py-2 text-xs rounded-lg transition-all',
+                            isActive
+                              ? 'bg-gray-100 text-gray-900 font-medium'
+                              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                          )}
+                        >
+                          {subitem.name}
+                        </Link>
+                      </div>
                     )
                   })}
                 </div>
@@ -227,5 +262,6 @@ export default function AdminSidebar() {
         </Button>
       </div>
     </div>
+    </>
   )
 }

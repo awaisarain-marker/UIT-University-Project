@@ -17,12 +17,19 @@ export default async function EventsPage() {
           <h1 className="text-2xl font-bold text-gray-900">Events Management</h1>
           <p className="text-gray-500">Manage all university events</p>
         </div>
-        <Link href="/admin/events/new">
-          <Button className="gap-2">
-            <Plus className="w-4 h-4" />
-            Add Event
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/admin/events/categories">
+            <Button variant="outline" className="gap-2">
+              Categories
+            </Button>
+          </Link>
+          <Link href="/admin/events/new">
+            <Button className="gap-2">
+              <Plus className="w-4 h-4" />
+              Add Event
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="bg-white rounded-lg border">

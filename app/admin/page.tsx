@@ -136,8 +136,20 @@ export default async function AdminDashboard() {
           <CardContent>
             <div className="space-y-3">
               {courses?.slice(0, 5).map((course) => (
-                <div key={course.id} className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded-lg">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+                <div key={course.id} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg">
+                  {course.image_url ? (
+                    <img 
+                      src={course.image_url} 
+                      alt={course.title}
+                      className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-blue-600 font-semibold text-sm">
+                        {course.title.substring(0, 2).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{course.title}</p>
                     <p className="text-xs text-gray-500">{course.category} • ${course.price}</p>
@@ -159,8 +171,20 @@ export default async function AdminDashboard() {
           <CardContent>
             <div className="space-y-3">
               {instructors?.slice(0, 5).map((instructor) => (
-                <div key={instructor.id} className="flex items-start gap-3 p-2 hover:bg-gray-50 rounded-lg">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
+                <div key={instructor.id} className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg">
+                  {instructor.image_url ? (
+                    <img 
+                      src={instructor.image_url} 
+                      alt={instructor.full_name}
+                      className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-purple-600 font-semibold text-sm">
+                        {instructor.full_name.split(' ').map((n: string) => n[0]).join('').substring(0, 2)}
+                      </span>
+                    </div>
+                  )}
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{instructor.full_name}</p>
                     <p className="text-xs text-gray-500">{instructor.specialization || 'No specialization'}</p>

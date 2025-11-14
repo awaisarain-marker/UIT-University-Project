@@ -1,9 +1,13 @@
 'use client'
 
-import { Bell } from 'lucide-react'
+import { Bell, Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase-client'
+
+interface AdminHeaderProps {
+  onMenuClick?: () => void
+}
 
 interface Notification {
   id: string
@@ -13,7 +17,7 @@ interface Notification {
   created_at: string
 }
 
-export default function AdminHeader() {
+export default function AdminHeader({ onMenuClick }: AdminHeaderProps = {}) {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [showNotifications, setShowNotifications] = useState(false)
   const [user, setUser] = useState<{ email: string; name: string; initials: string } | null>(null)
@@ -64,9 +68,19 @@ export default function AdminHeader() {
   }
 
   return (
-    <header className="h-16 border-b bg-white flex items-center justify-between px-6">
+    <header className="h-16 border-b bg-white flex items-center justify-between px-4 md:px-6">
       <div className="flex items-center gap-4 flex-1">
-        <h1 className="text-xl font-semibold text-gray-900">UIT University Admin</h1>
+        {onMenuClick && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            onClick={onMenuClick}
+          >
+            <Menu className="w-5 h-5" />
+          </Button>
+        )}
+        <h1 className="text-lg md:text-xl font-semibold text-gray-900 truncate">UIT University Admin</h1>
       </div>
 
       <div className="flex items-center gap-4">

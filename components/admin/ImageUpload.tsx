@@ -3,7 +3,6 @@
 import { useState, useRef } from 'react'
 import { Upload, X, Image as ImageIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { toast } from '@/components/ui/toast'
 
 interface ImageUploadProps {
   value: string
@@ -58,13 +57,13 @@ export default function ImageUpload({
 
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        toast.error('Please upload an image file')
+        console.error('Please upload an image file')
         return
       }
 
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error('File size must be less than 5MB')
+        console.error('File size must be less than 5MB')
         return
       }
 
@@ -88,10 +87,9 @@ export default function ImageUpload({
       console.log('Upload response:', data)
       console.log('Image URL:', data.url)
       onChange(data.url)
-      toast.success('Image uploaded successfully!')
+      console.log('✓ Image uploaded successfully!')
     } catch (error: any) {
-      console.error('Error uploading file:', error)
-      toast.error('Error uploading file: ' + error.message)
+      console.error('✗ Error uploading file:', error)
     } finally {
       setUploading(false)
     }
@@ -113,14 +111,22 @@ export default function ImageUpload({
 
       {value ? (
         <div className="relative">
-          <div className="relative w-full h-48 border-2 border-gray-200 rounded-lg overflow-hidden">
+          <div className="relative w-full min-h-[200px] max-h-[400px] border-2 border-gray-200 rounded-lg overflow-hidden bg-gray-50 flex items-center justify-center group">
             <img
               src={value}
               alt="Preview"
-              className="w-full h-full object-cover"
+              className="max-w-full max-h-[400px] w-auto h-auto object-contain relative z-10"
+              onLoad={() => {
+                console.log('✓ Image loaded successfully:', value)
+              }}
+              onError={() => {
+                console.error('✗ Image failed to load:', value)
+                console.error('Full URL:', window.location.origin + value)
+              }}
             />
-            <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-40 transition-all flex items-center justify-center group">
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-40 transition-opacity z-20 pointer-events-none"></div>
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-30">
+              <div className="flex gap-2">
                 <Button
                   type="button"
                   variant="secondary"
@@ -142,7 +148,7 @@ export default function ImageUpload({
               </div>
             </div>
           </div>
-          <p className="text-xs text-gray-500 mt-1 truncate">{value}</p>
+          <p className="text-xs text-gray-500 mt-1 break-all">{value}</p>
         </div>
       ) : (
         <div
@@ -196,10 +202,10 @@ export default function ImageUpload({
           Or enter image URL manually
         </summary>
         <input
-          type="url"
+          type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="https://example.com/image.jpg"
+          placeholder="https://example.com/image.jpg or /uploads/..."
           className="w-full mt-2 px-3 py-2 text-sm border rounded-md"
         />
       </details>

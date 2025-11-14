@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import AceternityTimeline from '@/components/ui/aceternity-timeline';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import FacultySection from '@/components/sections/FacultySection';
+import CoursesSection from '@/components/sections/CoursesSection';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Play, Star, ArrowRight, GraduationCap, Building, Users, Calendar, Clock, MapPin, ArrowUpRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -263,117 +264,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {/* Active tab */}
-            <Button
-              variant="outline"
-              className="bg-white text-primary border-white hover:bg-white hover:text-primary hover:border-white focus-visible:ring-white transition-colors"
-            >
-              All Courses
-            </Button>
-            {/* Inactive tabs */}
-            <Button
-              variant="outline"
-              className="bg-transparent text-white border-white hover:bg-white hover:text-primary hover:border-white focus-visible:ring-white transition-colors"
-            >
-              Undergraduate
-            </Button>
-            <Button
-              variant="outline"
-              className="bg-transparent text-white border-white hover:bg-white hover:text-primary hover:border-white focus-visible:ring-white transition-colors"
-            >
-              Graduate
-            </Button>
-            <Button
-              variant="outline"
-              className="bg-transparent text-white border-white hover:bg-white hover:text-primary hover:border-white focus-visible:ring-white transition-colors"
-            >
-              Short Course
-            </Button>
-          </div>
-
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-            }}
-            className="w-full"
-          >
-            <CarouselContent className="-ml-2 md:-ml-4">
-              {[
-                {
-                  title: "BS Computer Science",
-                  duration: "4 Years",
-                  level: "Undergraduate",
-                  description: "Comprehensive computer science program covering programming, algorithms, and software development.",
-                  price: "$150,000",
-                  image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                },
-                {
-                  title: "BS Software Engineering",
-                  duration: "4 Years",
-                  level: "Undergraduate",
-                  description: "Focus on software development lifecycle and modern engineering practices.",
-                  price: "$150,000",
-                  image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                },
-                {
-                  title: "BS Artificial Intelligence",
-                  duration: "4 Years",
-                  level: "Undergraduate",
-                  description: "Cutting-edge AI program covering machine learning and intelligent systems.",
-                  price: "$160,000",
-                  image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                },
-                {
-                  title: "BE Electrical Engineering",
-                  duration: "4 Years",
-                  level: "Undergraduate",
-                  description: "Comprehensive electrical engineering with focus on power systems.",
-                  price: "$140,000",
-                  image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                },
-                {
-                  title: "BBA Business Administration",
-                  duration: "4 Years",
-                  level: "Undergraduate",
-                  description: "Business administration covering management and entrepreneurship.",
-                  price: "$120,000",
-                  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                },
-                {
-                  title: "MS Computer Science",
-                  duration: "2 Years",
-                  level: "Graduate",
-                  description: "Advanced computer science program with research opportunities.",
-                  price: "$200,000",
-                  image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
-                }
-              ].map((course, index) => (
-                <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-                  <Card className="bg-background h-full">
-                    <div className="overflow-hidden ma-roundborder">
-                      <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
-                    </div>
-                    <CardContent className="p-6">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">{course.level}</span>
-                        <span className="text-sm text-muted-foreground">{course.duration}</span>
-                      </div>
-                      <h3 className="text-xl ma-courses-heading-dark font-semibold mb-2">{course.title}</h3>
-                      <p className="text-muted-foreground mb-4 text-sm">{course.description}</p>
-                      <div className="flex justify-between items-center">
-                        <span className="text-2xl font-bold text-primary">{course.price}</span>
-                        <Button size="sm">Enroll Now</Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="text-primary-foreground bg-primary hover:bg-primary/90" />
-            <CarouselNext className="text-primary-foreground bg-primary hover:bg-primary/90" />
-          </Carousel>
+          <CoursesSection showFilters={true} />
         </div>
       </section>
 

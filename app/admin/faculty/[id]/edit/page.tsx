@@ -10,14 +10,14 @@ import { createClient } from '@/lib/supabase-client'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import ImageUpload from '@/components/admin/ImageUpload'
-import { toast } from '@/components/ui/toast'
-
 export default function EditFacultyPage() {
   const router = useRouter()
   const params = useParams()
   const supabase = createClient()
   const [loading, setLoading] = useState(false)
   const [loadingData, setLoadingData] = useState(true)
+  const [updateStatus, setUpdateStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
@@ -40,7 +40,7 @@ export default function EditFacultyPage() {
       .single()
 
     if (error) {
-      toast.error('Error loading faculty member: ' + error.message)
+      console.error('✗ Error loading faculty member:', error)
       router.push('/admin/faculty')
     } else if (data) {
       setFormData({
@@ -52,6 +52,8 @@ export default function EditFacultyPage() {
         image_url: data.image_url || '',
         years_experience: data.years_experience?.toString() || '',
       })
+      console.log('Loaded faculty data:', data)
+      console.log('Image URL:', data.image_url)
     }
     setLoadingData(false)
   }
@@ -59,6 +61,10 @@ export default function EditFacultyPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setUpdateStatus('idle')
+    setErrorMessage('')
+
+    console.log('Submitting form data:', formData)
 
     const { error } = await supabase
       .from('instructors')
@@ -69,12 +75,19 @@ export default function EditFacultyPage() {
       .eq('id', params.id)
 
     if (error) {
-      toast.error('Error updating faculty member: ' + error.message)
+      console.error('✗ Error updating faculty member:', error)
+      setUpdateStatus('error')
+      setErrorMessage(error.message)
       setLoading(false)
     } else {
-      toast.success('Faculty member updated successfully!')
-      router.push('/admin/faculty')
-      router.refresh()
+      console.log('✓ Faculty member updated successfully!')
+      setUpdateStatus('success')
+      setLoading(false)
+      // Auto-redirect after 2 seconds
+      setTimeout(() => {
+        router.push('/admin/faculty')
+        router.refresh()
+      }, 2000)
     }
   }
 
@@ -178,16 +191,45 @@ export default function EditFacultyPage() {
               </div>
             </div>
 
-            <ImageUpload
-              label="Faculty Photo"
-              value={formData.image_url}
-              onChange={(url) => setFormData({ ...formData, image_url: url })}
-              folder="faculty"
-            />
+            <div className="space-y-2">
+              <ImageUpload
+                label="Faculty Photo"
+                value={formData.image_url}
+                onChange={(url) => {
+                  console.log('Image URL changed to:', url)
+                  setFormData({ ...formData, image_url: url })
+                }}
+                folder="faculty"
+              />
+              {formData.image_url && (
+                <div className="text-xs text-gray-600 p-2 bg-gray-50 rounded">
+                  <strong>Current Image URL:</strong> {formData.image_url}
+                </div>
+              )}
+            </div>
+
+            {updateStatus === 'success' && (
+              <div className="p-4 bg-green-50 border border-green-200 rounded-md">
+                <p className="text-green-800 font-medium">✓ Faculty member updated successfully!</p>
+              </div>
+            )}
+
+            {updateStatus === 'error' && (
+              <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-red-800 font-medium">✗ Error: {errorMessage}</p>
+              </div>
+            )}
 
             <div className="flex gap-3">
               <Button type="submit" disabled={loading}>
-                {loading ? 'Updating...' : 'Update Faculty Member'}
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                    Updating...
+                  </>
+                ) : (
+                  'Update Faculty Member'
+                )}
               </Button>
               <Link href="/admin/faculty">
                 <Button type="button" variant="outline">Cancel</Button>

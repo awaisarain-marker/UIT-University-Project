@@ -17,12 +17,19 @@ export default async function BlogPage() {
           <h1 className="text-2xl font-bold text-gray-900">Blog Management</h1>
           <p className="text-gray-500">Manage all blog posts</p>
         </div>
-        <Link href="/admin/blog/new">
-          <Button className="gap-2">
-            <Plus className="w-4 h-4" />
-            Add Post
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/admin/blog/categories">
+            <Button variant="outline" className="gap-2">
+              Categories
+            </Button>
+          </Link>
+          <Link href="/admin/blog/new">
+            <Button className="gap-2">
+              <Plus className="w-4 h-4" />
+              Add Post
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="bg-white rounded-lg border">

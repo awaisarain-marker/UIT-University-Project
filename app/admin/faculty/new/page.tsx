@@ -10,12 +10,12 @@ import { createClient } from '@/lib/supabase-client'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import ImageUpload from '@/components/admin/ImageUpload'
-import { toast } from '@/components/ui/toast'
-
 export default function NewFacultyPage() {
   const router = useRouter()
   const supabase = createClient()
   const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
@@ -29,6 +29,8 @@ export default function NewFacultyPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setStatus('idle')
+    setErrorMessage('')
 
     const { error } = await supabase.from('instructors').insert([{
       ...formData,
@@ -36,12 +38,18 @@ export default function NewFacultyPage() {
     }])
 
     if (error) {
-      toast.error('Error creating faculty member: ' + error.message)
+      console.error('✗ Error creating faculty member:', error)
+      setStatus('error')
+      setErrorMessage(error.message)
       setLoading(false)
     } else {
-      toast.success('Faculty member created successfully!')
-      router.push('/admin/faculty')
-      router.refresh()
+      console.log('✓ Faculty member created successfully!')
+      setStatus('success')
+      setLoading(false)
+      setTimeout(() => {
+        router.push('/admin/faculty')
+        router.refresh()
+      }, 2000)
     }
   }
 
