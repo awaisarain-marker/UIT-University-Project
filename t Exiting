@@ -1,0 +1,10 @@
+[33m5fd147e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix faculty and course pages - remove CMS dependencies
+[33m952d386[m Fix outreach programs page - use static image paths instead of fs module
+[33ma33c884[m Remove Sanity CMS and clean up documentation files
+[33m214dbe9[m Add comprehensive admission pages for undergraduate and graduate programs with navigation integration
+[33m8a31521[m Add admin dashboard integration with template and update MERL page
+[33m81ed10f[m feat: Add comprehensive Sanity Studio dashboard with NextAdmin-inspired design
+[33m44fae08[m Fix carousel overflow and timeline bullet visibility
+[33mc86073a[m Add Supabase database integration and update MERL page
+[33mf3d195f[m Fix Next.js 15+ params Promise issue in course details page
+[33meb107a1[m Fix Sanity CMS configuration error for client laptops

@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { writeFile, mkdir } from 'fs/promises'
-import path from 'path'
-import { existsSync } from 'fs'
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,6 +33,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Create Supabase client with service role key for storage access
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
+
     // Convert file to buffer
     const bytes = await file.arrayBuffer()
     const buffer = Buffer.from(bytes)
@@ -40,22 +44,27 @@ export async function POST(request: NextRequest) {
     const fileExt = file.name.split('.').pop()
     const uniqueName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`
     
-    // Define upload directory
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder)
-    
-    // Create directory if it doesn't exist
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true })
+    // Upload to Supabase Storage
+    const filePath = `${folder}/${uniqueName}`
+    const { data, error } = await supabase.storage
+      .from('uploads')
+      .upload(filePath, buffer, {
+        contentType: file.type,
+        upsert: false
+      })
+
+    if (error) {
+      console.error('Supabase upload error:', error)
+      return NextResponse.json(
+        { message: error.message || 'Upload failed' },
+        { status: 500 }
+      )
     }
 
-    // Define file path
-    const filePath = path.join(uploadDir, uniqueName)
-    
-    // Write file to disk
-    await writeFile(filePath, buffer)
-
-    // Return public URL
-    const publicUrl = `/uploads/${folder}/${uniqueName}`
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('uploads')
+      .getPublicUrl(filePath)
 
     return NextResponse.json({
       success: true,
