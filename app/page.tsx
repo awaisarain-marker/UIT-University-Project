@@ -224,11 +224,11 @@ export default function Home() {
       </section>
 
       {/* Academic Courses Section */}
-      <section className="py-[50px] lg:py-20 bg-primary text-primary-foreground">
+      <section className="py-[50px] lg:py-20 bg-primary text-primary-foreground overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Academic Courses</h2>
-            <p className="text-xl max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl max-w-3xl mx-auto">
               Explore our comprehensive range of programs designed to prepare you for success in your chosen field.
             </p>
           </div>

@@ -112,17 +112,18 @@ export default function CoursesSection({ showFilters = true, limit }: CoursesSec
   return (
     <>
       {showFilters && categories.length > 0 && (
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12 px-2">
           {categories.map(category => (
             <Button
               key={category.id}
               variant="outline"
+              size="sm"
               onClick={() => setSelectedCategory(category.slug)}
               className={`${
                 selectedCategory === category.slug
                   ? 'bg-white text-primary border-white hover:bg-white hover:text-primary'
                   : 'bg-transparent text-white border-white hover:bg-white hover:text-primary'
-              } hover:border-white focus-visible:ring-white transition-colors`}
+              } hover:border-white focus-visible:ring-white transition-colors text-xs sm:text-sm`}
             >
               {category.name}
             </Button>
@@ -140,11 +141,11 @@ export default function CoursesSection({ showFilters = true, limit }: CoursesSec
             align: "start",
             loop: true,
           }}
-          className="w-full"
+          className="w-full max-w-full"
         >
-          <CarouselContent className="-ml-2 md:-ml-4">
+          <CarouselContent className="-ml-2 md:-ml-4 max-w-full">
             {filteredCourses.map((course) => (
-              <CarouselItem key={course.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={course.id} className="pl-2 md:pl-4 basis-[85%] sm:basis-[70%] md:basis-1/2 lg:basis-1/3">
                 <Card className="bg-background h-full">
                   <div className="overflow-hidden ma-roundborder">
                     {course.image_url ? (
@@ -179,8 +180,8 @@ export default function CoursesSection({ showFilters = true, limit }: CoursesSec
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="text-primary-foreground bg-primary hover:bg-primary/90" />
-          <CarouselNext className="text-primary-foreground bg-primary hover:bg-primary/90" />
+          <CarouselPrevious className="text-primary-foreground bg-primary hover:bg-primary/90 hidden sm:flex" />
+          <CarouselNext className="text-primary-foreground bg-primary hover:bg-primary/90 hidden sm:flex" />
         </Carousel>
       )}
     </>
