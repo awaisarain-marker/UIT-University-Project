@@ -238,23 +238,22 @@ export default function Home() {
       </section>
 
       {/* Events Section */}
-      <section className="py-20 bg-muted/50">
+      <section className="py-12 sm:py-16 lg:py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
-            {/* Left: Section copy like reference */}
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
+            {/* Left: Section copy */}
             <div className="w-full lg:w-2/5">
               <div className="flex items-center gap-2 text-sm mb-3">
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary"><GraduationCap className="w-4 h-4" /></span>
                 <span className="font-medium">Events</span>
               </div>
-              <h2 className="heading-large font-semibold mb-4 leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 leading-tight">
                 What's Happening at <span className="ma-hightlighted-text">UIT</span>
               </h2>
-              <p className="text-lg text-muted-foreground mb-8 max-w-xl">
+              <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-xl">
                 Stay tuned for exciting upcoming events designed to inspire, engage, and connect our community.
               </p>
-              {/* Curve */}
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto">
                 See More Events <ArrowUpRight className="w-4 h-4 ml-2" />
               </Button>
             </div>
@@ -321,11 +320,11 @@ export default function Home() {
       </section>
 
       {/* Timeline Section (replaces Popular Departments) */}
-      <section className="py-20 overflow-visible">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-visible">
-          <div className="text-center mb-16">
-            <h2 className="heading-large font-semibold mb-4">Our <span className="ma-hightlighted-text">Timeline</span></h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 overflow-x-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">Our <span className="ma-hightlighted-text">Timeline</span></h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
               A brief history of UIT University from foundation to becoming an independent chartered university.
             </p>
           </div>
@@ -358,7 +357,7 @@ export default function Home() {
       </section>
 
       {/* Video Tour Section */}
-      <section className="relative h-[75vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[50vh] sm:h-[60vh] lg:h-[75vh] flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-in-out scale-100 hover:scale-105"
@@ -383,8 +382,8 @@ export default function Home() {
         </div>
 
         {/* Contact Box */}
-        <div className="absolute bottom-5 left-[420px] right-[450px] bg-primary text-primary-foreground py-5 px-10 rounded-[10px] shadow-lg">
-          <div className="max-w-5xl mx-auto w-full flex items-center justify-center gap-16">
+        <div className="absolute bottom-5 left-4 right-4 sm:left-8 sm:right-8 lg:left-[420px] lg:right-[450px] bg-primary text-primary-foreground py-4 sm:py-5 px-4 sm:px-10 rounded-[10px] shadow-lg">
+          <div className="max-w-5xl mx-auto w-full flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 lg:gap-16">
 
             {/* Left Section */}
             <div className="flex flex-col items-center justify-center text-center space-y-1">
@@ -413,10 +412,10 @@ export default function Home() {
       <FacultySection />
 
       {/* Student Feedback Section */}
-      <section className="py-20 overflow-hidden">
-        <div className="text-center mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="heading-large font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+      <section className="py-12 sm:py-16 lg:py-20 overflow-hidden">
+        <div className="text-center mb-12 sm:mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
             Hear what our students have to say about their experience at UIT University.
           </p>
         </div>
@@ -446,14 +445,14 @@ export default function Home() {
 
 
       {/* Blog Section */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center mb-12">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 sm:mb-12">
             <div>
-              <h2 className="heading-large font-semibold mb-2">Latest <span className="ma-hightlighted-text">Insights</span></h2>
-              <p className="text-muted-foreground">Stay updated with our latest news and articles</p>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-2">Latest <span className="ma-hightlighted-text">Insights</span></h2>
+              <p className="text-sm sm:text-base text-muted-foreground">Stay updated with our latest news and articles</p>
             </div>
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto">
               View All <ArrowUpRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
