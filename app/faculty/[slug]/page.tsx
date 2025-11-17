@@ -10,12 +10,81 @@ interface PageProps {
 interface TabItem {
   id: string
   text: string
+  type?: 'point' | 'heading' | 'description'
+  order?: number
 }
 
 interface TabData {
   heading: string
   description: string
   items: TabItem[]
+}
+
+// Helper function to render flexible content blocks
+function renderTabContent(data: TabData, badgeColor: string) {
+  // Check if using new flexible format
+  const hasFlexibleFormat = data.items.length > 0 && (data.items[0] as any).type
+
+  if (hasFlexibleFormat) {
+    // New format: render blocks in order
+    const blocks = [...data.items].sort((a, b) => (a.order || 0) - (b.order || 0))
+    let pointCounter = 0
+
+    return blocks.map((block) => {
+      if (block.type === 'heading') {
+        return (
+          <h3 key={block.id} className="text-xl font-bold text-gray-900 mt-6 mb-3">
+            {block.text}
+          </h3>
+        )
+      } else if (block.type === 'description') {
+        return (
+          <p key={block.id} className="text-gray-700 leading-relaxed mb-4">
+            {block.text}
+          </p>
+        )
+      } else {
+        // point
+        pointCounter++
+        return (
+          <div key={block.id} className="flex gap-3 items-start mb-3">
+            <span className={`flex-shrink-0 w-8 h-8 ${badgeColor} text-white rounded-full flex items-center justify-center font-semibold text-sm`}>
+              {pointCounter}
+            </span>
+            <span className="flex-1 text-gray-700 pt-1">{block.text}</span>
+          </div>
+        )
+      }
+    })
+  } else {
+    // Old format: render heading, description, then points
+    return (
+      <>
+        {data.heading && (
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            {data.heading}
+          </h2>
+        )}
+        {data.description && (
+          <p className="text-gray-700 leading-relaxed mb-6">
+            {data.description}
+          </p>
+        )}
+        {data.items.length > 0 && (
+          <ul className="space-y-3">
+            {data.items.map((item, index) => (
+              <li key={item.id} className="flex gap-3 items-start">
+                <span className={`flex-shrink-0 w-8 h-8 ${badgeColor} text-white rounded-full flex items-center justify-center font-semibold text-sm`}>
+                  {index + 1}
+                </span>
+                <span className="flex-1 text-gray-700 pt-1">{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </>
+    )
+  }
 }
 
 // Generate metadata for SEO
@@ -160,122 +229,27 @@ export default async function FacultyProfilePage({ params }: PageProps) {
           <div className="p-6 md:p-8 space-y-12">
             {/* Overview Tab */}
             <section id="overview">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                {overviewData.heading}
-              </h2>
-              {overviewData.description && (
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  {overviewData.description}
-                </p>
-              )}
-              {overviewData.items.length > 0 && (
-                <ul className="space-y-3">
-                  {overviewData.items.map((item, index) => (
-                    <li key={item.id} className="flex gap-3 items-start">
-                      <span className="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                        {index + 1}
-                      </span>
-                      <span className="flex-1 text-gray-700 pt-1">{item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {renderTabContent(overviewData, 'bg-blue-600')}
             </section>
 
             {/* Membership Tab */}
             <section id="membership">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                {membershipData.heading}
-              </h2>
-              {membershipData.description && (
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  {membershipData.description}
-                </p>
-              )}
-              {membershipData.items.length > 0 && (
-                <ul className="space-y-3">
-                  {membershipData.items.map((item, index) => (
-                    <li key={item.id} className="flex gap-3 items-start">
-                      <span className="flex-shrink-0 w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                        {index + 1}
-                      </span>
-                      <span className="flex-1 text-gray-700 pt-1">{item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {renderTabContent(membershipData, 'bg-green-600')}
             </section>
 
             {/* Research Tab */}
             <section id="research">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                {researchData.heading}
-              </h2>
-              {researchData.description && (
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  {researchData.description}
-                </p>
-              )}
-              {researchData.items.length > 0 && (
-                <ul className="space-y-3">
-                  {researchData.items.map((item, index) => (
-                    <li key={item.id} className="flex gap-3 items-start">
-                      <span className="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                        {index + 1}
-                      </span>
-                      <span className="flex-1 text-gray-700 pt-1">{item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {renderTabContent(researchData, 'bg-purple-600')}
             </section>
 
             {/* Courses Tab */}
             <section id="courses">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                {coursesTaughtData.heading}
-              </h2>
-              {coursesTaughtData.description && (
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  {coursesTaughtData.description}
-                </p>
-              )}
-              {coursesTaughtData.items.length > 0 && (
-                <ul className="space-y-3">
-                  {coursesTaughtData.items.map((item, index) => (
-                    <li key={item.id} className="flex gap-3 items-start">
-                      <span className="flex-shrink-0 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                        {index + 1}
-                      </span>
-                      <span className="flex-1 text-gray-700 pt-1">{item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {renderTabContent(coursesTaughtData, 'bg-orange-600')}
             </section>
 
             {/* Publications Tab */}
             <section id="publications">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                {publicationsData.heading}
-              </h2>
-              {publicationsData.description && (
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  {publicationsData.description}
-                </p>
-              )}
-              {publicationsData.items.length > 0 && (
-                <ul className="space-y-3">
-                  {publicationsData.items.map((item, index) => (
-                    <li key={item.id} className="flex gap-3 items-start">
-                      <span className="flex-shrink-0 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                        {index + 1}
-                      </span>
-                      <span className="flex-1 text-gray-700 pt-1">{item.text}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {renderTabContent(publicationsData, 'bg-red-600')}
             </section>
           </div>
         </div>

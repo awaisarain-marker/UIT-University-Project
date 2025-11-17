@@ -42,56 +42,93 @@ export default function FacultyTabManager({
   // Convert old data structure to new blocks structure
   const getBlocks = (): ContentBlock[] => {
     const blocks: ContentBlock[] = []
-    let order = 0
 
-    // Add points first (as requested)
+    // Check if items array has the new format (with type field)
     if (data.items && data.items.length > 0) {
-      data.items.forEach((item) => {
-        blocks.push({
+      const firstItem = data.items[0] as any
+      
+      if (firstItem.type) {
+        // New format: items array contains all blocks with types
+        return data.items.map((item: any, index) => ({
           id: item.id,
-          type: 'point',
+          type: item.type || 'point',
           text: item.text,
+          order: item.order !== undefined ? item.order : index
+        })).sort((a, b) => a.order - b.order)
+      } else {
+        // Old format: items are just points
+        let order = 0
+        
+        // Add points first
+        data.items.forEach((item) => {
+          blocks.push({
+            id: item.id,
+            type: 'point',
+            text: item.text,
+            order: order++
+          })
+        })
+
+        // Then add heading if exists
+        if (data.heading) {
+          blocks.push({
+            id: 'heading-main',
+            type: 'heading',
+            text: data.heading,
+            order: order++
+          })
+        }
+
+        // Then add description if exists
+        if (data.description) {
+          blocks.push({
+            id: 'description-main',
+            type: 'description',
+            text: data.description,
+            order: order++
+          })
+        }
+      }
+    } else {
+      // No items, check for old format heading/description
+      let order = 0
+      
+      if (data.heading) {
+        blocks.push({
+          id: 'heading-main',
+          type: 'heading',
+          text: data.heading,
           order: order++
         })
-      })
-    }
+      }
 
-    // Then add heading if exists
-    if (data.heading) {
-      blocks.push({
-        id: 'heading-main',
-        type: 'heading',
-        text: data.heading,
-        order: order++
-      })
-    }
-
-    // Then add description if exists
-    if (data.description) {
-      blocks.push({
-        id: 'description-main',
-        type: 'description',
-        text: data.description,
-        order: order++
-      })
+      if (data.description) {
+        blocks.push({
+          id: 'description-main',
+          type: 'description',
+          text: data.description,
+          order: order++
+        })
+      }
     }
 
     return blocks.sort((a, b) => a.order - b.order)
   }
 
   // Convert blocks back to old data structure
+  // Store all blocks (points, headings, descriptions) in items array with special format
   const updateFromBlocks = (blocks: ContentBlock[]) => {
-    const items = blocks
-      .filter(b => b.type === 'point')
-      .map(b => ({ id: b.id, text: b.text }))
-    
-    const headingBlock = blocks.find(b => b.type === 'heading')
-    const descriptionBlock = blocks.find(b => b.type === 'description')
+    const items = blocks.map(b => ({
+      id: b.id,
+      text: b.text,
+      type: b.type, // Include type to distinguish between point/heading/description
+      order: b.order
+    }))
 
     onChange({
-      heading: headingBlock?.text || '',
-      description: descriptionBlock?.text || '',
-      items: items
+      heading: '', // Keep for backward compatibility
+      description: '', // Keep for backward compatibility
+      items: items as any
     })
   }
 
