@@ -74,7 +74,7 @@ export default function Home() {
 
 
       {/* Hero Section with Slideshow */}
-      <section className="relative h-screen overflow-hidden">
+      <section className="relative h-[60vh] sm:h-[70vh] md:h-screen overflow-hidden">
         {/* Slideshow Background */}
         {bannerImages.map((image, index) => (
           <div
@@ -89,16 +89,16 @@ export default function Home() {
         <div className="absolute inset-0 bg-black/40"></div>
 
         <div className="relative z-10 h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row items-center gap-12 ma-bg-gradient ma-65-width">
-              <div className="text-white flex-1">
-                <h1 className="text-5xl md:text-6xl font-medium mb-6 heading-large">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+              <div className="text-white flex-1 text-center lg:text-left">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium mb-4 sm:mb-6 leading-tight">
                   Transform Your Future at UIT University
                 </h1>
-                <p className="banner-desc-21 mb-8">
+                <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-90">
                   Empowering with Knowledge, Discover Academic World
                 </p>
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90">
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90 w-full sm:w-auto">
                   Learn More
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
@@ -112,29 +112,29 @@ export default function Home() {
       <section className="py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
-            {/* Left: Overlapping images like reference */}
-            <div className="relative flex-1 w-full">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center mb-16">
+            {/* Left: Overlapping images */}
+            <div className="relative flex-1 w-full min-h-[400px] sm:min-h-[500px] lg:min-h-[600px]">
               {/* Back image */}
-              <div className="rounded-2xl overflow-hidden w-[55%]">
+              <div className="rounded-2xl overflow-hidden w-[55%] sm:w-[50%]">
                 <img
                   src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
                   alt="University Building"
-                  className="w-full h-[55%] md:h-[430px] object-cover"
+                  className="w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[430px] object-cover"
                 />
               </div>
               {/* Front image card */}
-              <div className="absolute -bottom-10 left-1/2 -translate-x-1/4 w-[70%] rounded-2xl border-4 border-gray bg-white">
+              <div className="absolute -bottom-10 sm:-bottom-10 left-1/2 -translate-x-1/4 w-[70%] sm:w-[65%] rounded-2xl border-4 border-gray bg-white">
                 <img
                   src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80"
                   alt="Students"
-                  className="w-full h-[380px] md:h-[430px] object-cover rounded-2xl"
+                  className="w-full h-[280px] sm:h-[320px] md:h-[380px] lg:h-[430px] object-cover rounded-2xl"
                 />
                 {/* Circular Badge with Rotating Text */}
-                <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-white rounded-full shadow-2xl flex items-center justify-center border-4 border-primary/10">
+                <div className="absolute -bottom-8 sm:-bottom-12 -left-8 sm:-left-12 w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full shadow-2xl flex items-center justify-center border-4 border-primary/10">
                   <div className="relative w-full h-full flex items-center justify-center">
                     {/* Center Number */}
-                    <div className="text-5xl font-bold text-primary z-10">27</div>
+                    <div className="text-3xl sm:text-5xl font-bold text-primary z-10">27</div>
                     {/* Rotating Text */}
                     <svg className="absolute inset-0 w-full h-full animate-spin-slow" viewBox="0 0 100 100">
                       <defs>
@@ -143,7 +143,7 @@ export default function Home() {
                           d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
                         />
                       </defs>
-                      <text className="text-[8px] fill-gray-600 font-semibold uppercase tracking-wider">
+                      <text className="text-[6px] sm:text-[8px] fill-gray-600 font-semibold uppercase tracking-wider">
                         <textPath href="#circlePath" startOffset="0%">
                           Years of Experience • Years of Experience •
                         </textPath>
@@ -155,13 +155,13 @@ export default function Home() {
             </div>
 
             {/* Right: Copy */}
-            <div className="flex-1 w-full">
+            <div className="flex-1 w-full mt-16 sm:mt-20 lg:mt-0">
               <div className="flex items-center gap-2 text-sm mb-3">
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary"><GraduationCap className="w-4 h-4" /></span>
                 <span className="font-medium">About UIT University</span>
               </div>
-              <h2 className="text-4xl font-medium mb-4 heading-large font-semibold">An Introduction to Our <span className="ma-hightlighted-text font-semibold">University</span></h2>
-              <p className="ma-hightlight-text-border text-muted-foreground mb-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium mb-4 font-semibold">An Introduction to Our <span className="ma-hightlighted-text font-semibold">University</span></h2>
+              <p className="text-sm sm:text-base text-muted-foreground mb-6 leading-relaxed">
                 The UIT University (UITU) was established vide The UIT University Act, 2017 [Sindh Act No. XXXIV of 2018] of Government of Sindh and published vide Notification in The Sindh Government Gazette on May 28, 2018. The University after due charter inspections by HEC, granted NOC whereby UITU has been initially allowed to start undergraduate programs in four departments namely, Electrical Engineering, Management Sciences, Computer Science and Social Sciences. The UIT University is managed by Usman Memorial Foundation (UMF).
               </p>
               <Button>
@@ -358,7 +358,7 @@ export default function Home() {
       </section>
 
       {/* Video Tour Section */}
-      <section className="relative h-[95vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[75vh] flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-in-out scale-100 hover:scale-105"
@@ -369,7 +369,7 @@ export default function Home() {
         ></div>
 
         {/* Dark Overlay */}
-        <div className="absolute inset-0 bg-primary/60"></div>
+        <div className="absolute inset-0 bg-black/60"></div>
 
         {/* Content */}
         <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8">
