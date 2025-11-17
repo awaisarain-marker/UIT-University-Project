@@ -109,7 +109,7 @@ export default function Home() {
       </section>
 
       {/* Introduction Section */}
-      <section className="py-20 bg-muted/50">
+      <section className="py-[50px] lg:py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center mb-16">
@@ -174,10 +174,10 @@ export default function Home() {
       </section>
 
       {/* Reasons to Choose Section */}
-      <section className="py-20">
+      <section className="py-[50px] lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="heading-large font-semibold mb-4">Why <span className="ma-hightlighted-text">UIT</span> University</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Why <span className="ma-hightlighted-text">UIT</span> University</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Discover what makes us the preferred choice for students seeking quality education and career success.
             </p>
@@ -224,10 +224,10 @@ export default function Home() {
       </section>
 
       {/* Academic Courses Section */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section className="py-[50px] lg:py-20 bg-primary text-primary-foreground">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="heading-large font-semibold mb-4">Academic Courses</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Academic Courses</h2>
             <p className="text-xl max-w-3xl mx-auto">
               Explore our comprehensive range of programs designed to prepare you for success in your chosen field.
             </p>
@@ -238,7 +238,7 @@ export default function Home() {
       </section>
 
       {/* Events Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-muted/50">
+      <section className="py-[50px] lg:py-20 bg-muted/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start">
             {/* Left: Section copy */}
@@ -320,10 +320,10 @@ export default function Home() {
       </section>
 
       {/* Timeline Section (replaces Popular Departments) */}
-      <section className="py-12 sm:py-16 lg:py-20 overflow-x-hidden">
+      <section className="py-[50px] lg:py-20 overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">Our <span className="ma-hightlighted-text">Timeline</span></h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Our <span className="ma-hightlighted-text">Timeline</span></h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
               A brief history of UIT University from foundation to becoming an independent chartered university.
             </p>
@@ -412,9 +412,9 @@ export default function Home() {
       <FacultySection />
 
       {/* Student Feedback Section */}
-      <section className="py-12 sm:py-16 lg:py-20 overflow-hidden">
+      <section className="py-[50px] lg:py-20 overflow-hidden">
         <div className="text-center mb-12 sm:mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
             Hear what our students have to say about their experience at UIT University.
           </p>
@@ -445,11 +445,11 @@ export default function Home() {
 
 
       {/* Blog Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-muted/30">
+      <section className="py-[50px] lg:py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 sm:mb-12">
             <div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-2">Latest <span className="ma-hightlighted-text">Insights</span></h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-2">Latest <span className="ma-hightlighted-text">Insights</span></h2>
               <p className="text-sm sm:text-base text-muted-foreground">Stay updated with our latest news and articles</p>
             </div>
             <Button className="bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto">
