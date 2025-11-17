@@ -13,6 +13,7 @@ import ImageUpload from '@/components/admin/ImageUpload'
 import SemesterCoursesManager from '@/components/admin/SemesterCoursesManager'
 import PEOsPLOsManager from '@/components/admin/PEOsPLOsManager'
 import EligibilityManager from '@/components/admin/EligibilityManager'
+import FlexibleContentManager from '@/components/admin/FlexibleContentManager'
 
 type TabType = 'overview' | 'courses' | 'peos-plos' | 'eligibility'
 
@@ -94,6 +95,11 @@ export default function EditCoursePage() {
     academic_requirements_heading: '',
     academic_requirements: []
   })
+  const [overviewContentData, setOverviewContentData] = useState({
+    heading: 'Program Overview',
+    description: '',
+    items: []
+  })
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -166,6 +172,9 @@ export default function EditCoursePage() {
         plos: data.plos || [],
         mapping_image_url: data.mapping_image_url || ''
       })
+
+      // Load Overview content blocks
+      setOverviewContentData(data.overview_content_blocks || { heading: 'Program Overview', description: '', items: [] })
 
       // Load Eligibility data
       setEligibilityData({
@@ -246,6 +255,8 @@ export default function EditCoursePage() {
         test_criteria_items: eligibilityData.test_criteria_items,
         academic_requirements_heading: eligibilityData.academic_requirements_heading,
         academic_requirements: eligibilityData.academic_requirements,
+        // Overview content blocks
+        overview_content_blocks: overviewContentData,
       })
       .eq('id', params.id)
 
@@ -379,31 +390,15 @@ export default function EditCoursePage() {
             {/* Overview Tab */}
             {activeTab === 'overview' && (
               <div className="space-y-8">
-                {/* Program Overview Section */}
-                <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
-                  <h3 className="text-lg font-semibold text-gray-900">Program Overview</h3>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="program_overview_heading">Heading</Label>
-                    <Input
-                      id="program_overview_heading"
-                      placeholder="e.g., Program Overview"
-                      value={formData.program_overview_heading}
-                      onChange={(e) => setFormData({ ...formData, program_overview_heading: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="program_overview_paragraph">Description</Label>
-                    <textarea
-                      id="program_overview_paragraph"
-                      className="w-full min-h-[120px] px-3 py-2 border rounded-md"
-                      placeholder="Enter program overview description..."
-                      value={formData.program_overview_paragraph}
-                      onChange={(e) => setFormData({ ...formData, program_overview_paragraph: e.target.value })}
-                    />
-                  </div>
-                </div>
+                {/* Flexible Content Section */}
+                <FlexibleContentManager
+                  title="Program Overview"
+                  data={overviewContentData}
+                  onChange={setOverviewContentData}
+                  itemLabel="Point"
+                  badgeColor="blue"
+                  placeholder="Enter program overview description..."
+                />
 
                 {/* Degree Requirements Section */}
                 <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
