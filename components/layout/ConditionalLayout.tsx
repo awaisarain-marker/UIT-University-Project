@@ -1,8 +1,8 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+import DynamicHeader from '@/components/layout/DynamicHeader'
+import DynamicFooter from '@/components/layout/DynamicFooter'
 import Chatbot from '@/components/ui/chatbot'
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
@@ -17,11 +17,11 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
   
   return (
     <>
-      <Header />
+      <DynamicHeader />
       <main className="pt-24 lg:pt-28 min-h-screen">
         {children}
       </main>
-      <Footer />
+      <DynamicFooter />
       <Chatbot />
     </>
   )

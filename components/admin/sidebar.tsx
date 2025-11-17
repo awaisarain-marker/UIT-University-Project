@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase-client'
 import { useRouter } from 'next/navigation'
-import { Home, BookOpen, Users, FileText, Calendar, Settings, LogOut, ChevronDown, ChevronRight, Database, UserCog, X } from 'lucide-react'
+import { Home, BookOpen, Users, FileText, Calendar, Settings, LogOut, ChevronDown, ChevronRight, Database, UserCog, X, Menu as MenuIcon } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 interface AdminSidebarProps {
@@ -17,6 +17,8 @@ interface AdminSidebarProps {
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: Home },
   { name: 'All Entries', href: '/admin/entries', icon: Database },
+  { name: 'Pages', href: '/admin/pages', icon: FileText },
+  { name: 'Menus', href: '/admin/menus', icon: MenuIcon },
   { 
     name: 'Users', 
     icon: UserCog,

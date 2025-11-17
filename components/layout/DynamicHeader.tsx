@@ -23,7 +23,7 @@ type NavigationItem = {
     dropdown?: NavigationItem[];
 };
 
-export default function Header() {
+export default function DynamicHeader() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -46,7 +46,7 @@ export default function Header() {
         const supabase = createClient();
         
         // Fetch header menu
-        const { data: menus } = await supabase
+        const { data: menu } = await supabase
             .from('menus')
             .select('id')
             .eq('location', 'header')
@@ -55,13 +55,13 @@ export default function Header() {
             .limit(1)
             .single();
 
-        if (!menus) return;
+        if (!menu) return;
 
         // Fetch menu items
         const { data: items } = await supabase
             .from('menu_items')
             .select('*')
-            .eq('menu_id', menus.id)
+            .eq('menu_id', menu.id)
             .eq('is_active', true)
             .order('display_order', { ascending: true });
 
@@ -71,9 +71,9 @@ export default function Header() {
         }
     };
 
-    const buildNavigationTree = (items: MenuItem[]): NavigationItem[] => {
-        const itemMap = new Map<string, MenuItem>();
-        const rootItems: MenuItem[] = [];
+    const buildNavigationTree = (items: any[]): NavigationItem[] => {
+        const itemMap = new Map<string, any>();
+        const rootItems: any[] = [];
 
         // Create a map of all items
         items.forEach(item => {
@@ -98,7 +98,7 @@ export default function Header() {
         return rootItems.map(item => convertToNavigationItem(item));
     };
 
-    const convertToNavigationItem = (item: MenuItem): NavigationItem => {
+    const convertToNavigationItem = (item: any): NavigationItem => {
         const navItem: NavigationItem = {
             name: item.title,
             href: item.url,
@@ -106,7 +106,7 @@ export default function Header() {
         };
 
         if (item.children && item.children.length > 0) {
-            navItem.dropdown = item.children.map(child => convertToNavigationItem(child));
+            navItem.dropdown = item.children.map((child: any) => convertToNavigationItem(child));
         }
 
         return navItem;
@@ -163,7 +163,6 @@ export default function Header() {
                         <div className="flex-shrink-0">
                             <Link href="/" className="flex items-center group">
                                 <div className="flex items-center">
-                                    {/* UIT Logo Image */}
                                     <div className="h-12 w-auto lg:h-14 lg:w-auto group-hover:opacity-90 transition-opacity">
                                         <img
                                             src="/images/logo_with_text_final__6_-removebg-preview (2).png"
@@ -171,7 +170,6 @@ export default function Header() {
                                             className="h-full w-full object-contain"
                                         />
                                     </div>
-
                                 </div>
                             </Link>
                         </div>
@@ -191,7 +189,7 @@ export default function Header() {
                                                 <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" />
                                             </Link>
 
-                                            {/* Dropdown Menu - Shows on Hover */}
+                                            {/* Dropdown Menu */}
                                             <div className="absolute top-full left-0 mt-1 w-56 bg-white rounded-md shadow-xl border border-gray-200 py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 z-50">
                                                 {item.dropdown.map((dropdownItem) => (
                                                     <div key={dropdownItem.name} className="relative group/submenu">
@@ -206,7 +204,7 @@ export default function Header() {
                                                             )}
                                                         </Link>
                                                         
-                                                        {/* Submenu - Shows on right side */}
+                                                        {/* Submenu */}
                                                         {dropdownItem.dropdown && (
                                                             <div className="absolute left-full top-0 ml-0.5 w-52 bg-white rounded-md shadow-xl border border-gray-200 py-1 opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all duration-150 z-50">
                                                                 {dropdownItem.dropdown.map((subItem) => (
