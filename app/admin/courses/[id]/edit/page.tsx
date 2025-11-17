@@ -14,6 +14,7 @@ import SemesterCoursesManager from '@/components/admin/SemesterCoursesManager'
 import PEOsPLOsManager from '@/components/admin/PEOsPLOsManager'
 import EligibilityManager from '@/components/admin/EligibilityManager'
 import FlexibleContentManager from '@/components/admin/FlexibleContentManager'
+import SectionManager from '@/components/admin/SectionManager'
 
 type TabType = 'overview' | 'courses' | 'peos-plos' | 'eligibility'
 
@@ -95,11 +96,19 @@ export default function EditCoursePage() {
     academic_requirements_heading: '',
     academic_requirements: []
   })
-  const [overviewContentData, setOverviewContentData] = useState({
-    heading: 'Program Overview',
-    description: '',
-    items: []
-  })
+  const [overviewSections, setOverviewSections] = useState<any[]>([
+    {
+      id: 'section-default',
+      title: 'Program Overview',
+      order: 0,
+      isExpanded: true,
+      content: {
+        heading: '',
+        description: '',
+        items: []
+      }
+    }
+  ])
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -173,8 +182,20 @@ export default function EditCoursePage() {
         mapping_image_url: data.mapping_image_url || ''
       })
 
-      // Load Overview content blocks
-      setOverviewContentData(data.overview_content_blocks || { heading: 'Program Overview', description: '', items: [] })
+      // Load Overview sections
+      setOverviewSections(data.overview_sections || [
+        {
+          id: 'section-default',
+          title: 'Program Overview',
+          order: 0,
+          isExpanded: true,
+          content: {
+            heading: '',
+            description: '',
+            items: []
+          }
+        }
+      ])
 
       // Load Eligibility data
       setEligibilityData({
@@ -255,8 +276,8 @@ export default function EditCoursePage() {
         test_criteria_items: eligibilityData.test_criteria_items,
         academic_requirements_heading: eligibilityData.academic_requirements_heading,
         academic_requirements: eligibilityData.academic_requirements,
-        // Overview content blocks
-        overview_content_blocks: overviewContentData,
+        // Overview sections
+        overview_sections: overviewSections,
       })
       .eq('id', params.id)
 
@@ -390,14 +411,10 @@ export default function EditCoursePage() {
             {/* Overview Tab */}
             {activeTab === 'overview' && (
               <div className="space-y-8">
-                {/* Flexible Content Section */}
-                <FlexibleContentManager
-                  title="Program Overview"
-                  data={overviewContentData}
-                  onChange={setOverviewContentData}
-                  itemLabel="Point"
-                  badgeColor="blue"
-                  placeholder="Enter program overview description..."
+                {/* Sections Manager */}
+                <SectionManager
+                  sections={overviewSections}
+                  onChange={setOverviewSections}
                 />
 
                 {/* Degree Requirements Section */}
