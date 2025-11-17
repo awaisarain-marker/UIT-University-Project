@@ -3,16 +3,35 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Plus, Trash2, MoveUp, MoveDown } from 'lucide-react'
+import { Plus, Trash2, GripVertical, Image as ImageIcon } from 'lucide-react'
+import ImageUpload from '@/components/admin/ImageUpload'
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
-// Content block can be: point, heading, or description
-type ContentBlockType = 'point' | 'heading' | 'description'
+// Content block can be: point, heading, description, or image
+type ContentBlockType = 'point' | 'heading' | 'description' | 'image'
 
 interface ContentBlock {
   id: string
   type: ContentBlockType
   text: string
   order: number
+  imageUrl?: string // For image blocks
 }
 
 interface TabData {
@@ -28,6 +47,139 @@ interface FacultyTabManagerProps {
   itemLabel?: string
   badgeColor?: 'blue' | 'green' | 'purple' | 'orange' | 'red'
   placeholder?: string
+}
+
+// Sortable Item Component
+function SortableBlock({
+  block,
+  index,
+  badgeColor,
+  itemLabel,
+  onUpdate,
+  onRemove,
+  getPointNumber,
+}: {
+  block: ContentBlock
+  index: number
+  badgeColor: string
+  itemLabel: string
+  onUpdate: (id: string, text: string, imageUrl?: string) => void
+  onRemove: (id: string) => void
+  getPointNumber: (index: number) => number
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: block.id })
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="flex gap-2 items-start bg-white p-3 rounded-lg border hover:border-gray-400 transition-colors"
+    >
+      {/* Drag Handle */}
+      <button
+        type="button"
+        className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 mt-1"
+        {...attributes}
+        {...listeners}
+      >
+        <GripVertical className="w-5 h-5" />
+      </button>
+
+      {/* Content based on type */}
+      <div className="flex-1">
+        {block.type === 'point' && (
+          <div className="flex gap-2 items-start">
+            <div className={`flex-shrink-0 w-8 h-8 ${badgeColor} text-white rounded-full flex items-center justify-center font-semibold text-sm mt-1`}>
+              {getPointNumber(index)}
+            </div>
+            <div className="flex-1">
+              <Label className="text-xs text-gray-500 mb-1">Point</Label>
+              <textarea
+                className="w-full min-h-[80px] px-3 py-2 border rounded-md"
+                placeholder={`Enter ${itemLabel.toLowerCase()} ${getPointNumber(index)}...`}
+                value={block.text}
+                onChange={(e) => onUpdate(block.id, e.target.value)}
+              />
+            </div>
+          </div>
+        )}
+
+        {block.type === 'heading' && (
+          <div>
+            <Label className="text-xs text-gray-500 mb-1">Heading</Label>
+            <Input
+              placeholder="Enter heading..."
+              value={block.text}
+              onChange={(e) => onUpdate(block.id, e.target.value)}
+            />
+          </div>
+        )}
+
+        {block.type === 'description' && (
+          <div>
+            <Label className="text-xs text-gray-500 mb-1">Description</Label>
+            <textarea
+              className="w-full min-h-[100px] px-3 py-2 border rounded-md"
+              placeholder="Enter description..."
+              value={block.text}
+              onChange={(e) => onUpdate(block.id, e.target.value)}
+            />
+          </div>
+        )}
+
+        {block.type === 'image' && (
+          <div>
+            <Label className="text-xs text-gray-500 mb-1">Image</Label>
+            <ImageUpload
+              label=""
+              value={block.imageUrl || ''}
+              onChange={(url) => onUpdate(block.id, block.text, url)}
+              folder="faculty/content"
+            />
+            {block.imageUrl && (
+              <div className="mt-2">
+                <img 
+                  src={block.imageUrl} 
+                  alt="Content" 
+                  className="max-w-full h-auto rounded border"
+                />
+              </div>
+            )}
+            <Input
+              placeholder="Optional caption..."
+              value={block.text}
+              onChange={(e) => onUpdate(block.id, e.target.value, block.imageUrl)}
+              className="mt-2"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Delete button */}
+      <Button
+        type="button"
+        onClick={() => onRemove(block.id)}
+        variant="ghost"
+        size="sm"
+        className="text-red-600 hover:text-red-700"
+      >
+        <Trash2 className="w-4 h-4" />
+      </Button>
+    </div>
+  )
 }
 
 export default function FacultyTabManager({
@@ -53,7 +205,8 @@ export default function FacultyTabManager({
           id: item.id,
           type: item.type || 'point',
           text: item.text,
-          order: item.order !== undefined ? item.order : index
+          order: item.order !== undefined ? item.order : index,
+          imageUrl: item.imageUrl
         })).sort((a, b) => a.order - b.order)
       } else {
         // Old format: items are just points
@@ -116,18 +269,18 @@ export default function FacultyTabManager({
   }
 
   // Convert blocks back to old data structure
-  // Store all blocks (points, headings, descriptions) in items array with special format
   const updateFromBlocks = (blocks: ContentBlock[]) => {
     const items = blocks.map(b => ({
       id: b.id,
       text: b.text,
-      type: b.type, // Include type to distinguish between point/heading/description
-      order: b.order
+      type: b.type,
+      order: b.order,
+      imageUrl: b.imageUrl
     }))
 
     onChange({
-      heading: '', // Keep for backward compatibility
-      description: '', // Keep for backward compatibility
+      heading: '',
+      description: '',
       items: items as any
     })
   }
@@ -139,7 +292,7 @@ export default function FacultyTabManager({
       id: `point-${Date.now()}`,
       type: 'point',
       text: '',
-      order: 0 // Points go first
+      order: 0
     }
     const updatedBlocks = [newBlock, ...blocks.map(b => ({ ...b, order: b.order + 1 }))]
     updateFromBlocks(updatedBlocks)
@@ -165,6 +318,17 @@ export default function FacultyTabManager({
     updateFromBlocks([...blocks, newBlock])
   }
 
+  const addImage = () => {
+    const newBlock: ContentBlock = {
+      id: `image-${Date.now()}`,
+      type: 'image',
+      text: '',
+      order: blocks.length,
+      imageUrl: ''
+    }
+    updateFromBlocks([...blocks, newBlock])
+  }
+
   const removeBlock = (id: string) => {
     const updatedBlocks = blocks
       .filter(b => b.id !== id)
@@ -172,30 +336,11 @@ export default function FacultyTabManager({
     updateFromBlocks(updatedBlocks)
   }
 
-  const updateBlock = (id: string, text: string) => {
+  const updateBlock = (id: string, text: string, imageUrl?: string) => {
     const updatedBlocks = blocks.map(b => 
-      b.id === id ? { ...b, text } : b
+      b.id === id ? { ...b, text, imageUrl: imageUrl !== undefined ? imageUrl : b.imageUrl } : b
     )
     updateFromBlocks(updatedBlocks)
-  }
-
-  const moveBlock = (index: number, direction: 'up' | 'down') => {
-    if (
-      (direction === 'up' && index === 0) ||
-      (direction === 'down' && index === blocks.length - 1)
-    ) {
-      return
-    }
-
-    const newBlocks = [...blocks]
-    const targetIndex = direction === 'up' ? index - 1 : index + 1
-    
-    // Swap
-    ;[newBlocks[index], newBlocks[targetIndex]] = [newBlocks[targetIndex], newBlocks[index]]
-    
-    // Update order
-    const reorderedBlocks = newBlocks.map((b, i) => ({ ...b, order: i }))
-    updateFromBlocks(reorderedBlocks)
   }
 
   const badgeColors = {
@@ -210,6 +355,30 @@ export default function FacultyTabManager({
     return blocks.slice(0, blockIndex + 1).filter(b => b.type === 'point').length
   }
 
+  // Drag & Drop sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = blocks.findIndex(b => b.id === active.id)
+      const newIndex = blocks.findIndex(b => b.id === over.id)
+
+      const reorderedBlocks = arrayMove(blocks, oldIndex, newIndex).map((b, index) => ({
+        ...b,
+        order: index
+      }))
+
+      updateFromBlocks(reorderedBlocks)
+    }
+  }
+
   return (
     <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
       <div className="flex justify-between items-center">
@@ -217,21 +386,39 @@ export default function FacultyTabManager({
         <div className="flex gap-2">
           <Button 
             type="button" 
-            onClick={addDescription} 
+            onClick={addImage} 
+            variant="outline"
             size="sm" 
-            className="gap-2 bg-red-600 hover:bg-red-700"
+            className="gap-2"
+          >
+            <ImageIcon className="w-4 h-4" />
+            Add Image
+          </Button>
+          <Button 
+            type="button" 
+            onClick={addDescription} 
+            variant="outline"
+            size="sm" 
+            className="gap-2"
           >
             Add Description
           </Button>
           <Button 
             type="button" 
             onClick={addHeading} 
+            variant="outline"
             size="sm" 
-            className="gap-2 bg-red-600 hover:bg-red-700"
+            className="gap-2"
           >
             Add Heading
           </Button>
-          <Button type="button" onClick={addPoint} variant="outline" size="sm" className="gap-2">
+          <Button 
+            type="button" 
+            onClick={addPoint} 
+            variant="outline" 
+            size="sm" 
+            className="gap-2"
+          >
             <Plus className="w-4 h-4" />
             Add {itemLabel}
           </Button>
@@ -241,90 +428,32 @@ export default function FacultyTabManager({
       <div className="space-y-3">
         {blocks.length === 0 ? (
           <div className="text-center py-8 text-gray-400 text-sm border border-dashed rounded">
-            No content added yet. Click the buttons above to add {itemLabel.toLowerCase()}s, headings, or descriptions.
+            No content added yet. Click the buttons above to add {itemLabel.toLowerCase()}s, headings, descriptions, or images.
           </div>
         ) : (
-          blocks.map((block, index) => (
-            <div key={block.id} className="flex gap-2 items-start bg-white p-3 rounded-lg border">
-              {/* Move buttons */}
-              <div className="flex flex-col gap-1">
-                <Button
-                  type="button"
-                  onClick={() => moveBlock(index, 'up')}
-                  disabled={index === 0}
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0"
-                >
-                  <MoveUp className="w-3 h-3" />
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => moveBlock(index, 'down')}
-                  disabled={index === blocks.length - 1}
-                  variant="ghost"
-                  size="sm"
-                  className="h-6 w-6 p-0"
-                >
-                  <MoveDown className="w-3 h-3" />
-                </Button>
-              </div>
-
-              {/* Content based on type */}
-              <div className="flex-1">
-                {block.type === 'point' && (
-                  <div className="flex gap-2 items-start">
-                    <div className={`flex-shrink-0 w-8 h-8 ${badgeColors[badgeColor]} text-white rounded-full flex items-center justify-center font-semibold text-sm mt-1`}>
-                      {getPointNumber(index)}
-                    </div>
-                    <div className="flex-1">
-                      <Label className="text-xs text-gray-500 mb-1">Point</Label>
-                      <textarea
-                        className="w-full min-h-[80px] px-3 py-2 border rounded-md"
-                        placeholder={`Enter ${itemLabel.toLowerCase()} ${getPointNumber(index)}...`}
-                        value={block.text}
-                        onChange={(e) => updateBlock(block.id, e.target.value)}
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {block.type === 'heading' && (
-                  <div>
-                    <Label className="text-xs text-gray-500 mb-1">Heading</Label>
-                    <Input
-                      placeholder="Enter heading..."
-                      value={block.text}
-                      onChange={(e) => updateBlock(block.id, e.target.value)}
-                    />
-                  </div>
-                )}
-
-                {block.type === 'description' && (
-                  <div>
-                    <Label className="text-xs text-gray-500 mb-1">Description</Label>
-                    <textarea
-                      className="w-full min-h-[100px] px-3 py-2 border rounded-md"
-                      placeholder={placeholder}
-                      value={block.text}
-                      onChange={(e) => updateBlock(block.id, e.target.value)}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Delete button */}
-              <Button
-                type="button"
-                onClick={() => removeBlock(block.id)}
-                variant="ghost"
-                size="sm"
-                className="text-red-600 hover:text-red-700"
-              >
-                <Trash2 className="w-4 h-4" />
-              </Button>
-            </div>
-          ))
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={blocks.map(b => b.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {blocks.map((block, index) => (
+                <SortableBlock
+                  key={block.id}
+                  block={block}
+                  index={index}
+                  badgeColor={badgeColors[badgeColor]}
+                  itemLabel={itemLabel}
+                  onUpdate={updateBlock}
+                  onRemove={removeBlock}
+                  getPointNumber={getPointNumber}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
         )}
       </div>
     </div>

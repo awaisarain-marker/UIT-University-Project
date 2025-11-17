@@ -10,8 +10,9 @@ interface PageProps {
 interface TabItem {
   id: string
   text: string
-  type?: 'point' | 'heading' | 'description'
+  type?: 'point' | 'heading' | 'description' | 'image'
   order?: number
+  imageUrl?: string
 }
 
 interface TabData {
@@ -42,6 +43,23 @@ function renderTabContent(data: TabData, badgeColor: string) {
           <p key={block.id} className="text-gray-700 leading-relaxed mb-4">
             {block.text}
           </p>
+        )
+      } else if (block.type === 'image') {
+        return (
+          <div key={block.id} className="my-6">
+            {block.imageUrl && (
+              <img 
+                src={block.imageUrl} 
+                alt={block.text || 'Content image'} 
+                className="max-w-full h-auto rounded-lg shadow-md"
+              />
+            )}
+            {block.text && (
+              <p className="text-sm text-gray-600 italic mt-2 text-center">
+                {block.text}
+              </p>
+            )}
+          </div>
         )
       } else {
         // point
