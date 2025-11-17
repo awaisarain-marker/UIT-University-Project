@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase-client';
+import { MapPin, Mail, Phone } from 'lucide-react';
 
 type MenuItem = {
   id: string;
@@ -95,21 +96,33 @@ export default function DynamicFooter() {
         <div className="border-t border-white/10 pt-8 mb-8">
           <h4 className="mb-4">Contact Us</h4>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-white/60 text-sm">
-            <div>
-              <div className="text-white/80 mb-1">Address:</div>
-              <div>ST-13, Block 7, Gulshan-e-Iqbal, Abul Hasan Isphahani Road, Off Main University Road, Karachi - 75300</div>
+            <div className="flex gap-3">
+              <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+              <div>
+                <div className="text-white/80 mb-1">Address:</div>
+                <div>ST-13, Block 7, Gulshan-e-Iqbal, Abul Hasan Isphahani Road, Off Main University Road, Karachi - 75300</div>
+              </div>
             </div>
-            <div>
-              <div className="text-white/80 mb-1">Email:</div>
-              <a href="mailto:info@uitu.edu.pk" className="hover:text-white transition-colors">info@uitu.edu.pk</a>
+            <div className="flex gap-3">
+              <Mail className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+              <div>
+                <div className="text-white/80 mb-1">Email:</div>
+                <a href="mailto:info@uitu.edu.pk" className="hover:text-white transition-colors">info@uitu.edu.pk</a>
+              </div>
             </div>
-            <div>
-              <div className="text-white/80 mb-1">UAN:</div>
-              <div>(021) 111-978-276, 34994305, 34978274-5</div>
+            <div className="flex gap-3">
+              <Phone className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+              <div>
+                <div className="text-white/80 mb-1">UAN:</div>
+                <div>(021) 111-978-276, 34994305, 34978274-5</div>
+              </div>
             </div>
-            <div>
-              <div className="text-white/80 mb-1">Admission:</div>
-              <a href="tel:03330399113" className="hover:text-white transition-colors">0333-0399113</a>
+            <div className="flex gap-3">
+              <Phone className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+              <div>
+                <div className="text-white/80 mb-1">Admission:</div>
+                <a href="tel:03330399113" className="hover:text-white transition-colors">0333-0399113</a>
+              </div>
             </div>
           </div>
         </div>

@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-import AceternityTimeline from '@/components/ui/aceternity-timeline';
+import ModernTimeline from '@/components/ui/modern-timeline';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Marquee } from '@/components/ui/marquee';
 import FacultySection from '@/components/sections/FacultySection';
 import CoursesSection from '@/components/sections/CoursesSection';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -39,80 +40,32 @@ export default function Home() {
     return () => mq.removeEventListener('change', update);
   }, []);
 
-  const TestimonialsCarousel = () => {
-    const [api, setApi] = useState<any>();
-
-    useEffect(() => {
-      if (!api) return;
-
-      const interval = setInterval(() => {
-        api.scrollNext();
-      }, 4000);
-
-      return () => clearInterval(interval);
-    }, [api]);
-
-    return (
-      <Carousel
-        setApi={setApi}
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        className="w-full"
-      >
-        <CarouselContent className="-ml-2 md:-ml-4">
-          {[
-            {
-              quote: "UIT University has provided me with an exceptional learning environment. The faculty is outstanding, and the facilities are world-class. I've gained not just knowledge but also the confidence to pursue my dreams.",
-              name: "Sarah Ahmed",
-              program: "BS Computer Science, Class of 2023",
-              rating: 5
-            },
-            {
-              quote: "The practical approach to learning and industry connections at UIT University helped me secure my dream job even before graduation. The professors are incredibly supportive and knowledgeable.",
-              name: "Ahmed Hassan",
-              program: "BS Software Engineering, Class of 2023",
-              rating: 5
-            },
-            {
-              quote: "UIT University's AI program is cutting-edge. The research opportunities and modern labs provided me with hands-on experience that's invaluable in today's tech industry.",
-              name: "Fatima Khan",
-              program: "BS Artificial Intelligence, Class of 2024",
-              rating: 5
-            },
-            {
-              quote: "The business administration program at UIT University equipped me with both theoretical knowledge and practical skills. The entrepreneurship support helped me start my own company.",
-              name: "Ali Raza",
-              program: "BBA Business Administration, Class of 2022",
-              rating: 5
-            }
-          ].map((testimonial, index) => (
-            <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
-              <Card className="bg-white shadow-lg rounded-3xl p-8 h-full border-0">
-                <CardContent className="p-0 flex flex-col h-full">
-                  <blockquote className="text-lg text-gray-700 mb-8 flex-grow leading-relaxed">
-                    {testimonial.quote}
-                  </blockquote>
-                  <div className="flex items-center gap-4 mt-auto">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-white font-semibold text-xl flex-shrink-0">
-                      {testimonial.name.split(' ').map(n => n[0]).join('')}
-                    </div>
-                    <div className="text-left">
-                      <div className="text-lg font-semibold text-gray-900">{testimonial.name}</div>
-                      <div className="text-sm text-gray-500">{testimonial.program}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="text-primary-foreground bg-primary hover:bg-primary/90" />
-        <CarouselNext className="text-primary-foreground bg-primary hover:bg-primary/90" />
-      </Carousel>
-    );
-  };
+  const testimonials = [
+    {
+      quote: "UIT University has provided me with an exceptional learning environment. The faculty is outstanding, and the facilities are world-class. I've gained not just knowledge but also the confidence to pursue my dreams.",
+      name: "Sarah Ahmed",
+      program: "BS Computer Science, Class of 2023",
+      rating: 5
+    },
+    {
+      quote: "The practical approach to learning and industry connections at UIT University helped me secure my dream job even before graduation. The professors are incredibly supportive and knowledgeable.",
+      name: "Ahmed Hassan",
+      program: "BS Software Engineering, Class of 2023",
+      rating: 5
+    },
+    {
+      quote: "UIT University's AI program is cutting-edge. The research opportunities and modern labs provided me with hands-on experience that's invaluable in today's tech industry.",
+      name: "Fatima Khan",
+      program: "BS Artificial Intelligence, Class of 2024",
+      rating: 5
+    },
+    {
+      quote: "The business administration program at UIT University equipped me with both theoretical knowledge and practical skills. The entrepreneurship support helped me start my own company.",
+      name: "Ali Raza",
+      program: "BBA Business Administration, Class of 2022",
+      rating: 5
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -177,10 +130,26 @@ export default function Home() {
                   alt="Students"
                   className="w-full h-[380px] md:h-[430px] object-cover rounded-2xl"
                 />
-                {/* Badge */}
-                <div className="absolute -bottom-6 -left-6 bg-white rounded-xl px-5 py-4 flex items-center gap-3">
-                  <div className="text-3xl font-bold text-primary leading-none">27</div>
-                  <div className="text-sm text-gray-600 leading-tight">Years of Experience</div>
+                {/* Circular Badge with Rotating Text */}
+                <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-white rounded-full shadow-2xl flex items-center justify-center border-4 border-primary/10">
+                  <div className="relative w-full h-full flex items-center justify-center">
+                    {/* Center Number */}
+                    <div className="text-5xl font-bold text-primary z-10">27</div>
+                    {/* Rotating Text */}
+                    <svg className="absolute inset-0 w-full h-full animate-spin-slow" viewBox="0 0 100 100">
+                      <defs>
+                        <path
+                          id="circlePath"
+                          d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                        />
+                      </defs>
+                      <text className="text-[8px] fill-gray-600 font-semibold uppercase tracking-wider">
+                        <textPath href="#circlePath" startOffset="0%">
+                          Years of Experience • Years of Experience •
+                        </textPath>
+                      </text>
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -361,7 +330,7 @@ export default function Home() {
             </p>
           </div>
 
-          <AceternityTimeline
+          <ModernTimeline
             items={[
               {
                 year: '1973',
@@ -444,62 +413,123 @@ export default function Home() {
       <FacultySection />
 
       {/* Student Feedback Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="heading-large font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Hear what our students have to say about their experience at UIT University.
-            </p>
-          </div>
-
-          <TestimonialsCarousel />
+      <section className="py-20 overflow-hidden">
+        <div className="text-center mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="heading-large font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Hear what our students have to say about their experience at UIT University.
+          </p>
         </div>
+
+        <Marquee pauseOnHover className="[--duration:30s]">
+          {testimonials.map((testimonial, index) => (
+            <Card key={index} className="bg-white shadow-lg rounded-3xl p-8 border-0 w-[400px]">
+              <CardContent className="p-0 flex flex-col h-full">
+                <blockquote className="text-lg text-gray-700 mb-8 leading-relaxed">
+                  {testimonial.quote}
+                </blockquote>
+                <div className="flex items-center gap-4 mt-auto">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-white font-semibold text-xl flex-shrink-0">
+                    {testimonial.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div className="text-left">
+                    <div className="text-lg font-semibold text-gray-900">{testimonial.name}</div>
+                    <div className="text-sm text-gray-500">{testimonial.program}</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </Marquee>
       </section>
 
 
 
       {/* Blog Section */}
-      <section className="py-20">
+      <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-12">
-            <h2 className="heading-large font-semibold">Latest <span className="ma-hightlighted-text">Insights</span></h2>
-            <Button>View All <ArrowUpRight className="w-4 h-4 ml-2" /></Button>
+            <div>
+              <h2 className="heading-large font-semibold mb-2">Latest <span className="ma-hightlighted-text">Insights</span></h2>
+              <p className="text-muted-foreground">Stay updated with our latest news and articles</p>
+            </div>
+            <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+              View All <ArrowUpRight className="w-4 h-4 ml-2" />
+            </Button>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 category: "Education",
+                icon: GraduationCap,
                 title: "The Importance of STEM Education",
+                excerpt: "Discover how STEM education shapes the future of innovation and technology.",
                 date: "May 15, 2024",
+                readTime: "5 min read",
                 image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
               },
               {
                 category: "Technology",
+                icon: Building,
                 title: "Future of Artificial Intelligence",
+                excerpt: "Exploring the transformative potential of AI in education and beyond.",
                 date: "May 12, 2024",
+                readTime: "7 min read",
                 image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
               },
               {
                 category: "Career",
+                icon: Users,
                 title: "Building Your Professional Network",
+                excerpt: "Essential strategies for creating meaningful professional connections.",
                 date: "May 10, 2024",
+                readTime: "4 min read",
                 image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
               }
-            ].map((post, index) => (
-              <Card key={index} className="flex-1 bg-background group cursor-pointer overflow-hidden">
-                <div className="overflow-hidden">
-                  <img src={post.image} alt={post.title} className="w-full h-48 object-cover transition-transform duration-[400ms] group-active:scale-110 group-hover:scale-105" />
-                </div>
-                <CardContent className="p-6">
-                  <div className="text-sm text-primary font-medium mb-2">{post.category}</div>
-                  <h3 className="text-xl font-semibold mb-2 transition-colors duration-[400ms] group-active:text-primary group-hover:text-primary">{post.title}</h3>
-                  <div className="text-sm text-muted-foreground mb-4">{post.date}</div>
-                  <Button variant="link" className="p-0 h-auto">Read More</Button>
-                </CardContent>
-              </Card>
-            ))}
+            ].map((post, index) => {
+              const IconComponent = post.icon;
+              return (
+                <Card key={index} className="bg-white group cursor-pointer overflow-hidden border-0 shadow-lg transition-all duration-300 hover:-translate-y-2">
+                  <div className="relative overflow-hidden">
+                    <img 
+                      src={post.image} 
+                      alt={post.title} 
+                      className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-110" 
+                    />
+                    <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg">
+                      <IconComponent className="w-4 h-4" />
+                      {post.category}
+                    </div>
+                  </div>
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {post.date}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {post.readTime}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-primary transition-colors line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+                    <Button 
+                      variant="ghost" 
+                      className="p-0 h-auto text-primary hover:text-primary/80 font-semibold group/btn"
+                    >
+                      Read More 
+                      <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover/btn:translate-x-1" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>

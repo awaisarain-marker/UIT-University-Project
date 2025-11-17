@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Plus, Trash2, GripVertical, Image as ImageIcon } from 'lucide-react'
 import ImageUpload from '@/components/admin/ImageUpload'
+import RichTextEditor from '@/components/admin/RichTextEditor'
 import {
   DndContext,
   closestCenter,
@@ -141,12 +142,11 @@ function SortableBlock({
 
         {block.type === 'description' && (
           <div>
-            <Label className="text-xs text-gray-500 mb-1">Description</Label>
-            <textarea
-              className="w-full min-h-[100px] px-3 py-2 border rounded-md"
-              placeholder="Enter description..."
+            <Label className="text-xs text-gray-500 mb-1">Description (Rich Text)</Label>
+            <RichTextEditor
               value={block.text}
-              onChange={(e) => onUpdate(block.id, e.target.value)}
+              onChange={(html) => onUpdate(block.id, html)}
+              placeholder="Enter description with formatting..."
             />
           </div>
         )}

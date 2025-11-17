@@ -45,9 +45,11 @@ function renderTabContent(data: TabData, badgeColor: string) {
         )
       } else if (block.type === 'description') {
         return (
-          <p key={block.id} className="text-gray-700 leading-relaxed mb-4">
-            {block.text}
-          </p>
+          <div 
+            key={block.id} 
+            className="prose prose-gray max-w-none text-gray-700 leading-relaxed mb-4"
+            dangerouslySetInnerHTML={{ __html: block.text }}
+          />
         )
       } else if (block.type === 'image') {
         return (
