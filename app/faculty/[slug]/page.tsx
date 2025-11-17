@@ -10,9 +10,14 @@ interface PageProps {
 interface TabItem {
   id: string
   text: string
-  type?: 'point' | 'heading' | 'description' | 'image'
+  type?: 'point' | 'heading' | 'description' | 'image' | 'table'
   order?: number
   imageUrl?: string
+  tableData?: {
+    col1Header: string
+    col2Header: string
+    rows: Array<{ id: string; col1: string; col2: string }>
+  }
 }
 
 interface TabData {
@@ -59,6 +64,35 @@ function renderTabContent(data: TabData, badgeColor: string) {
                 {block.text}
               </p>
             )}
+          </div>
+        )
+      } else if (block.type === 'table') {
+        return (
+          <div key={block.id} className="my-6 overflow-x-auto">
+            <table className="min-w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">
+                    {block.tableData?.col1Header || 'Column 1'}
+                  </th>
+                  <th className="border border-gray-300 px-4 py-2 text-left font-semibold text-gray-900">
+                    {block.tableData?.col2Header || 'Column 2'}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {block.tableData?.rows.map((row, index) => (
+                  <tr key={row.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="border border-gray-300 px-4 py-2 text-gray-700">
+                      {row.col1}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-gray-700">
+                      {row.col2}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )
       } else {

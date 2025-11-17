@@ -23,8 +23,14 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-// Content block can be: point, heading, description, or image
-type ContentBlockType = 'point' | 'heading' | 'description' | 'image'
+// Content block can be: point, heading, description, image, or table
+type ContentBlockType = 'point' | 'heading' | 'description' | 'image' | 'table'
+
+interface TableRow {
+  id: string
+  col1: string
+  col2: string
+}
 
 interface ContentBlock {
   id: string
@@ -32,6 +38,11 @@ interface ContentBlock {
   text: string
   order: number
   imageUrl?: string // For image blocks
+  tableData?: {
+    col1Header: string
+    col2Header: string
+    rows: TableRow[]
+  } // For table blocks
 }
 
 interface TabData {
@@ -63,7 +74,7 @@ function SortableBlock({
   index: number
   badgeColor: string
   itemLabel: string
-  onUpdate: (id: string, text: string, imageUrl?: string) => void
+  onUpdate: (id: string, text: string, imageUrl?: string, tableData?: any) => void
   onRemove: (id: string) => void
   getPointNumber: (index: number) => number
 }) {
@@ -166,6 +177,125 @@ function SortableBlock({
             />
           </div>
         )}
+
+        {block.type === 'table' && (
+          <div>
+            <Label className="text-xs text-gray-500 mb-1">2-Column Table</Label>
+            
+            {/* Table Headers */}
+            <div className="grid grid-cols-2 gap-2 mb-2">
+              <Input
+                placeholder="Column 1 Heading (e.g., Course Code)"
+                value={block.tableData?.col1Header || ''}
+                onChange={(e) => {
+                  const newTableData = {
+                    ...block.tableData,
+                    col1Header: e.target.value,
+                    col2Header: block.tableData?.col2Header || '',
+                    rows: block.tableData?.rows || []
+                  }
+                  onUpdate(block.id, block.text, undefined, newTableData)
+                }}
+              />
+              <Input
+                placeholder="Column 2 Heading (e.g., Course Title)"
+                value={block.tableData?.col2Header || ''}
+                onChange={(e) => {
+                  const newTableData = {
+                    ...block.tableData,
+                    col1Header: block.tableData?.col1Header || '',
+                    col2Header: e.target.value,
+                    rows: block.tableData?.rows || []
+                  }
+                  onUpdate(block.id, block.text, undefined, newTableData)
+                }}
+              />
+            </div>
+
+            {/* Table Rows */}
+            <div className="space-y-2">
+              {(block.tableData?.rows || []).map((row, rowIndex) => (
+                <div key={row.id} className="grid grid-cols-2 gap-2 items-center">
+                  <Input
+                    placeholder={`Row ${rowIndex + 1}, Col 1`}
+                    value={row.col1}
+                    onChange={(e) => {
+                      const newRows = [...(block.tableData?.rows || [])]
+                      newRows[rowIndex] = { ...row, col1: e.target.value }
+                      const newTableData = {
+                        ...block.tableData,
+                        col1Header: block.tableData?.col1Header || '',
+                        col2Header: block.tableData?.col2Header || '',
+                        rows: newRows
+                      }
+                      onUpdate(block.id, block.text, undefined, newTableData)
+                    }}
+                  />
+                  <div className="flex gap-2">
+                    <Input
+                      placeholder={`Row ${rowIndex + 1}, Col 2`}
+                      value={row.col2}
+                      onChange={(e) => {
+                        const newRows = [...(block.tableData?.rows || [])]
+                        newRows[rowIndex] = { ...row, col2: e.target.value }
+                        const newTableData = {
+                          ...block.tableData,
+                          col1Header: block.tableData?.col1Header || '',
+                          col2Header: block.tableData?.col2Header || '',
+                          rows: newRows
+                        }
+                        onUpdate(block.id, block.text, undefined, newTableData)
+                      }}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        const newRows = (block.tableData?.rows || []).filter((_, i) => i !== rowIndex)
+                        const newTableData = {
+                          ...block.tableData,
+                          col1Header: block.tableData?.col1Header || '',
+                          col2Header: block.tableData?.col2Header || '',
+                          rows: newRows
+                        }
+                        onUpdate(block.id, block.text, undefined, newTableData)
+                      }}
+                      className="text-red-600 hover:text-red-700"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Add Row Button */}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-2 w-full"
+              onClick={() => {
+                const newRow: TableRow = {
+                  id: `row-${Date.now()}`,
+                  col1: '',
+                  col2: ''
+                }
+                const newTableData = {
+                  ...block.tableData,
+                  col1Header: block.tableData?.col1Header || '',
+                  col2Header: block.tableData?.col2Header || '',
+                  rows: [...(block.tableData?.rows || []), newRow]
+                }
+                onUpdate(block.id, block.text, undefined, newTableData)
+              }}
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Row
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Delete button */}
@@ -206,7 +336,8 @@ export default function FacultyTabManager({
           type: item.type || 'point',
           text: item.text,
           order: item.order !== undefined ? item.order : index,
-          imageUrl: item.imageUrl
+          imageUrl: item.imageUrl,
+          tableData: item.tableData
         })).sort((a, b) => a.order - b.order)
       } else {
         // Old format: items are just points
@@ -275,7 +406,8 @@ export default function FacultyTabManager({
       text: b.text,
       type: b.type,
       order: b.order,
-      imageUrl: b.imageUrl
+      imageUrl: b.imageUrl,
+      tableData: b.tableData
     }))
 
     onChange({
@@ -329,6 +461,24 @@ export default function FacultyTabManager({
     updateFromBlocks([...blocks, newBlock])
   }
 
+  const addTable = () => {
+    const newBlock: ContentBlock = {
+      id: `table-${Date.now()}`,
+      type: 'table',
+      text: '',
+      order: blocks.length,
+      tableData: {
+        col1Header: '',
+        col2Header: '',
+        rows: [
+          { id: `row-${Date.now()}-1`, col1: '', col2: '' },
+          { id: `row-${Date.now()}-2`, col1: '', col2: '' }
+        ]
+      }
+    }
+    updateFromBlocks([...blocks, newBlock])
+  }
+
   const removeBlock = (id: string) => {
     const updatedBlocks = blocks
       .filter(b => b.id !== id)
@@ -336,9 +486,14 @@ export default function FacultyTabManager({
     updateFromBlocks(updatedBlocks)
   }
 
-  const updateBlock = (id: string, text: string, imageUrl?: string) => {
+  const updateBlock = (id: string, text: string, imageUrl?: string, tableData?: any) => {
     const updatedBlocks = blocks.map(b => 
-      b.id === id ? { ...b, text, imageUrl: imageUrl !== undefined ? imageUrl : b.imageUrl } : b
+      b.id === id ? { 
+        ...b, 
+        text, 
+        imageUrl: imageUrl !== undefined ? imageUrl : b.imageUrl,
+        tableData: tableData !== undefined ? tableData : b.tableData
+      } : b
     )
     updateFromBlocks(updatedBlocks)
   }
@@ -383,7 +538,16 @@ export default function FacultyTabManager({
     <div className="space-y-4 p-4 border rounded-lg bg-gray-50">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
+          <Button 
+            type="button" 
+            onClick={addTable} 
+            variant="outline"
+            size="sm" 
+            className="gap-2 bg-red-600 text-white hover:bg-red-700 hover:text-white"
+          >
+            Add Table
+          </Button>
           <Button 
             type="button" 
             onClick={addImage} 
