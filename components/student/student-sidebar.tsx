@@ -54,16 +54,16 @@ export default function StudentSidebar() {
                 Student Portal
               </a>
 
-              {/* Student Affairs */}
+              {/* Affairs */}
               <Link
-                href="/student/student-affairs"
+                href="/student/affairs"
                 className={`block px-3 py-2 text-sm rounded-lg transition-colors ${
-                  isActive('/student/student-affairs')
+                  isActive('/student/affairs')
                     ? 'bg-blue-50 text-blue-700 font-medium'
                     : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
-                Student Affairs
+                Affairs
               </Link>
 
               {/* Library Service with submenu */}

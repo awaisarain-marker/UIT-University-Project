@@ -1,5 +1,6 @@
 import PageBanner from '@/components/ui/page-banner';
 import StudentSidebar from '@/components/student/student-sidebar';
+import { ExternalLink } from 'lucide-react';
 
 export default function LibraryFormPage() {
   return (
@@ -25,63 +26,89 @@ export default function LibraryFormPage() {
           <div className="lg:col-span-3">
             <div className="bg-white rounded-lg shadow-md p-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-6">
-                Library Service Request Form
+                Library Forms
               </h1>
               <p className="text-gray-600 mb-6">
-                Use this form to request library services or submit inquiries.
+                Access various library service forms below.
               </p>
-              <form className="space-y-6 max-w-2xl">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="studentId" className="block text-sm font-medium text-gray-700 mb-2">
-                    Student ID
-                  </label>
-                  <input
-                    type="text"
-                    id="studentId"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter your student ID"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="request" className="block text-sm font-medium text-gray-700 mb-2">
-                    Request Details
-                  </label>
-                  <textarea
-                    id="request"
-                    rows={6}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Describe your library service request..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              
+              <div className="space-y-4">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLScaIxzXASVMWYnPR6tfLrP_p-UT8CmLPhKh3fIcIiJbOfinyA/viewform?vc=0&c=0&w=1&flr=0&pli=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-5 bg-white border-l-4 border-blue-600 rounded-lg shadow-md hover:shadow-lg transition-shadow"
                 >
-                  Submit Request
-                </button>
-              </form>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        Library Membership Form
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        Register for library membership to access all library resources and services.
+                      </p>
+                    </div>
+                    <ExternalLink className="w-5 h-5 text-blue-600 flex-shrink-0 ml-3" />
+                  </div>
+                </a>
+
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSfWZWH8-FAk0v_7VAr482xDS7wdC81OGzvmzTpcvMal4JMylA/viewform?pli=1&pli=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-5 bg-white border-l-4 border-blue-600 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        Library Book Bank Form
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        Apply for book bank services to borrow textbooks for the semester.
+                      </p>
+                    </div>
+                    <ExternalLink className="w-5 h-5 text-blue-600 flex-shrink-0 ml-3" />
+                  </div>
+                </a>
+
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSclEasCya2i6uJLuBgGCxMBSOJjadc9waykS8mlVVZesSBIBQ/viewform?pli=1&pli=1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-5 bg-white border-l-4 border-blue-600 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        Book Request Form
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        Request new books or materials to be added to the library collection.
+                      </p>
+                    </div>
+                    <ExternalLink className="w-5 h-5 text-blue-600 flex-shrink-0 ml-3" />
+                  </div>
+                </a>
+
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSd53nwLzpi-2GYMrfyD4tMfvNjiKyKlNBr3KAQBhsMMUPNzGQ/viewform?vc=0&c=0&w=1&flr=0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-5 bg-white border-l-4 border-blue-600 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        E-books and E-Articles Form
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        Request access to digital resources including e-books and e-articles.
+                      </p>
+                    </div>
+                    <ExternalLink className="w-5 h-5 text-blue-600 flex-shrink-0 ml-3" />
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         </div>

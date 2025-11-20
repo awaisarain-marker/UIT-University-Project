@@ -78,6 +78,7 @@ export interface BlogPost {
   content: string
   excerpt?: string
   author_id: string
+  author_name?: string
   category: string
   image_url?: string
   is_published: boolean
