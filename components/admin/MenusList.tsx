@@ -60,6 +60,8 @@ export default function MenusList({ menus: initialMenus }: MenusListProps) {
   }
 
   const headerMenus = menus.filter(m => m.location === 'header')
+  const headerBottomMenus = menus.filter(m => m.location === 'header-bottom')
+  const mobileMenus = menus.filter(m => m.location === 'mobile')
   const footerMenus = menus.filter(m => m.location === 'footer')
 
   const MenuCard = ({ menu }: { menu: Menu }) => (
@@ -128,7 +130,7 @@ export default function MenusList({ menus: initialMenus }: MenusListProps) {
     <div className="space-y-8">
       {/* Header Menus */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Header Menus</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Header Menus (Main Navigation)</h2>
         {headerMenus.length === 0 ? (
           <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed">
             <MenuIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
@@ -137,6 +139,50 @@ export default function MenusList({ menus: initialMenus }: MenusListProps) {
         ) : (
           <div className="grid gap-4">
             {headerMenus.map(menu => (
+              <MenuCard key={menu.id} menu={menu} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Header Bottom Menus */}
+      <div>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Header Bottom Bar (Desktop Only)</h2>
+        <p className="text-sm text-gray-600 mb-4">
+          This menu appears below the main navigation with white background. 
+          Supports parent-child dropdowns just like the main menu.
+        </p>
+        {headerBottomMenus.length === 0 ? (
+          <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed">
+            <MenuIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+            <p className="text-gray-500">No header bottom menus found</p>
+            <p className="text-sm text-gray-400 mt-2">Create one to add a bottom navigation bar with dropdown support</p>
+          </div>
+        ) : (
+          <div className="grid gap-4">
+            {headerBottomMenus.map(menu => (
+              <MenuCard key={menu.id} menu={menu} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Mobile Menus */}
+      <div>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Mobile Menu (Mobile Only)</h2>
+        <p className="text-sm text-gray-600 mb-4">
+          This menu only appears on mobile devices in the left drawer. 
+          Separate from desktop menus for better mobile experience.
+        </p>
+        {mobileMenus.length === 0 ? (
+          <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed">
+            <MenuIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+            <p className="text-gray-500">No mobile menus found</p>
+            <p className="text-sm text-gray-400 mt-2">Create one to add a mobile-specific navigation</p>
+          </div>
+        ) : (
+          <div className="grid gap-4">
+            {mobileMenus.map(menu => (
               <MenuCard key={menu.id} menu={menu} />
             ))}
           </div>

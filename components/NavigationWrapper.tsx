@@ -1,29 +1,60 @@
-import { createServerSupabaseClient } from '@/lib/supabase-server';
-import DynamicNavigation from './DynamicNavigation';
+import { createServerSupabaseClient } from '@/lib/supabase-server'
+import DynamicNavbar from './DynamicNavbar'
+
+interface MenuItem {
+  id: string;
+  title: string;
+  url: string;
+  target: string;
+  parent_id: string | null;
+  display_order: number;
+}
 
 export default async function NavigationWrapper() {
-  const supabase = await createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient()
   
-  // Fetch header menu items
-  const { data: headerMenu } = await supabase
+  // Get the main navigation menu
+  const { data: menu } = await supabase
     .from('menus')
     .select('id')
-    .eq('location', 'header')
+    .eq('slug', 'main-navigation')
     .eq('is_active', true)
-    .single();
+    .single()
 
-  let menuItems = [];
-  
-  if (headerMenu) {
-    const { data } = await supabase
-      .from('menu_items')
-      .select('*')
-      .eq('menu_id', headerMenu.id)
-      .eq('is_active', true)
-      .order('display_order', { ascending: true });
-    
-    menuItems = data || [];
+  if (!menu) {
+    return <DynamicNavbar menuItems={[]} />
   }
 
-  return <DynamicNavigation menuItems={menuItems} />;
+  // Get all menu items for this menu
+  const { data: items } = await supabase
+    .from('menu_items')
+    .select('*')
+    .eq('menu_id', menu.id)
+    .eq('is_active', true)
+    .order('display_order', { ascending: true })
+
+  if (!items) {
+    return <DynamicNavbar menuItems={[]} />
+  }
+
+  // Organize items into hierarchy
+  const parentItems = items.filter(item => !item.parent_id)
+  const childItems = items.filter(item => item.parent_id)
+
+  const menuItems = parentItems.map(parent => ({
+    id: parent.id,
+    title: parent.title,
+    url: parent.url || '#',
+    target: parent.target || '_self',
+    children: childItems
+      .filter(child => child.parent_id === parent.id)
+      .map(child => ({
+        id: child.id,
+        title: child.title,
+        url: child.url || '#',
+        target: child.target || '_self'
+      }))
+  }))
+
+  return <DynamicNavbar menuItems={menuItems} />
 }

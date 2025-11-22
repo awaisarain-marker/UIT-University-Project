@@ -18,7 +18,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
   return (
     <>
       <DynamicHeader />
-      <main className="pt-24 lg:pt-28 min-h-screen">
+      <main className="min-h-screen">
         {children}
       </main>
       <DynamicFooter />

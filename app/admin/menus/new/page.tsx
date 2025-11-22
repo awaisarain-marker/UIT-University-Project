@@ -99,9 +99,14 @@ export default function NewMenuPage() {
                 value={formData.location}
                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               >
-                <option value="header">Header</option>
+                <option value="header">Header (Main Navigation - Desktop)</option>
+                <option value="header-bottom">Header Bottom Bar (Desktop)</option>
+                <option value="mobile">Mobile Menu (Mobile Only)</option>
                 <option value="footer">Footer</option>
               </select>
+              <p className="text-sm text-gray-500">
+                Mobile Menu only shows on mobile devices, Desktop menus only show on desktop
+              </p>
             </div>
 
             <div className="space-y-2">

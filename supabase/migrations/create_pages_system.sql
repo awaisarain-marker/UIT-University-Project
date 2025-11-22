@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS pages (
   slug VARCHAR(255) NOT NULL UNIQUE,
   content TEXT,
   meta_description TEXT,
+  parent_id UUID REFERENCES pages(id) ON DELETE SET NULL,
+  sort_order INTEGER DEFAULT 0,
   is_published BOOLEAN DEFAULT false,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
@@ -13,6 +15,8 @@ CREATE TABLE IF NOT EXISTS pages (
 -- Add indexes
 CREATE INDEX IF NOT EXISTS idx_pages_slug ON pages(slug);
 CREATE INDEX IF NOT EXISTS idx_pages_published ON pages(is_published);
+CREATE INDEX IF NOT EXISTS idx_pages_parent_id ON pages(parent_id);
+CREATE INDEX IF NOT EXISTS idx_pages_sort_order ON pages(sort_order);
 
 -- Enable RLS
 ALTER TABLE pages ENABLE ROW LEVEL SECURITY;

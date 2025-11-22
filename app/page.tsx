@@ -79,7 +79,7 @@ export default function Home() {
         {bannerImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-[2000ms] ${index === currentSlide ? 'opacity-100' : 'opacity-0'
               }`}
             style={{ backgroundImage: `url('${image}')` }}
           />
@@ -88,11 +88,11 @@ export default function Home() {
         {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black/40"></div>
 
-        <div className="relative z-10 h-full flex items-center">
+        <div className="relative z-10 h-full flex items-center justify-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-              <div className="text-white flex-1 text-center lg:text-left">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium mb-4 sm:mb-6 leading-tight">
+            <div className="flex flex-col items-center text-center">
+              <div className="text-white max-w-4xl">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium mb-4 sm:mb-6 leading-tight tracking-tight">
                   Transform Your Future at UIT University
                 </h1>
                 <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-90">
@@ -160,7 +160,7 @@ export default function Home() {
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary"><GraduationCap className="w-4 h-4" /></span>
                 <span className="font-medium">About UIT University</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium mb-4 font-semibold">An Introduction to Our <span className="ma-hightlighted-text font-semibold">University</span></h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-[60px] lg:leading-[64px] font-semibold mb-4">An Introduction to Our <span className="ma-hightlighted-text font-semibold">University</span></h2>
               <p className="text-sm sm:text-base text-muted-foreground mb-6 leading-relaxed">
                 The UIT University (UITU) was established vide The UIT University Act, 2017 [Sindh Act No. XXXIV of 2018] of Government of Sindh and published vide Notification in The Sindh Government Gazette on May 28, 2018. The University after due charter inspections by HEC, granted NOC whereby UITU has been initially allowed to start undergraduate programs in four departments namely, Electrical Engineering, Management Sciences, Computer Science and Social Sciences. The UIT University is managed by Usman Memorial Foundation (UMF).
               </p>
@@ -177,7 +177,7 @@ export default function Home() {
       <section className="py-[50px] lg:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Why <span className="ma-hightlighted-text">UIT</span> University</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-[60px] lg:leading-[64px] font-semibold mb-4">Why <span className="ma-hightlighted-text">UIT</span> University</h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
               Discover what makes us the preferred choice for students seeking quality education and career success.
             </p>
@@ -227,7 +227,7 @@ export default function Home() {
       <section className="py-[50px] lg:py-20 bg-primary text-primary-foreground overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Academic Courses</h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-[60px] lg:leading-[64px] font-semibold mb-4">Academic Courses</h2>
             <p className="text-base sm:text-lg lg:text-xl max-w-3xl mx-auto">
               Explore our comprehensive range of programs designed to prepare you for success in your chosen field.
             </p>
@@ -247,7 +247,7 @@ export default function Home() {
                 <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary"><GraduationCap className="w-4 h-4" /></span>
                 <span className="font-medium">Events</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4 leading-tight">
+              <h2 className="text-2xl sm:text-3xl lg:text-[60px] lg:leading-[64px] font-semibold mb-4">
                 What's Happening at <span className="ma-hightlighted-text">UIT</span>
               </h2>
               <p className="text-base sm:text-lg text-muted-foreground mb-6 sm:mb-8 max-w-xl">
@@ -323,7 +323,7 @@ export default function Home() {
       <section className="py-[50px] lg:py-20 overflow-x-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Our <span className="ma-hightlighted-text">Timeline</span></h2>
+            <h2 className="text-3xl sm:text-4xl lg:text-[60px] lg:leading-[64px] font-semibold mb-4">Our <span className="ma-hightlighted-text">Timeline</span></h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
               A brief history of UIT University from foundation to becoming an independent chartered university.
             </p>
@@ -414,7 +414,7 @@ export default function Home() {
       {/* Student Feedback Section */}
       <section className="py-[50px] lg:py-20 overflow-hidden">
         <div className="text-center mb-12 sm:mb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
+          <h2 className="text-3xl sm:text-4xl lg:text-[60px] lg:leading-[64px] font-semibold mb-4">Feedback From <span className="ma-hightlighted-text">Students</span></h2>
           <p className="text-base sm:text-lg text-muted-foreground max-w-3xl mx-auto">
             Hear what our students have to say about their experience at UIT University.
           </p>
@@ -449,7 +449,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 sm:mb-12">
             <div>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-2">Latest <span className="ma-hightlighted-text">Insights</span></h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-[60px] lg:leading-[64px] font-semibold mb-2">Latest <span className="ma-hightlighted-text">Insights</span></h2>
               <p className="text-sm sm:text-base text-muted-foreground">Stay updated with our latest news and articles</p>
             </div>
             <Button className="bg-primary text-primary-foreground hover:bg-primary/90 w-full sm:w-auto">

@@ -12,9 +12,19 @@ const AdminSidebar = () => {
       active: true
     },
     {
-      title: 'Students',
+      title: 'Pages',
+      icon: 'solar:document-bold',
+      href: '/admin/pages'
+    },
+    {
+      title: 'Menus',
+      icon: 'solar:menu-dots-bold',
+      href: '/admin/menus'
+    },
+    {
+      title: 'Users',
       icon: 'solar:users-group-rounded-bold',
-      href: '/admin/students'
+      href: '/admin/users'
     },
     {
       title: 'Faculty',
@@ -37,9 +47,9 @@ const AdminSidebar = () => {
       href: '/admin/blog'
     },
     {
-      title: 'Analytics',
-      icon: 'solar:chart-bold',
-      href: '/admin/analytics'
+      title: 'Entries',
+      icon: 'solar:clipboard-list-bold',
+      href: '/admin/entries'
     },
     {
       title: 'Settings',

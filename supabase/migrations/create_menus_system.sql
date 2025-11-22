@@ -100,6 +100,16 @@ INSERT INTO menus (name, slug, location, display_order)
 SELECT 'Main Navigation', 'main-navigation', 'header', 1
 WHERE NOT EXISTS (SELECT 1 FROM menus WHERE slug = 'main-navigation');
 
+-- Insert header bottom menu (only if not exists)
+INSERT INTO menus (name, slug, location, display_order) 
+SELECT 'Header Bottom Menu', 'header-bottom-menu', 'header-bottom', 2
+WHERE NOT EXISTS (SELECT 1 FROM menus WHERE slug = 'header-bottom-menu');
+
+-- Insert mobile menu (only if not exists)
+INSERT INTO menus (name, slug, location, display_order) 
+SELECT 'Mobile Menu', 'mobile-menu', 'mobile', 3
+WHERE NOT EXISTS (SELECT 1 FROM menus WHERE slug = 'mobile-menu');
+
 -- Insert default footer menus (only if not exists)
 INSERT INTO menus (name, slug, location, display_order) 
 SELECT 'Quick Links', 'quick-links', 'footer', 1
