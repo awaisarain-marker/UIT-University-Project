@@ -70,11 +70,65 @@ export default function EditMenuItemPage({ params }: { params: Promise<{ id: str
       .from('menu_items')
       .select('*')
       .eq('menu_id', menuId)
-      .is('parent_id', null)
       .neq('id', currentItemId)
       .order('display_order', { ascending: true });
     
-    if (data) setParentItems(data);
+    if (data) {
+      // Build hierarchical structure for display
+      const hierarchical = buildHierarchicalList(data, currentItemId);
+      setParentItems(hierarchical);
+    }
+  };
+
+  const buildHierarchicalList = (items: any[], excludeId: string) => {
+    const itemMap = new Map();
+    const result: any[] = [];
+
+    // Create map of all items
+    items.forEach(item => {
+      itemMap.set(item.id, { ...item, children: [] });
+    });
+
+    // Build tree structure
+    items.forEach(item => {
+      if (item.parent_id) {
+        const parent = itemMap.get(item.parent_id);
+        if (parent) {
+          parent.children.push(itemMap.get(item.id));
+        }
+      } else {
+        result.push(itemMap.get(item.id));
+      }
+    });
+
+    // Flatten with indentation, excluding current item and its descendants
+    const flattened: any[] = [];
+    const excludedIds = new Set([excludeId]);
+    
+    // Find all descendants of excluded item
+    const findDescendants = (parentId: string) => {
+      items.forEach(item => {
+        if (item.parent_id === parentId) {
+          excludedIds.add(item.id);
+          findDescendants(item.id);
+        }
+      });
+    };
+    findDescendants(excludeId);
+
+    const flatten = (items: any[], level = 0) => {
+      items.forEach(item => {
+        if (!excludedIds.has(item.id)) {
+          flattened.push({ ...item, level });
+          if (item.children && item.children.length > 0) {
+            flatten(item.children, level + 1);
+          }
+        }
+      });
+    };
+    flatten(result);
+
+    return flattened;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -161,6 +215,8 @@ export default function EditMenuItemPage({ params }: { params: Promise<{ id: str
                 <option value="">None (Top-level item)</option>
                 {parentItems.map((item) => (
                   <option key={item.id} value={item.id}>
+                    {'  '.repeat(item.level)}
+                    {item.level > 0 ? '└─ ' : ''}
                     {item.title}
                   </option>
                 ))}

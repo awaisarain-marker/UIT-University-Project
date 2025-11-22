@@ -48,10 +48,53 @@ export default function NewMenuItemPage({ params }: { params: Promise<{ id: stri
       .from('menu_items')
       .select('*')
       .eq('menu_id', id)
-      .is('parent_id', null)
       .order('display_order', { ascending: true });
     
-    if (data) setParentItems(data);
+    if (data) {
+      // Build hierarchical structure for display
+      const hierarchical = buildHierarchicalList(data);
+      setParentItems(hierarchical);
+      
+      // Set next display order automatically
+      const maxOrder = data.length > 0 ? Math.max(...data.map(item => item.display_order || 0)) : -1;
+      setFormData(prev => ({ ...prev, display_order: maxOrder + 1 }));
+    }
+  };
+
+  const buildHierarchicalList = (items: any[]) => {
+    const itemMap = new Map();
+    const result: any[] = [];
+
+    // Create map of all items
+    items.forEach(item => {
+      itemMap.set(item.id, { ...item, children: [] });
+    });
+
+    // Build tree structure
+    items.forEach(item => {
+      if (item.parent_id) {
+        const parent = itemMap.get(item.parent_id);
+        if (parent) {
+          parent.children.push(itemMap.get(item.id));
+        }
+      } else {
+        result.push(itemMap.get(item.id));
+      }
+    });
+
+    // Flatten with indentation
+    const flattened: any[] = [];
+    const flatten = (items: any[], level = 0) => {
+      items.forEach(item => {
+        flattened.push({ ...item, level });
+        if (item.children && item.children.length > 0) {
+          flatten(item.children, level + 1);
+        }
+      });
+    };
+    flatten(result);
+
+    return flattened;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -137,6 +180,8 @@ export default function NewMenuItemPage({ params }: { params: Promise<{ id: stri
                 <option value="">None (Top-level item)</option>
                 {parentItems.map((item) => (
                   <option key={item.id} value={item.id}>
+                    {'  '.repeat(item.level)}
+                    {item.level > 0 ? '└─ ' : ''}
                     {item.title}
                   </option>
                 ))}

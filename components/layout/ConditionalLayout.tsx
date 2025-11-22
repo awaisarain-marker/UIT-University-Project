@@ -5,7 +5,17 @@ import DynamicHeader from '@/components/layout/DynamicHeader'
 import DynamicFooter from '@/components/layout/DynamicFooter'
 import Chatbot from '@/components/ui/chatbot'
 
-export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
+type ConditionalLayoutProps = {
+  children: React.ReactNode;
+  initialMenuItems?: any[];
+  initialMegaMenuData?: Record<string, any>;
+};
+
+export default function ConditionalLayout({ 
+  children, 
+  initialMenuItems = [], 
+  initialMegaMenuData = {} 
+}: ConditionalLayoutProps) {
   const pathname = usePathname()
   
   // Hide header/footer for admin and auth routes
@@ -17,7 +27,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
   
   return (
     <>
-      <DynamicHeader />
+      <DynamicHeader initialMenuItems={initialMenuItems} initialMegaMenuData={initialMegaMenuData} />
       <main className="min-h-screen">
         {children}
       </main>

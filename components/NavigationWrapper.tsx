@@ -1,60 +1,64 @@
-import { createServerSupabaseClient } from '@/lib/supabase-server'
-import DynamicNavbar from './DynamicNavbar'
-
-interface MenuItem {
-  id: string;
-  title: string;
-  url: string;
-  target: string;
-  parent_id: string | null;
-  display_order: number;
-}
+import { createServerSupabaseClient } from '@/lib/supabase-server';
+import DynamicNavigation from './DynamicNavigation';
 
 export default async function NavigationWrapper() {
-  const supabase = await createServerSupabaseClient()
+  const supabase = await createServerSupabaseClient();
   
-  // Get the main navigation menu
-  const { data: menu } = await supabase
+  // Fetch header menu items
+  const { data: headerMenu } = await supabase
     .from('menus')
     .select('id')
-    .eq('slug', 'main-navigation')
+    .eq('location', 'header')
     .eq('is_active', true)
-    .single()
+    .single();
 
-  if (!menu) {
-    return <DynamicNavbar menuItems={[]} />
+  let menuItems = [];
+  let megaMenuData: Record<string, any> = {};
+  
+  if (headerMenu) {
+    const { data } = await supabase
+      .from('menu_items')
+      .select('*')
+      .eq('menu_id', headerMenu.id)
+      .eq('is_active', true)
+      .order('display_order', { ascending: true });
+    
+    menuItems = data || [];
+
+    // Fetch mega menu sections and links for all menu items
+    const menuItemIds = menuItems.map(item => item.id);
+    
+    if (menuItemIds.length > 0) {
+      const { data: sections } = await supabase
+        .from('mega_menu_sections')
+        .select('*')
+        .in('menu_item_id', menuItemIds)
+        .eq('is_active', true)
+        .order('display_order', { ascending: true });
+
+      if (sections && sections.length > 0) {
+        const sectionIds = sections.map(s => s.id);
+        
+        const { data: links } = await supabase
+          .from('mega_menu_links')
+          .select('*')
+          .in('section_id', sectionIds)
+          .eq('is_active', true)
+          .order('display_order', { ascending: true });
+
+        // Organize mega menu data by menu item id
+        sections.forEach(section => {
+          if (!megaMenuData[section.menu_item_id]) {
+            megaMenuData[section.menu_item_id] = [];
+          }
+          megaMenuData[section.menu_item_id].push({
+            ...section,
+            links: links?.filter(link => link.section_id === section.id) || []
+          });
+        });
+      }
+    }
   }
 
-  // Get all menu items for this menu
-  const { data: items } = await supabase
-    .from('menu_items')
-    .select('*')
-    .eq('menu_id', menu.id)
-    .eq('is_active', true)
-    .order('display_order', { ascending: true })
-
-  if (!items) {
-    return <DynamicNavbar menuItems={[]} />
-  }
-
-  // Organize items into hierarchy
-  const parentItems = items.filter(item => !item.parent_id)
-  const childItems = items.filter(item => item.parent_id)
-
-  const menuItems = parentItems.map(parent => ({
-    id: parent.id,
-    title: parent.title,
-    url: parent.url || '#',
-    target: parent.target || '_self',
-    children: childItems
-      .filter(child => child.parent_id === parent.id)
-      .map(child => ({
-        id: child.id,
-        title: child.title,
-        url: child.url || '#',
-        target: child.target || '_self'
-      }))
-  }))
-
-  return <DynamicNavbar menuItems={menuItems} />
+  return <DynamicNavigation menuItems={menuItems} megaMenuData={megaMenuData} />;
 }

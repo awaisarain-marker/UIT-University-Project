@@ -14,14 +14,43 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-interface DynamicNavigationProps {
-  menuItems: MenuItem[];
+interface MegaMenuLink {
+  id: string;
+  title: string;
+  url: string;
+  target: string;
 }
 
-export default function DynamicNavigation({ menuItems }: DynamicNavigationProps) {
+interface MegaMenuSection {
+  id: string;
+  title: string;
+  links: MegaMenuLink[];
+}
+
+interface DynamicNavigationProps {
+  menuItems: MenuItem[];
+  megaMenuData?: Record<string, MegaMenuSection[]>;
+}
+
+import React from 'react';
+
+export default function DynamicNavigation({ menuItems, megaMenuData = {} }: DynamicNavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  // Debug logging
+  React.useEffect(() => {
+    console.log('=== MEGA MENU DEBUG ===');
+    console.log('Menu Items:', menuItems.map(i => ({ id: i.id, title: i.title })));
+    console.log('Mega Menu Data:', megaMenuData);
+    console.log('Mega Menu Keys:', Object.keys(megaMenuData));
+    
+    menuItems.forEach(item => {
+      const hasMega = megaMenuData[item.id] && megaMenuData[item.id].length > 0;
+      console.log(`${item.title}: hasMegaMenu = ${hasMega}`);
+    });
+  }, [menuItems, megaMenuData]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,6 +102,58 @@ export default function DynamicNavigation({ menuItems }: DynamicNavigationProps)
             <div className="ml-10 flex items-baseline space-x-1">
               {organizedItems.map((item) => {
                 const hasChildren = item.children && item.children.length > 0;
+                const hasMegaMenu = megaMenuData[item.id] && megaMenuData[item.id].length > 0;
+
+                if (hasMegaMenu) {
+                  return (
+                    <div
+                      key={item.id}
+                      className="relative group"
+                      onMouseEnter={() => setOpenDropdown(item.id)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      <Link
+                        href={item.url}
+                        className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center gap-1"
+                        target={item.target}
+                      >
+                        {item.title}
+                        <ChevronDown className="w-4 h-4" />
+                      </Link>
+                      
+                      {/* Mega Menu */}
+                      <div 
+                        className={`absolute left-0 mt-0 bg-white rounded-md shadow-xl border border-gray-200 p-6 z-50 transition-all duration-200 ${
+                          openDropdown === item.id ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2 pointer-events-none'
+                        }`} 
+                        style={{ minWidth: '600px' }}
+                      >
+                        <div className="grid grid-cols-3 gap-6">
+                          {megaMenuData[item.id].map((section) => (
+                            <div key={section.id}>
+                              <h3 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide border-b border-gray-200 pb-2">
+                                {section.title}
+                              </h3>
+                              <ul className="space-y-2">
+                                {section.links.map((link) => (
+                                  <li key={link.id}>
+                                    <Link
+                                      href={link.url}
+                                      className="text-sm text-gray-600 hover:text-blue-600 transition-colors block py-1"
+                                      target={link.target}
+                                    >
+                                      {link.title}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
 
                 if (hasChildren) {
                   return (

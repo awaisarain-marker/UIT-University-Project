@@ -16,23 +16,49 @@ type MenuItem = {
     children?: MenuItem[];
 };
 
+type MegaMenuLink = {
+    id: string;
+    title: string;
+    url: string;
+    target: string;
+};
+
+type MegaMenuSection = {
+    id: string;
+    title: string;
+    links: MegaMenuLink[];
+};
+
 type NavigationItem = {
+    id?: string;
     name: string;
     href: string;
     target?: string;
     dropdown?: NavigationItem[];
+    megaMenu?: MegaMenuSection[];
 };
 
-export default function DynamicHeader() {
+type DynamicHeaderProps = {
+    initialMenuItems?: any[];
+    initialMegaMenuData?: Record<string, any>;
+};
+
+export default function DynamicHeader({ initialMenuItems = [], initialMegaMenuData = {} }: DynamicHeaderProps = {}) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [navigationItems, setNavigationItems] = useState<NavigationItem[]>([]);
     const [mobileMenuItems, setMobileMenuItems] = useState<NavigationItem[]>([]);
 
     useEffect(() => {
-        loadMenus();
+        // If initial data is provided, use it immediately
+        if (initialMenuItems.length > 0) {
+            const navItems = buildNavigationTree(initialMenuItems, initialMegaMenuData);
+            setNavigationItems(navItems);
+        } else {
+            loadMenus();
+        }
         loadMobileMenu();
-    }, []);
+    }, [initialMenuItems, initialMegaMenuData]);
 
     const loadMenus = async () => {
         const supabase = createClient();
@@ -57,10 +83,46 @@ export default function DynamicHeader() {
             .eq('is_active', true)
             .order('display_order', { ascending: true });
 
-        if (items) {
-            const navItems = buildNavigationTree(items);
-            setNavigationItems(navItems);
+        if (!items) return;
+
+        // Fetch mega menu data
+        const menuItemIds = items.map(item => item.id);
+        let megaMenuData: Record<string, MegaMenuSection[]> = {};
+
+        if (menuItemIds.length > 0) {
+            const { data: sections } = await supabase
+                .from('mega_menu_sections')
+                .select('*')
+                .in('menu_item_id', menuItemIds)
+                .eq('is_active', true)
+                .order('display_order', { ascending: true });
+
+            if (sections && sections.length > 0) {
+                const sectionIds = sections.map(s => s.id);
+                
+                const { data: links } = await supabase
+                    .from('mega_menu_links')
+                    .select('*')
+                    .in('section_id', sectionIds)
+                    .eq('is_active', true)
+                    .order('display_order', { ascending: true});
+
+                // Organize mega menu data by menu item id
+                sections.forEach(section => {
+                    if (!megaMenuData[section.menu_item_id]) {
+                        megaMenuData[section.menu_item_id] = [];
+                    }
+                    megaMenuData[section.menu_item_id].push({
+                        id: section.id,
+                        title: section.title,
+                        links: links?.filter(link => link.section_id === section.id) || []
+                    });
+                });
+            }
         }
+
+        const navItems = buildNavigationTree(items, megaMenuData);
+        setNavigationItems(navItems);
     };
 
     const loadMobileMenu = async () => {
@@ -90,13 +152,13 @@ export default function DynamicHeader() {
         }
     };
 
-    const buildNavigationTree = (items: any[]): NavigationItem[] => {
+    const buildNavigationTree = (items: any[], megaMenuData: Record<string, MegaMenuSection[]> = {}): NavigationItem[] => {
         const itemMap = new Map<string, any>();
         const rootItems: any[] = [];
 
         // Create a map of all items
         items.forEach(item => {
-            itemMap.set(item.id, { ...item, children: [] });
+            itemMap.set(item.id, { ...item, children: [], megaMenu: megaMenuData[item.id] || [] });
         });
 
         // Build the tree structure
@@ -119,12 +181,15 @@ export default function DynamicHeader() {
 
     const convertToNavigationItem = (item: any): NavigationItem => {
         const navItem: NavigationItem = {
+            id: item.id,
             name: item.title,
             href: item.url,
             target: item.target,
         };
 
-        if (item.children && item.children.length > 0) {
+        if (item.megaMenu && item.megaMenu.length > 0) {
+            navItem.megaMenu = item.megaMenu;
+        } else if (item.children && item.children.length > 0) {
             navItem.dropdown = item.children.map((child: any) => convertToNavigationItem(child));
         }
 
@@ -194,7 +259,45 @@ export default function DynamicHeader() {
                         <nav className="hidden lg:flex items-center space-x-1">
                             {navigationItems.map((item, index) => (
                                 <div key={`${item.name}-${index}`} className="relative group">
-                                    {item.dropdown ? (
+                                    {item.megaMenu && item.megaMenu.length > 0 ? (
+                                        <div className="relative">
+                                            <Link
+                                                href={item.href}
+                                                target={item.target || '_self'}
+                                                className="flex items-center text-foreground hover:text-primary px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+                                            >
+                                                {item.name}
+                                                <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" />
+                                            </Link>
+
+                                            {/* Mega Menu */}
+                                            <div className="absolute top-full mt-1 bg-white rounded-md shadow-xl border border-gray-200 py-6 pl-6 pr-10 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200" style={{ left: '50%', transform: 'translateX(-82%)', width: '95vw', maxWidth: 'max-content' }}>
+                                                <div className="flex gap-10">
+                                                    {item.megaMenu.map((section) => (
+                                                        <div key={section.id}>
+                                                            <h3 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide border-b border-gray-200 pb-2 whitespace-nowrap">
+                                                                {section.title}
+                                                            </h3>
+                                                            <ul className="space-y-2">
+                                                                {section.links.map((link) => (
+                                                                    <li key={link.id}>
+                                                                        <Link
+                                                                            href={link.url}
+                                                                            className="text-gray-600 hover:text-primary transition-colors block py-1 whitespace-nowrap"
+                                                                            style={{ fontSize: '14px' }}
+                                                                            target={link.target}
+                                                                        >
+                                                                            {link.title}
+                                                                        </Link>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : item.dropdown ? (
                                         <div className="relative">
                                             <Link
                                                 href={item.href}

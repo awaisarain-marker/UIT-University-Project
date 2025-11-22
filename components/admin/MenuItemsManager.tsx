@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase-client'
 import { Plus, Trash2, Edit, GripVertical, ChevronRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { JSX } from 'react/jsx-runtime'
 
 interface MenuItem {
   id: string
@@ -130,6 +131,45 @@ export default function MenuItemsManager({ menuId, initialItems }: MenuItemsMana
   const topLevelItems = items.filter(item => !item.parent_id)
   const getChildren = (parentId: string) => items.filter(item => item.parent_id === parentId)
 
+  // Build hierarchical options for parent dropdown
+  const buildHierarchicalOptions = () => {
+    const options: JSX.Element[] = []
+    const excludedIds = new Set<string>()
+
+    // If editing, exclude current item and its descendants
+    if (editingId) {
+      excludedIds.add(editingId)
+      const findDescendants = (parentId: string) => {
+        items.forEach(item => {
+          if (item.parent_id === parentId) {
+            excludedIds.add(item.id)
+            findDescendants(item.id)
+          }
+        })
+      }
+      findDescendants(editingId)
+    }
+
+    const renderOptions = (parentId: string | null, level: number) => {
+      const children = items.filter(item => item.parent_id === parentId)
+      children.forEach(item => {
+        if (!excludedIds.has(item.id)) {
+          const indent = '  '.repeat(level)
+          const prefix = level > 0 ? '└─ ' : ''
+          options.push(
+            <option key={item.id} value={item.id}>
+              {indent}{prefix}{item.title}
+            </option>
+          )
+          renderOptions(item.id, level + 1)
+        }
+      })
+    }
+
+    renderOptions(null, 0)
+    return options
+  }
+
   const MenuItem = ({ item, level = 0 }: { item: MenuItem; level?: number }) => {
     const children = getChildren(item.id)
     const hasChildren = children.length > 0
@@ -217,16 +257,7 @@ export default function MenuItemsManager({ menuId, initialItems }: MenuItemsMana
                 onChange={(e) => setFormData({ ...formData, parent_id: e.target.value })}
               >
                 <option value="">None (Top Level)</option>
-                {items
-                  .filter(item => item.id !== editingId) // Don't allow selecting itself
-                  .map(item => {
-                    const prefix = item.parent_id ? '  ↳ ' : '';
-                    return (
-                      <option key={item.id} value={item.id}>
-                        {prefix}{item.title}
-                      </option>
-                    );
-                  })}
+                {buildHierarchicalOptions()}
               </select>
               <p className="text-xs text-gray-500 mt-1">
                 Select a parent to make this item appear in a dropdown menu
