@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "setup:supabase": "node scripts/setup-supabase.js"
+    "setup:supabase": "node scripts/setup-supabase.js",
+    "sync:pages": "node scripts/sync-pages-to-db.js",
+    "cleanup:dynamic-routes": "node scripts/cleanup-dynamic-routes.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
