@@ -44,7 +44,7 @@ export default function Header() {
 
     const loadMenus = async () => {
         const supabase = createClient();
-        
+
         // Fetch header menu
         const { data: menus } = await supabase
             .from('menus')
@@ -98,10 +98,18 @@ export default function Header() {
         return rootItems.map(item => convertToNavigationItem(item));
     };
 
+    const normalizeUrl = (url: string): string => {
+        if (!url) return '#';
+        if (url.startsWith('http') || url.startsWith('https') || url.startsWith('/') || url.startsWith('#')) {
+            return url;
+        }
+        return `/${url}`;
+    };
+
     const convertToNavigationItem = (item: MenuItem): NavigationItem => {
         const navItem: NavigationItem = {
             name: item.title,
-            href: item.url,
+            href: normalizeUrl(item.url),
             target: item.target,
         };
 
@@ -205,7 +213,7 @@ export default function Header() {
                                                                 <ChevronDown className="h-3.5 w-3.5 -rotate-90 text-gray-400" />
                                                             )}
                                                         </Link>
-                                                        
+
                                                         {/* Submenu - Shows on right side */}
                                                         {dropdownItem.dropdown && (
                                                             <div className="absolute left-full top-0 ml-0.5 w-52 bg-white rounded-md shadow-xl border border-gray-200 py-1 opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all duration-150 z-50">

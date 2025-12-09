@@ -62,7 +62,7 @@ export default function DynamicHeader({ initialMenuItems = [], initialMegaMenuDa
 
     const loadMenus = async () => {
         const supabase = createClient();
-        
+
         // Fetch header menu
         const { data: menu } = await supabase
             .from('menus')
@@ -99,13 +99,13 @@ export default function DynamicHeader({ initialMenuItems = [], initialMegaMenuDa
 
             if (sections && sections.length > 0) {
                 const sectionIds = sections.map(s => s.id);
-                
+
                 const { data: links } = await supabase
                     .from('mega_menu_links')
                     .select('*')
                     .in('section_id', sectionIds)
                     .eq('is_active', true)
-                    .order('display_order', { ascending: true});
+                    .order('display_order', { ascending: true });
 
                 // Organize mega menu data by menu item id
                 sections.forEach(section => {
@@ -127,7 +127,7 @@ export default function DynamicHeader({ initialMenuItems = [], initialMegaMenuDa
 
     const loadMobileMenu = async () => {
         const supabase = createClient();
-        
+
         // Fetch mobile menu
         const { data: menu } = await supabase
             .from('menus')
@@ -179,11 +179,19 @@ export default function DynamicHeader({ initialMenuItems = [], initialMegaMenuDa
         return rootItems.map(item => convertToNavigationItem(item));
     };
 
+    const normalizeUrl = (url: string): string => {
+        if (!url) return '#';
+        if (url.startsWith('http') || url.startsWith('https') || url.startsWith('/') || url.startsWith('#')) {
+            return url;
+        }
+        return `/${url}`;
+    };
+
     const convertToNavigationItem = (item: any): NavigationItem => {
         const navItem: NavigationItem = {
             id: item.id,
             name: item.title,
-            href: item.url,
+            href: normalizeUrl(item.url),
             target: item.target,
         };
 
@@ -282,7 +290,7 @@ export default function DynamicHeader({ initialMenuItems = [], initialMegaMenuDa
                                                                 {section.links.map((link) => (
                                                                     <li key={link.id}>
                                                                         <Link
-                                                                            href={link.url}
+                                                                            href={normalizeUrl(link.url)}
                                                                             className="text-gray-600 hover:text-primary transition-colors block py-1 whitespace-nowrap"
                                                                             style={{ fontSize: '14px' }}
                                                                             target={link.target}
@@ -322,7 +330,7 @@ export default function DynamicHeader({ initialMenuItems = [], initialMegaMenuDa
                                                                 <ChevronDown className="h-3.5 w-3.5 -rotate-90 text-gray-400" />
                                                             )}
                                                         </Link>
-                                                        
+
                                                         {/* Submenu */}
                                                         {dropdownItem.dropdown && (
                                                             <div className="absolute left-full top-0 ml-0.5 w-52 bg-white rounded-md shadow-xl border border-gray-200 py-1 opacity-0 invisible group-hover/submenu:opacity-100 group-hover/submenu:visible transition-all duration-150 z-50">
@@ -389,7 +397,7 @@ export default function DynamicHeader({ initialMenuItems = [], initialMegaMenuDa
                         className="fixed inset-0 bg-black/50 z-40 lg:hidden"
                         onClick={() => setIsMenuOpen(false)}
                     />
-                    
+
                     {/* Drawer */}
                     <div className="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 lg:hidden shadow-2xl overflow-y-auto">
                         {/* Drawer Header */}
@@ -504,7 +512,7 @@ function BottomNavBar() {
 
     const loadBottomMenu = async () => {
         const supabase = createClient();
-        
+
         // Fetch bottom menu
         const { data: menu } = await supabase
             .from('menus')
