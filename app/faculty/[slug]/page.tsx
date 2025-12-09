@@ -45,8 +45,8 @@ function renderTabContent(data: TabData, badgeColor: string) {
         )
       } else if (block.type === 'description') {
         return (
-          <div 
-            key={block.id} 
+          <div
+            key={block.id}
             className="prose prose-gray max-w-none text-gray-700 leading-relaxed mb-4"
             dangerouslySetInnerHTML={{ __html: block.text }}
           />
@@ -55,9 +55,9 @@ function renderTabContent(data: TabData, badgeColor: string) {
         return (
           <div key={block.id} className="my-6">
             {block.imageUrl && (
-              <img 
-                src={block.imageUrl} 
-                alt={block.text || 'Content image'} 
+              <img
+                src={block.imageUrl}
+                alt={block.text || 'Content image'}
                 className="max-w-full h-auto rounded-lg shadow-md"
               />
             )}
@@ -145,7 +145,7 @@ function renderTabContent(data: TabData, badgeColor: string) {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params
   const supabase = await createServerSupabaseClient()
-  
+
   const { data: faculty } = await supabase
     .from('instructors')
     .select('full_name, bio, specialization')
@@ -167,7 +167,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function FacultyProfilePage({ params }: PageProps) {
   const resolvedParams = await params
   const supabase = await createServerSupabaseClient()
-  
+
   const { data: faculty, error } = await supabase
     .from('instructors')
     .select('*')
@@ -212,7 +212,7 @@ export default async function FacultyProfilePage({ params }: PageProps) {
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 {faculty.full_name}
               </h1>
-              
+
               {faculty.specialization && (
                 <div className="flex items-center gap-2 text-lg text-gray-600 mb-3">
                   <Award className="w-5 h-5" />
@@ -313,9 +313,14 @@ export default async function FacultyProfilePage({ params }: PageProps) {
 }
 
 // Generate static params for all faculty members
+import { createClient } from '@supabase/supabase-js'
+
 export async function generateStaticParams() {
-  const supabase = await createServerSupabaseClient()
-  
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
   const { data: faculty } = await supabase
     .from('instructors')
     .select('slug')

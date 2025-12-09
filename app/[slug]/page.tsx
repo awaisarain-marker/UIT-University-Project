@@ -11,7 +11,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const supabase = await createServerSupabaseClient();
-  
+
   const { data: page } = await supabase
     .from('pages')
     .select('title, meta_description')
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function DynamicPage({ params }: PageProps) {
   const { slug } = await params;
   const supabase = await createServerSupabaseClient();
-  
+
   const { data: page } = await supabase
     .from('pages')
     .select('*')
@@ -51,9 +51,9 @@ export default async function DynamicPage({ params }: PageProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <article className="prose prose-lg max-w-none">
           <h1 className="text-4xl font-bold mb-6">{page.title}</h1>
-          <div 
+          <div
             className="content"
-            dangerouslySetInnerHTML={{ __html: page.content }} 
+            dangerouslySetInnerHTML={{ __html: page.content }}
           />
         </article>
       </div>
@@ -61,9 +61,14 @@ export default async function DynamicPage({ params }: PageProps) {
   );
 }
 
+import { createClient } from '@supabase/supabase-js';
+
 export async function generateStaticParams() {
-  const supabase = await createServerSupabaseClient();
-  
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
   const { data: pages } = await supabase
     .from('pages')
     .select('slug')

@@ -4,15 +4,16 @@ import { NextRequest, NextResponse } from 'next/server';
 // GET single page
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const supabase = await createServerSupabaseClient();
-    
+    const { id } = await params;
+
     const { data: page, error } = await supabase
       .from('pages')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (error) throw error;
@@ -30,11 +31,12 @@ export async function GET(
 // PUT update page
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const supabase = await createServerSupabaseClient();
     const body = await request.json();
+    const { id } = await params;
 
     const { data, error } = await supabase
       .from('pages')
@@ -48,7 +50,7 @@ export async function PUT(
         is_published: body.is_published,
         updated_at: new Date().toISOString()
       })
-      .eq('id', params.id)
+      .eq('id', id)
       .select()
       .single();
 
@@ -57,7 +59,7 @@ export async function PUT(
     return NextResponse.json(data);
   } catch (error: any) {
     console.error('Error updating page:', error);
-    
+
     if (error.code === '23505') {
       return NextResponse.json(
         { error: 'A page with this slug already exists' },
@@ -75,15 +77,16 @@ export async function PUT(
 // DELETE page
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const supabase = await createServerSupabaseClient();
+    const { id } = await params;
 
     const { error } = await supabase
       .from('pages')
       .delete()
-      .eq('id', params.id);
+      .eq('id', id);
 
     if (error) throw error;
 
